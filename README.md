@@ -1,4 +1,3 @@
-# GLoW_code
-Gravitational Lensing of Waves
+# GLoW: Gravitational Lensing of Waves
 
-To appear
+(To appear, cite 2312.xxxxx)
