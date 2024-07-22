@@ -5,9 +5,10 @@
 Used in
 * [Savastano+ 23](https://inspirehep.net/literature/2667175)
 * [Zumalacarregui 24](https://inspirehep.net/literature/2781293)
+* [Brando+ 24](https://inspirehep.net/literature/2804868)
 
 The online documentation can be found
-[here](https://miguelzuma.github.io/glow/index.html).
+[here](https://miguelzuma.github.io/GLoW_public/index.html).
 
 ## Installation
 
@@ -33,4 +34,4 @@ $ sudo apt install libgsl-dev
 > If you are planning to use a Python environment, ``venv``, for this project, it must be activated *before* running any ``make`` command.
 
 More detailed installation instructions can be found in the
-[online documentation](https://miguelzuma.github.io/glow/usage.html#installation).
+[online documentation](https://miguelzuma.github.io/GLoW_public/usage.html#installation).
