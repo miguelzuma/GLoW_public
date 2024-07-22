@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Base objects &mdash; glow 0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
+      <link rel="stylesheet" href="../_static/css/functions.css" type="text/css" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=2709fde1"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Lens types" href="types.html" />
+    <link rel="prev" title="Lenses" href="main.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            glow
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../usage.html">Usage</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="main.html">Lenses</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="main.html#introduction">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="main.html#singular-isothermal-sphere-sis">Singular Isothermal Sphere (SIS)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="main.html#cored-isothermal-sphere-cis">Cored Isothermal Sphere (CIS)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="main.html#point-lens">Point lens</a></li>
+<li class="toctree-l2"><a class="reference internal" href="main.html#uniform-density-sphere">Uniform density sphere</a></li>
+<li class="toctree-l2"><a class="reference internal" href="main.html#navarro-frenk-white-nfw">Navarro-Frenk-White (NFW)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="main.html#truncated-sis-tsis">Truncated SIS (tSIS)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="main.html#singular-isothermal-ellipsoid-sie">Singular Isothermal Ellipsoid (SIE)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="main.html#external-field">External field</a></li>
+<li class="toctree-l2"><a class="reference internal" href="main.html#composite-lenses">Composite lenses</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="main.html#module-information">Module information</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Base objects</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#glow.lenses.PsiGeneral"><code class="docutils literal notranslate"><span class="pre">PsiGeneral</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#glow.lenses.PsiAxisym"><code class="docutils literal notranslate"><span class="pre">PsiAxisym</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="types.html">Lens types</a></li>
+<li class="toctree-l3"><a class="reference internal" href="offcenter.html">Off-center versions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="composite.html">Composite lenses</a></li>
+<li class="toctree-l3"><a class="reference internal" href="default.html">Default parameters</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../time_domain/main.html">Time domain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../freq_domain/main.html">Frequency domain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api.html">API</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">glow</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="main.html">Lenses</a></li>
+      <li class="breadcrumb-item active">Base objects</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/lenses/base.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="base-objects">
+<h1>Base objects<a class="headerlink" href="#base-objects" title="Link to this heading"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="glow.lenses.PsiGeneral">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">glow.lenses.</span></span><span class="sig-name descname"><span class="pre">PsiGeneral</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">p_phys</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p_prec</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#glow.lenses.PsiGeneral" title="Link to this definition"></a></dt>
+<dd><p>Base class for a generic non-axisymmetric lens.</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>p_phys</strong><span class="classifier">dict, optional</span></dt><dd><p>Physical parameters of the lens.</p>
+</dd>
+<dt><strong>p_prec</strong><span class="classifier">dict, optional</span></dt><dd><p>Precision parameters of the lens.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Attributes<span class="colon">:</span></dt>
+<dd class="field-even"><dl>
+<dt><strong>p_phys</strong><span class="classifier">dict</span></dt><dd><p>Default parameters updated with the input.</p>
+</dd>
+<dt><strong>p_prec</strong><span class="classifier">dict</span></dt><dd><p>Default parameters updated with the input.</p>
+</dd>
+<dt><strong>isAxisym</strong><span class="classifier">bool, default=False</span></dt><dd><p>Allows to easily differentiate a general lens from the special
+axisymmetric case (instance of <a class="reference internal" href="#glow.lenses.PsiAxisym" title="glow.lenses.PsiAxisym"><code class="xref py py-class docutils literal notranslate"><span class="pre">PsiAxisym</span></code></a>).</p>
+</dd>
+<dt><strong>asymp_index</strong><span class="classifier">float or None, default=None</span></dt><dd></dd>
+<dt><strong>asymp_amplitude</strong><span class="classifier">float or None, default=None</span></dt><dd><p>If the asymptotic behaviour of the lens is</p>
+<div class="math notranslate nohighlight">
+\[\psi'\sim\frac{A_\psi}{r^\gamma}\ ,\quad r\to\infty\]</div>
+<p>the asymptotic index and amplitude are defined as</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{align}
+    \gamma_\text{asymp} &amp;= (\gamma+1)/2\\
+    A_\text{asymp} &amp;= A_\psi/2^{\gamma_\text{asymp}}
+\end{align}\end{split}\]</div>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Methods</p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#glow.lenses.PsiGeneral.check_general_input" title="glow.lenses.PsiGeneral.check_general_input"><code class="xref py py-obj docutils literal notranslate"><span class="pre">check_general_input</span></code></a>()</p></td>
+<td><p>Check the input upon initialization.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#glow.lenses.PsiGeneral.check_input" title="glow.lenses.PsiGeneral.check_input"><code class="xref py py-obj docutils literal notranslate"><span class="pre">check_input</span></code></a>()</p></td>
+<td><p>(<em>subclass defined, optional</em>) Check the input of the lens implementation.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#glow.lenses.PsiGeneral.ddphi_Fermat_ddx1" title="glow.lenses.PsiGeneral.ddphi_Fermat_ddx1"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ddphi_Fermat_ddx1</span></code></a>(x1, x2)</p></td>
+<td><p>Return only <strong>d11</strong> from <a class="reference internal" href="#glow.lenses.PsiGeneral.ddphi_Fermat_vec" title="glow.lenses.PsiGeneral.ddphi_Fermat_vec"><code class="xref py py-func docutils literal notranslate"><span class="pre">ddphi_Fermat_vec()</span></code></a>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#glow.lenses.PsiGeneral.ddphi_Fermat_ddx2" title="glow.lenses.PsiGeneral.ddphi_Fermat_ddx2"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ddphi_Fermat_ddx2</span></code></a>(x1, x2)</p></td>
+<td><p>Return only <strong>d22</strong> from <a class="reference internal" href="#glow.lenses.PsiGeneral.ddphi_Fermat_vec" title="glow.lenses.PsiGeneral.ddphi_Fermat_vec"><code class="xref py py-func docutils literal notranslate"><span class="pre">ddphi_Fermat_vec()</span></code></a>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#glow.lenses.PsiGeneral.ddphi_Fermat_dx1dx2" title="glow.lenses.PsiGeneral.ddphi_Fermat_dx1dx2"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ddphi_Fermat_dx1dx2</span></code></a>(x1, x2)</p></td>
+<td><p>Return only <strong>d12</strong> from <a class="reference internal" href="#glow.lenses.PsiGeneral.ddphi_Fermat_vec" title="glow.lenses.PsiGeneral.ddphi_Fermat_vec"><code class="xref py py-func docutils literal notranslate"><span class="pre">ddphi_Fermat_vec()</span></code></a>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#glow.lenses.PsiGeneral.ddphi_Fermat_vec" title="glow.lenses.PsiGeneral.ddphi_Fermat_vec"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ddphi_Fermat_vec</span></code></a>(x1, x2)</p></td>
+<td><p>Hessian of the Fermat potential.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#glow.lenses.PsiGeneral.ddpsi_ddx1" title="glow.lenses.PsiGeneral.ddpsi_ddx1"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ddpsi_ddx1</span></code></a>(x1, x2)</p></td>
+<td><p>Return only <strong>d11</strong> from <a class="reference internal" href="#glow.lenses.PsiGeneral.ddpsi_vec" title="glow.lenses.PsiGeneral.ddpsi_vec"><code class="xref py py-func docutils literal notranslate"><span class="pre">ddpsi_vec()</span></code></a>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#glow.lenses.PsiGeneral.ddpsi_ddx2" title="glow.lenses.PsiGeneral.ddpsi_ddx2"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ddpsi_ddx2</span></code></a>(x1, x2)</p></td>
+<td><p>Return only <strong>d22</strong> from <a class="reference internal" href="#glow.lenses.PsiGeneral.ddpsi_vec" title="glow.lenses.PsiGeneral.ddpsi_vec"><code class="xref py py-func docutils literal notranslate"><span class="pre">ddpsi_vec()</span></code></a>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#glow.lenses.PsiGeneral.ddpsi_dx1dx2" title="glow.lenses.PsiGeneral.ddpsi_dx1dx2"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ddpsi_dx1dx2</span></code></a>(x1, x2)</p></td>
+<td><p>Return only <strong>d12</strong> from <a class="reference internal" href="#glow.lenses.PsiGeneral.ddpsi_vec" title="glow.lenses.PsiGeneral.ddpsi_vec"><code class="xref py py-func docutils literal notranslate"><span class="pre">ddpsi_vec()</span></code></a>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#glow.lenses.PsiGeneral.ddpsi_vec" title="glow.lenses.PsiGeneral.ddpsi_vec"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ddpsi_vec</span></code></a>(x1, x2)</p></td>
+<td><p>(<em>subclass defined</em>) Hessian of the lensing potential.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#glow.lenses.PsiGeneral.default_general_params" title="glow.lenses.PsiGeneral.default_general_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">default_general_params</span></code></a>()</p></td>
+<td><p>Fill the default parameters.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#glow.lenses.PsiGeneral.default_params" title="glow.lenses.PsiGeneral.default_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">default_params</span></code></a>()</p></td>
+<td><p>(<em>subclass defined</em>) Initialize the default parameters.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#glow.lenses.PsiGeneral.display_info" title="glow.lenses.PsiGeneral.display_info"><code class="xref py py-obj docutils literal notranslate"><span class="pre">display_info</span></code></a>()</p></td>
+<td><p>Print internal information in human-readable form.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#glow.lenses.PsiGeneral.dphi_Fermat_dx1" title="glow.lenses.PsiGeneral.dphi_Fermat_dx1"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dphi_Fermat_dx1</span></code></a>(x1, x2, y)</p></td>
+<td><p>Return only <strong>d1</strong> from <a class="reference internal" href="#glow.lenses.PsiGeneral.dphi_Fermat_vec" title="glow.lenses.PsiGeneral.dphi_Fermat_vec"><code class="xref py py-func docutils literal notranslate"><span class="pre">dphi_Fermat_vec()</span></code></a>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#glow.lenses.PsiGeneral.dphi_Fermat_dx2" title="glow.lenses.PsiGeneral.dphi_Fermat_dx2"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dphi_Fermat_dx2</span></code></a>(x1, x2, y)</p></td>
+<td><p>Return only <strong>d2</strong> from <a class="reference internal" href="#glow.lenses.PsiGeneral.dphi_Fermat_vec" title="glow.lenses.PsiGeneral.dphi_Fermat_vec"><code class="xref py py-func docutils literal notranslate"><span class="pre">dphi_Fermat_vec()</span></code></a>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#glow.lenses.PsiGeneral.dphi_Fermat_vec" title="glow.lenses.PsiGeneral.dphi_Fermat_vec"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dphi_Fermat_vec</span></code></a>(x1, x2, y)</p></td>
+<td><p>Gradient of the Fermat potential.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#glow.lenses.PsiGeneral.dpsi_dx1" title="glow.lenses.PsiGeneral.dpsi_dx1"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dpsi_dx1</span></code></a>(x1, x2)</p></td>
+<td><p>Return only <strong>d1</strong> from <a class="reference internal" href="#glow.lenses.PsiGeneral.dpsi_vec" title="glow.lenses.PsiGeneral.dpsi_vec"><code class="xref py py-func docutils literal notranslate"><span class="pre">dpsi_vec()</span></code></a>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#glow.lenses.PsiGeneral.dpsi_dx2" title="glow.lenses.PsiGeneral.dpsi_dx2"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dpsi_dx2</span></code></a>(x1, x2)</p></td>
+<td><p>Return only <strong>d2</strong> from <a class="reference internal" href="#glow.lenses.PsiGeneral.dpsi_vec" title="glow.lenses.PsiGeneral.dpsi_vec"><code class="xref py py-func docutils literal notranslate"><span class="pre">dpsi_vec()</span></code></a>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#glow.lenses.PsiGeneral.dpsi_vec" title="glow.lenses.PsiGeneral.dpsi_vec"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dpsi_vec</span></code></a>(x1, x2)</p></td>
+<td><p>(<em>subclass defined</em>) Gradient of the lensing potential.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#glow.lenses.PsiGeneral.phi_Fermat" title="glow.lenses.PsiGeneral.phi_Fermat"><code class="xref py py-obj docutils literal notranslate"><span class="pre">phi_Fermat</span></code></a>(x1, x2, y)</p></td>
+<td><p>Fermat potential.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#glow.lenses.PsiGeneral.psi" title="glow.lenses.PsiGeneral.psi"><code class="xref py py-obj docutils literal notranslate"><span class="pre">psi</span></code></a>(x1, x2)</p></td>
+<td><p>(<em>subclass defined</em>) Lensing potential.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#glow.lenses.PsiGeneral.shear" title="glow.lenses.PsiGeneral.shear"><code class="xref py py-obj docutils literal notranslate"><span class="pre">shear</span></code></a>(x1, x2)</p></td>
+<td><p>Magnification matrix.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py method">
+<dt class="sig sig-object py" id="glow.lenses.PsiGeneral.default_general_params">
+<span class="sig-name descname"><span class="pre">default_general_params</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#glow.lenses.PsiGeneral.default_general_params" title="Link to this definition"></a></dt>
+<dd><p>Fill the default parameters.</p>
+<p>Update the parameters common for all lenses (none in this case).
+Then call <a class="reference internal" href="#glow.lenses.PsiGeneral.default_params" title="glow.lenses.PsiGeneral.default_params"><code class="xref py py-func docutils literal notranslate"><span class="pre">default_params()</span></code></a> (<em>subclass defined</em>).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>p_phys</strong><span class="classifier">dict</span></dt><dd><p>Default physical parameters.</p>
+</dd>
+<dt><strong>p_prec</strong><span class="classifier">dict</span></dt><dd><p>Default precision parameters.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="glow.lenses.PsiGeneral.check_general_input">
+<span class="sig-name descname"><span class="pre">check_general_input</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#glow.lenses.PsiGeneral.check_general_input" title="Link to this definition"></a></dt>
+<dd><p>Check the input upon initialization.</p>
+<p>It first calls <a class="reference internal" href="#glow.lenses.PsiGeneral.check_input" title="glow.lenses.PsiGeneral.check_input"><code class="xref py py-func docutils literal notranslate"><span class="pre">check_input()</span></code></a> (<em>subclass defined</em>)
+to perform any checks that the user desires. It then checks that
+the input only updates existing keys in <code class="xref py py-attr docutils literal notranslate"><span class="pre">p_phys</span></code> and <code class="xref py py-attr docutils literal notranslate"><span class="pre">p_prec</span></code>,
+otherwise throws a warning.</p>
+<p>The idea is that we do not use a wrong name that is then ignored.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Warns<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt>LensWarning</dt><dd></dd>
+</dl>
+</dd>
+</dl>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>If the subclass will add a new parameter without an entry in <a class="reference internal" href="#glow.lenses.PsiGeneral.default_params" title="glow.lenses.PsiGeneral.default_params"><code class="xref py py-func docutils literal notranslate"><span class="pre">default_params()</span></code></a>,
+it must be manually added to <code class="xref py py-attr docutils literal notranslate"><span class="pre">self.p_phys_default_keys</span></code> or
+<code class="xref py py-attr docutils literal notranslate"><span class="pre">self.p_prec_default_keys</span></code> in <a class="reference internal" href="#glow.lenses.PsiGeneral.check_input" title="glow.lenses.PsiGeneral.check_input"><code class="xref py py-func docutils literal notranslate"><span class="pre">check_input()</span></code></a>
+with <code class="docutils literal notranslate"><span class="pre">self.p_phys_default_keys.add(new_key)</span></code>.</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="glow.lenses.PsiGeneral.display_info">
+<span class="sig-name descname"><span class="pre">display_info</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#glow.lenses.PsiGeneral.display_info" title="Link to this definition"></a></dt>
+<dd><p>Print internal information in human-readable form.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="glow.lenses.PsiGeneral.phi_Fermat">
+<span class="sig-name descname"><span class="pre">phi_Fermat</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#glow.lenses.PsiGeneral.phi_Fermat" title="Link to this definition"></a></dt>
+<dd><p>Fermat potential.</p>
+<p>Defined <em>without</em> setting the minimum time-delay to zero</p>
+<div class="math notranslate nohighlight">
+\[\phi_F(x_1, x_2, y) = \frac{1}{2}(x_1^2+x_2^2+y^2) -x_1y -\psi(x_1, x_2)\]</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>x1</strong><span class="classifier">float or array</span></dt><dd><p>Coordinate x1 (x1 is defined aligned with y).</p>
+</dd>
+<dt><strong>x2</strong><span class="classifier">float or array</span></dt><dd><p>Coordinate x2.</p>
+</dd>
+<dt><strong>y</strong><span class="classifier">float or array</span></dt><dd><p>Impact parameter.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>phi</strong><span class="classifier">float or array</span></dt><dd></dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="glow.lenses.PsiGeneral.dphi_Fermat_vec">
+<span class="sig-name descname"><span class="pre">dphi_Fermat_vec</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#glow.lenses.PsiGeneral.dphi_Fermat_vec" title="Link to this definition"></a></dt>
+<dd><p>Gradient of the Fermat potential.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>x1</strong><span class="classifier">float or array</span></dt><dd><p>Coordinate x1 (x1 is defined aligned with y).</p>
+</dd>
+<dt><strong>x2</strong><span class="classifier">float or array</span></dt><dd><p>Coordinate x2.</p>
+</dd>
+<dt><strong>y</strong><span class="classifier">float or array</span></dt><dd><p>Impact parameter.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>d1</strong><span class="classifier">float or array</span></dt><dd><p>Derivative of the Fermat potential wrt x1.</p>
+</dd>
+<dt><strong>d2</strong><span class="classifier">float or array</span></dt><dd><p>Derivative of the Fermat potential wrt x2.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="glow.lenses.PsiGeneral.ddphi_Fermat_vec">
+<span class="sig-name descname"><span class="pre">ddphi_Fermat_vec</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x2</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#glow.lenses.PsiGeneral.ddphi_Fermat_vec" title="Link to this definition"></a></dt>
+<dd><p>Hessian of the Fermat potential.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>x1</strong><span class="classifier">float or array</span></dt><dd><p>Coordinate x1.</p>
+</dd>
+<dt><strong>x2</strong><span class="classifier">float or array</span></dt><dd><p>Coordinate x2.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>d11</strong><span class="classifier">float or array</span></dt><dd><p>2nd derivative of the Fermat potential wrt x1 twice.</p>
+</dd>
+<dt><strong>d12</strong><span class="classifier">float or array</span></dt><dd><p>2nd derivative of the Fermat potential wrt x1 and x2.</p>
+</dd>
+<dt><strong>d22</strong><span class="classifier">float or array</span></dt><dd><p>2nd derivative of the Fermat potential wrt x2 twice.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="glow.lenses.PsiGeneral.dphi_Fermat_dx1">
+<span class="sig-name descname"><span class="pre">dphi_Fermat_dx1</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#glow.lenses.PsiGeneral.dphi_Fermat_dx1" title="Link to this definition"></a></dt>
+<dd><p>Return only <strong>d1</strong> from <a class="reference internal" href="#glow.lenses.PsiGeneral.dphi_Fermat_vec" title="glow.lenses.PsiGeneral.dphi_Fermat_vec"><code class="xref py py-func docutils literal notranslate"><span class="pre">dphi_Fermat_vec()</span></code></a>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="glow.lenses.PsiGeneral.dphi_Fermat_dx2">
+<span class="sig-name descname"><span class="pre">dphi_Fermat_dx2</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#glow.lenses.PsiGeneral.dphi_Fermat_dx2" title="Link to this definition"></a></dt>
+<dd><p>Return only <strong>d2</strong> from <a class="reference internal" href="#glow.lenses.PsiGeneral.dphi_Fermat_vec" title="glow.lenses.PsiGeneral.dphi_Fermat_vec"><code class="xref py py-func docutils literal notranslate"><span class="pre">dphi_Fermat_vec()</span></code></a>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="glow.lenses.PsiGeneral.ddphi_Fermat_ddx1">
+<span class="sig-name descname"><span class="pre">ddphi_Fermat_ddx1</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x2</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#glow.lenses.PsiGeneral.ddphi_Fermat_ddx1" title="Link to this definition"></a></dt>
+<dd><p>Return only <strong>d11</strong> from <a class="reference internal" href="#glow.lenses.PsiGeneral.ddphi_Fermat_vec" title="glow.lenses.PsiGeneral.ddphi_Fermat_vec"><code class="xref py py-func docutils literal notranslate"><span class="pre">ddphi_Fermat_vec()</span></code></a>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="glow.lenses.PsiGeneral.ddphi_Fermat_ddx2">
+<span class="sig-name descname"><span class="pre">ddphi_Fermat_ddx2</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x2</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#glow.lenses.PsiGeneral.ddphi_Fermat_ddx2" title="Link to this definition"></a></dt>
+<dd><p>Return only <strong>d22</strong> from <a class="reference internal" href="#glow.lenses.PsiGeneral.ddphi_Fermat_vec" title="glow.lenses.PsiGeneral.ddphi_Fermat_vec"><code class="xref py py-func docutils literal notranslate"><span class="pre">ddphi_Fermat_vec()</span></code></a>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="glow.lenses.PsiGeneral.ddphi_Fermat_dx1dx2">
+<span class="sig-name descname"><span class="pre">ddphi_Fermat_dx1dx2</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x2</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#glow.lenses.PsiGeneral.ddphi_Fermat_dx1dx2" title="Link to this definition"></a></dt>
+<dd><p>Return only <strong>d12</strong> from <a class="reference internal" href="#glow.lenses.PsiGeneral.ddphi_Fermat_vec" title="glow.lenses.PsiGeneral.ddphi_Fermat_vec"><code class="xref py py-func docutils literal notranslate"><span class="pre">ddphi_Fermat_vec()</span></code></a>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="glow.lenses.PsiGeneral.dpsi_dx1">
+<span class="sig-name descname"><span class="pre">dpsi_dx1</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x2</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#glow.lenses.PsiGeneral.dpsi_dx1" title="Link to this definition"></a></dt>
+<dd><p>Return only <strong>d1</strong> from <a class="reference internal" href="#glow.lenses.PsiGeneral.dpsi_vec" title="glow.lenses.PsiGeneral.dpsi_vec"><code class="xref py py-func docutils literal notranslate"><span class="pre">dpsi_vec()</span></code></a>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="glow.lenses.PsiGeneral.dpsi_dx2">
+<span class="sig-name descname"><span class="pre">dpsi_dx2</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x2</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#glow.lenses.PsiGeneral.dpsi_dx2" title="Link to this definition"></a></dt>
+<dd><p>Return only <strong>d2</strong> from <a class="reference internal" href="#glow.lenses.PsiGeneral.dpsi_vec" title="glow.lenses.PsiGeneral.dpsi_vec"><code class="xref py py-func docutils literal notranslate"><span class="pre">dpsi_vec()</span></code></a>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="glow.lenses.PsiGeneral.ddpsi_ddx1">
+<span class="sig-name descname"><span class="pre">ddpsi_ddx1</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x2</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#glow.lenses.PsiGeneral.ddpsi_ddx1" title="Link to this definition"></a></dt>
+<dd><p>Return only <strong>d11</strong> from <a class="reference internal" href="#glow.lenses.PsiGeneral.ddpsi_vec" title="glow.lenses.PsiGeneral.ddpsi_vec"><code class="xref py py-func docutils literal notranslate"><span class="pre">ddpsi_vec()</span></code></a>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="glow.lenses.PsiGeneral.ddpsi_ddx2">
+<span class="sig-name descname"><span class="pre">ddpsi_ddx2</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x2</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#glow.lenses.PsiGeneral.ddpsi_ddx2" title="Link to this definition"></a></dt>
+<dd><p>Return only <strong>d22</strong> from <a class="reference internal" href="#glow.lenses.PsiGeneral.ddpsi_vec" title="glow.lenses.PsiGeneral.ddpsi_vec"><code class="xref py py-func docutils literal notranslate"><span class="pre">ddpsi_vec()</span></code></a>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="glow.lenses.PsiGeneral.ddpsi_dx1dx2">
+<span class="sig-name descname"><span class="pre">ddpsi_dx1dx2</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x2</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#glow.lenses.PsiGeneral.ddpsi_dx1dx2" title="Link to this definition"></a></dt>
+<dd><p>Return only <strong>d12</strong> from <a class="reference internal" href="#glow.lenses.PsiGeneral.ddpsi_vec" title="glow.lenses.PsiGeneral.ddpsi_vec"><code class="xref py py-func docutils literal notranslate"><span class="pre">ddpsi_vec()</span></code></a>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="glow.lenses.PsiGeneral.shear">
+<span class="sig-name descname"><span class="pre">shear</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x2</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#glow.lenses.PsiGeneral.shear" title="Link to this definition"></a></dt>
+<dd><p>Magnification matrix.</p>
+<p>The Jacobian matrix for the lens mapping is <a class="reference internal" href="#r7aa716adaf10-1" id="id1">[1]</a></p>
+<div class="math notranslate nohighlight">
+\[A_{ij} = \frac{\partial y_i}{\partial x_j} = \partial_i\partial_j\phi_F
+    = \delta_{ij} - \partial_i\partial_j\psi\]</div>
+<p>It can be written as</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}A = \begin{pmatrix}1-\kappa-\gamma_1 &amp; -\gamma_2\\
+                   -\gamma_2 &amp; 1-\kappa+\gamma_1
+    \end{pmatrix}\end{split}\]</div>
+<p>The <em>convergence</em>, <span class="math notranslate nohighlight">\(\kappa\)</span>, and <em>shear</em>, <span class="math notranslate nohighlight">\(\gamma\)</span>, can be
+expressed in terms of the second derivatives of the lensing potential</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{align}
+    \kappa   &amp;= (\psi_{11} + \psi_{22})/2\\
+    \gamma_1 &amp;= (\psi_{11} - \psi_{22})/2\\
+    \gamma_2 &amp;= \psi_{12}\\
+    \gamma   &amp;= \sqrt{\gamma_1^2 + \gamma_2^2}
+\end{align}\end{split}\]</div>
+<p>The eigenvalues of <span class="math notranslate nohighlight">\(A\)</span> are</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{align}
+    \lambda_1  &amp;= 1 - \kappa - \gamma\\
+    \lambda_2  &amp;= 1 - \kappa + \gamma\\
+    \text{tr}\,A &amp;= \lambda_1+\lambda_2 = 2(1-\kappa)\\
+    \det A     &amp;= \lambda_1\lambda_2 = (1-\kappa)^2-\gamma^2
+\end{align}\end{split}\]</div>
+<p>Finally, the <em>magnification</em>, <span class="math notranslate nohighlight">\(\mu\)</span>, is defined as</p>
+<div class="math notranslate nohighlight">
+\[\mu = \frac{1}{|\det A|}\]</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>x1, x2</strong><span class="classifier">float or array</span></dt><dd><p>Coordinates.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>d</strong><span class="classifier">dict</span></dt><dd><p>Dictionary with keys:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">gamma1</span></code> (<em>float or array</em>)  – <span class="math notranslate nohighlight">\(\gamma_1\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">gamma2</span></code> (<em>float or array</em>)  – <span class="math notranslate nohighlight">\(\gamma_2\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">kappa</span></code> (<em>float or array</em>)   – <span class="math notranslate nohighlight">\(\kappa\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">gamma</span></code> (<em>float or array</em>)   – <span class="math notranslate nohighlight">\(\gamma\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">lambda1</span></code> (<em>float or array</em>) – <span class="math notranslate nohighlight">\(\lambda_1\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">lambda2</span></code> (<em>float or array</em>) – <span class="math notranslate nohighlight">\(\lambda_2\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">detA</span></code> (<em>float or array</em>)    – <span class="math notranslate nohighlight">\(\det A\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">trA</span></code> (<em>float or array</em>)     – <span class="math notranslate nohighlight">\(\text{tr}\,A\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">mag</span></code> (<em>float or array</em>)     – <span class="math notranslate nohighlight">\(\mu\)</span></p></li>
+</ul>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">References</p>
+<div role="list" class="citation-list">
+<div class="citation" id="r7aa716adaf10-1" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">1</a><span class="fn-bracket">]</span></span>
+<p>P. Schneider, J. Ehlers, and E. E. Falco, Gravitational Lenses, (1992).</p>
+</div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="glow.lenses.PsiGeneral.default_params">
+<span class="sig-name descname"><span class="pre">default_params</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#glow.lenses.PsiGeneral.default_params" title="Link to this definition"></a></dt>
+<dd><p>(<em>subclass defined</em>) Initialize the default parameters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>p_phys</strong><span class="classifier">dict</span></dt><dd><p>Default physical parameters.</p>
+</dd>
+<dt><strong>p_prec</strong><span class="classifier">dict</span></dt><dd><p>Default precision parameters.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="glow.lenses.PsiGeneral.check_input">
+<span class="sig-name descname"><span class="pre">check_input</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#glow.lenses.PsiGeneral.check_input" title="Link to this definition"></a></dt>
+<dd><p>(<em>subclass defined, optional</em>) Check the input of the lens implementation.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="glow.lenses.PsiGeneral.psi">
+<span class="sig-name descname"><span class="pre">psi</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x2</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#glow.lenses.PsiGeneral.psi" title="Link to this definition"></a></dt>
+<dd><p>(<em>subclass defined</em>) Lensing potential.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>x1, x2</strong><span class="classifier">float or array</span></dt><dd><p>Coordinates.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>psi</strong><span class="classifier">float or array or None, default=None</span></dt><dd></dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="glow.lenses.PsiGeneral.dpsi_vec">
+<span class="sig-name descname"><span class="pre">dpsi_vec</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x2</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#glow.lenses.PsiGeneral.dpsi_vec" title="Link to this definition"></a></dt>
+<dd><p>(<em>subclass defined</em>) Gradient of the lensing potential.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>x1, x2</strong><span class="classifier">float or array</span></dt><dd><p>Coordinates.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>d1</strong><span class="classifier">float or array or None, default=None</span></dt><dd><p>Derivative of the lensing potential wrt x1.</p>
+</dd>
+<dt><strong>d2</strong><span class="classifier">float or array or None, default=None</span></dt><dd><p>Derivative of the lensing potential wrt x2.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="glow.lenses.PsiGeneral.ddpsi_vec">
+<span class="sig-name descname"><span class="pre">ddpsi_vec</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x2</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#glow.lenses.PsiGeneral.ddpsi_vec" title="Link to this definition"></a></dt>
+<dd><p>(<em>subclass defined</em>) Hessian of the lensing potential.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>x1, x2</strong><span class="classifier">float or array</span></dt><dd><p>Coordinate x1.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>d11</strong><span class="classifier">float or array or None, default=None</span></dt><dd><p>2nd derivative of the lensing potential wrt x1 twice.</p>
+</dd>
+<dt><strong>d12</strong><span class="classifier">float or array or None, default=None</span></dt><dd><p>2nd derivative of the lensing potential wrt x1 and x2.</p>
+</dd>
+<dt><strong>d22</strong><span class="classifier">float or array or None, default=None</span></dt><dd><p>2nd derivative of the lensing potential wrt x2 twice.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="glow.lenses.PsiAxisym">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">glow.lenses.</span></span><span class="sig-name descname"><span class="pre">PsiAxisym</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">p_phys</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p_prec</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#glow.lenses.PsiAxisym" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#glow.lenses.PsiGeneral" title="glow.lenses.PsiGeneral"><code class="xref py py-class docutils literal notranslate"><span class="pre">PsiGeneral</span></code></a></p>
+<p>Base class for an axisymmetric lens.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>p_phys</strong><span class="classifier">dict, optional</span></dt><dd><p>Physical parameters of the lens.</p>
+</dd>
+<dt><strong>p_prec</strong><span class="classifier">dict, optional</span></dt><dd><p>Precision parameters of the lens.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Attributes<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>isAxisym</strong><span class="classifier">bool, default=True</span></dt><dd><p>Allows to easily differentiate this class from <a class="reference internal" href="#glow.lenses.PsiGeneral" title="glow.lenses.PsiGeneral"><code class="xref py py-class docutils literal notranslate"><span class="pre">PsiGeneral</span></code></a>.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Methods</p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#glow.lenses.PsiAxisym.ddpsi_ddx" title="glow.lenses.PsiAxisym.ddpsi_ddx"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ddpsi_ddx</span></code></a>(x)</p></td>
+<td><p>(<em>subclass defined</em>) Second derivative of the lensing potential.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#glow.lenses.PsiAxisym.ddpsi_vec" title="glow.lenses.PsiAxisym.ddpsi_vec"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ddpsi_vec</span></code></a>(x1, x2)</p></td>
+<td><p>Wrapper for <a class="reference internal" href="#glow.lenses.PsiAxisym.ddpsi_ddx" title="glow.lenses.PsiAxisym.ddpsi_ddx"><code class="xref py py-func docutils literal notranslate"><span class="pre">ddpsi_ddx()</span></code></a>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#glow.lenses.PsiAxisym.dpsi_dx" title="glow.lenses.PsiAxisym.dpsi_dx"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dpsi_dx</span></code></a>(x)</p></td>
+<td><p>(<em>subclass defined</em>) First derivative of the lensing potential.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#glow.lenses.PsiAxisym.dpsi_vec" title="glow.lenses.PsiAxisym.dpsi_vec"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dpsi_vec</span></code></a>(x1, x2)</p></td>
+<td><p>Wrapper for <a class="reference internal" href="#glow.lenses.PsiAxisym.dpsi_dx" title="glow.lenses.PsiAxisym.dpsi_dx"><code class="xref py py-func docutils literal notranslate"><span class="pre">dpsi_dx()</span></code></a>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#glow.lenses.PsiAxisym.psi" title="glow.lenses.PsiAxisym.psi"><code class="xref py py-obj docutils literal notranslate"><span class="pre">psi</span></code></a>(x1, x2)</p></td>
+<td><p>Wrapper for <a class="reference internal" href="#glow.lenses.PsiAxisym.psi_x" title="glow.lenses.PsiAxisym.psi_x"><code class="xref py py-func docutils literal notranslate"><span class="pre">psi_x()</span></code></a>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#glow.lenses.PsiAxisym.psi_x" title="glow.lenses.PsiAxisym.psi_x"><code class="xref py py-obj docutils literal notranslate"><span class="pre">psi_x</span></code></a>(x)</p></td>
+<td><p>(<em>subclass defined</em>) Lensing potential.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#glow.lenses.PsiAxisym.to_file" title="glow.lenses.PsiAxisym.to_file"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_file</span></code></a>(fname, xmin, xmax, Nx[, extension])</p></td>
+<td><p>Evaluate the lensing potential and its derivatives on a grid and store it.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py method">
+<dt class="sig sig-object py" id="glow.lenses.PsiAxisym.psi">
+<span class="sig-name descname"><span class="pre">psi</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x2</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#glow.lenses.PsiAxisym.psi" title="Link to this definition"></a></dt>
+<dd><p>Wrapper for <a class="reference internal" href="#glow.lenses.PsiAxisym.psi_x" title="glow.lenses.PsiAxisym.psi_x"><code class="xref py py-func docutils literal notranslate"><span class="pre">psi_x()</span></code></a>.</p>
+<p>This method allows to use axisymmetric lenses with algorithms designed only
+for generic lenses. It defines the general lensing potential from its
+symmetric version as</p>
+<div class="math notranslate nohighlight">
+\[\psi(x_1, x_2) = \psi\left(x=\sqrt{x_1^2+x_2^2}\right)\]</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>x1, x2</strong><span class="classifier">float or array</span></dt><dd><p>Coordinates.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>psi</strong><span class="classifier">float or array</span></dt><dd><p>Lensing potential at (x1, x2).</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="glow.lenses.PsiAxisym.dpsi_vec">
+<span class="sig-name descname"><span class="pre">dpsi_vec</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x2</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#glow.lenses.PsiAxisym.dpsi_vec" title="Link to this definition"></a></dt>
+<dd><p>Wrapper for <a class="reference internal" href="#glow.lenses.PsiAxisym.dpsi_dx" title="glow.lenses.PsiAxisym.dpsi_dx"><code class="xref py py-func docutils literal notranslate"><span class="pre">dpsi_dx()</span></code></a>.</p>
+<dl>
+<dt>The derivatives are evaluated as</dt><dd><div class="math notranslate nohighlight">
+\[\begin{split}\begin{align}
+    \partial_1\psi &amp;= \psi'\frac{x_1}{x}\\
+    \partial_2\psi &amp;= \psi'\frac{x_2}{x}
+\end{align}\end{split}\]</div>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>x1, x2</strong><span class="classifier">float or array</span></dt><dd><p>Coordinates.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>d1</strong><span class="classifier">float or array</span></dt><dd><p><span class="math notranslate nohighlight">\(\partial_1\psi\)</span></p>
+</dd>
+<dt><strong>d2</strong><span class="classifier">float or array</span></dt><dd><p><span class="math notranslate nohighlight">\(\partial_2\psi\)</span></p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="glow.lenses.PsiAxisym.ddpsi_vec">
+<span class="sig-name descname"><span class="pre">ddpsi_vec</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x2</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#glow.lenses.PsiAxisym.ddpsi_vec" title="Link to this definition"></a></dt>
+<dd><p>Wrapper for <a class="reference internal" href="#glow.lenses.PsiAxisym.ddpsi_ddx" title="glow.lenses.PsiAxisym.ddpsi_ddx"><code class="xref py py-func docutils literal notranslate"><span class="pre">ddpsi_ddx()</span></code></a>.</p>
+<dl>
+<dt>The derivatives are evaluated as</dt><dd><div class="math notranslate nohighlight">
+\[\begin{split}\begin{align}
+    \partial_{11}\psi &amp;= (1-r_1^2)\psi'/x + r_1^2\psi''\\
+    \partial_{12}\psi &amp;= r_1r_2(\psi'' - \psi'/x)\\
+    \partial_{22}\psi &amp;= (1-r_2^2)\psi'/x + r_2^2\psi''
+\end{align}\end{split}\]</div>
+</dd>
+</dl>
+<p>with <span class="math notranslate nohighlight">\(r_{1,2}=x_{1,2}/x\)</span>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>x1, x2</strong><span class="classifier">float or array</span></dt><dd><p>Coordinates x1.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>d11</strong><span class="classifier">float or array</span></dt><dd><p><span class="math notranslate nohighlight">\(\partial_{11}\psi\)</span></p>
+</dd>
+<dt><strong>d12</strong><span class="classifier">float or array</span></dt><dd><p><span class="math notranslate nohighlight">\(\partial_{12}\psi\)</span></p>
+</dd>
+<dt><strong>d22</strong><span class="classifier">float or array</span></dt><dd><p><span class="math notranslate nohighlight">\(\partial_{22}\psi\)</span></p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="glow.lenses.PsiAxisym.to_file">
+<span class="sig-name descname"><span class="pre">to_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fname</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xmin</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xmax</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Nx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extension</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'_lens.dat'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#glow.lenses.PsiAxisym.to_file" title="Link to this definition"></a></dt>
+<dd><p>Evaluate the lensing potential and its derivatives on a grid and store it.</p>
+<p>This method is called when a lens that has not been implemented in C is
+used in the C part of the code.
+The lens is then evaluated from <code class="xref py py-obj docutils literal notranslate"><span class="pre">xmin</span></code> to <code class="xref py py-obj docutils literal notranslate"><span class="pre">xmax</span></code> in a logarithmic grid with
+<code class="xref py py-obj docutils literal notranslate"><span class="pre">Nx</span></code> points, stored and later read and interpolated from C. The files are
+stored in:</p>
+<ul class="simple">
+<li><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">fname</span></code> + <code class="docutils literal notranslate"><span class="pre">'_psi'</span></code> + <code class="xref py py-obj docutils literal notranslate"><span class="pre">extension</span></code></p></li>
+<li><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">fname</span></code> + <code class="docutils literal notranslate"><span class="pre">'_dpsi'</span></code> + <code class="xref py py-obj docutils literal notranslate"><span class="pre">extension</span></code></p></li>
+<li><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">fname</span></code> + <code class="docutils literal notranslate"><span class="pre">'_ddpsi'</span></code> + <code class="xref py py-obj docutils literal notranslate"><span class="pre">extension</span></code></p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>fname</strong><span class="classifier">str</span></dt><dd><p>Root of the file name.</p>
+</dd>
+<dt><strong>xmin</strong><span class="classifier">float</span></dt><dd><p>Minimum radius in the grid.</p>
+</dd>
+<dt><strong>xmax</strong><span class="classifier">float</span></dt><dd><p>Maximum radius in the grid.</p>
+</dd>
+<dt><strong>Nx</strong><span class="classifier">float</span></dt><dd><p>Number of grid points.</p>
+</dd>
+<dt><strong>extension</strong><span class="classifier">str, optional</span></dt><dd><p>Extension of the file.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>This method is intended for internal use, but can be used to save the lens to disk.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="glow.lenses.PsiAxisym.psi_x">
+<span class="sig-name descname"><span class="pre">psi_x</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#glow.lenses.PsiAxisym.psi_x" title="Link to this definition"></a></dt>
+<dd><p>(<em>subclass defined</em>) Lensing potential.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>x</strong><span class="classifier">float or array</span></dt><dd><p>Radius.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>psi</strong><span class="classifier">float or array or None, default=None</span></dt><dd></dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="glow.lenses.PsiAxisym.dpsi_dx">
+<span class="sig-name descname"><span class="pre">dpsi_dx</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#glow.lenses.PsiAxisym.dpsi_dx" title="Link to this definition"></a></dt>
+<dd><p>(<em>subclass defined</em>) First derivative of the lensing potential.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>x</strong><span class="classifier">float or array</span></dt><dd><p>Radius.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>dpsi</strong><span class="classifier">float or array or None, default=None</span></dt><dd><p>Derivative of the lensing potential wrt x.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="glow.lenses.PsiAxisym.ddpsi_ddx">
+<span class="sig-name descname"><span class="pre">ddpsi_ddx</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#glow.lenses.PsiAxisym.ddpsi_ddx" title="Link to this definition"></a></dt>
+<dd><p>(<em>subclass defined</em>) Second derivative of the lensing potential.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>x</strong><span class="classifier">float or array</span></dt><dd><p>Radius.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>ddpsi</strong><span class="classifier">float or array or None, default=None</span></dt><dd><p>Second derivative of the lensing potential wrt x.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="main.html" class="btn btn-neutral float-left" title="Lenses" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="types.html" class="btn btn-neutral float-right" title="Lens types" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, glow team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

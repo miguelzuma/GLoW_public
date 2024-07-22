@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Default parameters &mdash; glow 0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
+      <link rel="stylesheet" href="../_static/css/functions.css" type="text/css" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=2709fde1"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Frequency domain" href="../freq_domain/main.html" />
+    <link rel="prev" title="C version - Methods" href="c_version.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            glow
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../usage.html">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../lenses/main.html">Lenses</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="main.html">Time domain</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="main.html#introduction">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="main.html#single-contour">Single contour</a></li>
+<li class="toctree-l2"><a class="reference internal" href="main.html#single-integral">Single integral</a></li>
+<li class="toctree-l2"><a class="reference internal" href="main.html#analytic-sis">Analytic SIS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="main.html#area-integral">Area integral</a></li>
+<li class="toctree-l2"><a class="reference internal" href="main.html#multicontour">Multicontour</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="main.html#module-information">Module information</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="py_base.html">Python version - Base object</a></li>
+<li class="toctree-l3"><a class="reference internal" href="py_version.html">Python version - Methods</a></li>
+<li class="toctree-l3"><a class="reference internal" href="c_base.html">C version - Base object</a></li>
+<li class="toctree-l3"><a class="reference internal" href="c_version.html">C version - Methods</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Default parameters</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../freq_domain/main.html">Frequency domain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api.html">API</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">glow</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="main.html">Time domain</a></li>
+      <li class="breadcrumb-item active">Default parameters</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/time_domain/default.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="default-parameters">
+<h1>Default parameters<a class="headerlink" href="#default-parameters" title="Link to this heading"></a></h1>
+<p>Below are the default parameters for most of the objects in the module.</p>
+<p id="pyit-singlecontour-default"><a class="reference internal" href="py_version.html#glow.time_domain.It_SingleContour" title="glow.time_domain.It_SingleContour"><code class="xref py py-class docutils literal notranslate"><span class="pre">It_SingleContour</span></code></a></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">p_prec</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Nt&#39;</span><span class="p">:</span> <span class="mi">500</span><span class="p">,</span>
+          <span class="s1">&#39;tmin&#39;</span><span class="p">:</span> <span class="mf">0.01</span><span class="p">,</span>
+          <span class="s1">&#39;tmax&#39;</span><span class="p">:</span> <span class="mf">1000000.0</span><span class="p">,</span>
+          <span class="s1">&#39;eval_mode&#39;</span><span class="p">:</span> <span class="s1">&#39;interpolate&#39;</span><span class="p">,</span>
+          <span class="s1">&#39;sampling&#39;</span><span class="p">:</span> <span class="s1">&#39;log&#39;</span><span class="p">,</span>
+          <span class="s1">&#39;interp_fill_value&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+          <span class="s1">&#39;interp_kind&#39;</span><span class="p">:</span> <span class="s1">&#39;linear&#39;</span><span class="p">,</span>
+          <span class="s1">&#39;oversampling_n&#39;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+          <span class="s1">&#39;oversampling_tmin&#39;</span><span class="p">:</span> <span class="mf">0.1</span><span class="p">,</span>
+          <span class="s1">&#39;oversampling_tmax&#39;</span><span class="p">:</span> <span class="mf">10.0</span><span class="p">,</span>
+          <span class="s1">&#39;soft&#39;</span><span class="p">:</span> <span class="mf">1e-08</span><span class="p">,</span>
+          <span class="s1">&#39;method&#39;</span><span class="p">:</span> <span class="s1">&#39;RK45&#39;</span><span class="p">,</span>
+          <span class="s1">&#39;rtol&#39;</span><span class="p">:</span> <span class="mf">1e-05</span><span class="p">,</span>
+          <span class="s1">&#39;atol&#39;</span><span class="p">:</span> <span class="mf">1e-05</span><span class="p">}</span>
+</pre></div>
+</div>
+<p id="pyit-singleintegral-default"><a class="reference internal" href="py_version.html#glow.time_domain.It_SingleIntegral" title="glow.time_domain.It_SingleIntegral"><code class="xref py py-class docutils literal notranslate"><span class="pre">It_SingleIntegral</span></code></a></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">p_prec</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Nt&#39;</span><span class="p">:</span> <span class="mi">300</span><span class="p">,</span>
+          <span class="s1">&#39;tmin&#39;</span><span class="p">:</span> <span class="mf">0.01</span><span class="p">,</span>
+          <span class="s1">&#39;tmax&#39;</span><span class="p">:</span> <span class="mf">1000000.0</span><span class="p">,</span>
+          <span class="s1">&#39;eval_mode&#39;</span><span class="p">:</span> <span class="s1">&#39;interpolate&#39;</span><span class="p">,</span>
+          <span class="s1">&#39;sampling&#39;</span><span class="p">:</span> <span class="s1">&#39;log&#39;</span><span class="p">,</span>
+          <span class="s1">&#39;interp_fill_value&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+          <span class="s1">&#39;interp_kind&#39;</span><span class="p">:</span> <span class="s1">&#39;linear&#39;</span><span class="p">,</span>
+          <span class="s1">&#39;oversampling_n&#39;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+          <span class="s1">&#39;oversampling_tmin&#39;</span><span class="p">:</span> <span class="mf">0.1</span><span class="p">,</span>
+          <span class="s1">&#39;oversampling_tmax&#39;</span><span class="p">:</span> <span class="mf">10.0</span><span class="p">,</span>
+          <span class="s1">&#39;method&#39;</span><span class="p">:</span> <span class="s1">&#39;quadrature&#39;</span><span class="p">}</span>
+</pre></div>
+</div>
+<p id="pyit-analyticsis-default"><a class="reference internal" href="py_version.html#glow.time_domain.It_AnalyticSIS" title="glow.time_domain.It_AnalyticSIS"><code class="xref py py-class docutils literal notranslate"><span class="pre">It_AnalyticSIS</span></code></a></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">p_prec</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Nt&#39;</span><span class="p">:</span> <span class="mi">10000</span><span class="p">,</span>
+          <span class="s1">&#39;tmin&#39;</span><span class="p">:</span> <span class="mf">0.01</span><span class="p">,</span>
+          <span class="s1">&#39;tmax&#39;</span><span class="p">:</span> <span class="mf">1000000.0</span><span class="p">,</span>
+          <span class="s1">&#39;eval_mode&#39;</span><span class="p">:</span> <span class="s1">&#39;interpolate&#39;</span><span class="p">,</span>
+          <span class="s1">&#39;sampling&#39;</span><span class="p">:</span> <span class="s1">&#39;log&#39;</span><span class="p">,</span>
+          <span class="s1">&#39;interp_fill_value&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+          <span class="s1">&#39;interp_kind&#39;</span><span class="p">:</span> <span class="s1">&#39;linear&#39;</span><span class="p">,</span>
+          <span class="s1">&#39;oversampling_n&#39;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+          <span class="s1">&#39;oversampling_tmin&#39;</span><span class="p">:</span> <span class="mf">0.1</span><span class="p">,</span>
+          <span class="s1">&#39;oversampling_tmax&#39;</span><span class="p">:</span> <span class="mf">10.0</span><span class="p">}</span>
+</pre></div>
+</div>
+<p id="pyit-naiveareaintegral-default"><a class="reference internal" href="py_version.html#glow.time_domain.It_NaiveAreaIntegral" title="glow.time_domain.It_NaiveAreaIntegral"><code class="xref py py-class docutils literal notranslate"><span class="pre">It_NaiveAreaIntegral</span></code></a></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">p_prec</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Nt&#39;</span><span class="p">:</span> <span class="mi">1000</span><span class="p">,</span>
+          <span class="s1">&#39;tmin&#39;</span><span class="p">:</span> <span class="mf">0.01</span><span class="p">,</span>
+          <span class="s1">&#39;tmax&#39;</span><span class="p">:</span> <span class="mf">1000000.0</span><span class="p">,</span>
+          <span class="s1">&#39;eval_mode&#39;</span><span class="p">:</span> <span class="s1">&#39;interpolate&#39;</span><span class="p">,</span>
+          <span class="s1">&#39;sampling&#39;</span><span class="p">:</span> <span class="s1">&#39;log&#39;</span><span class="p">,</span>
+          <span class="s1">&#39;interp_fill_value&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+          <span class="s1">&#39;interp_kind&#39;</span><span class="p">:</span> <span class="s1">&#39;linear&#39;</span><span class="p">,</span>
+          <span class="s1">&#39;oversampling_n&#39;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+          <span class="s1">&#39;oversampling_tmin&#39;</span><span class="p">:</span> <span class="mf">0.1</span><span class="p">,</span>
+          <span class="s1">&#39;oversampling_tmax&#39;</span><span class="p">:</span> <span class="mf">10.0</span><span class="p">,</span>
+          <span class="s1">&#39;rho_min&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+          <span class="s1">&#39;rho_max&#39;</span><span class="p">:</span> <span class="mi">20</span><span class="p">,</span>
+          <span class="s1">&#39;N_rho&#39;</span><span class="p">:</span> <span class="mi">10000</span><span class="p">,</span>
+          <span class="s1">&#39;N_theta&#39;</span><span class="p">:</span> <span class="mi">500</span><span class="p">,</span>
+          <span class="s1">&#39;N_intervals&#39;</span><span class="p">:</span> <span class="mi">500</span><span class="p">}</span>
+</pre></div>
+</div>
+<p id="cit-singlecontour-default"><a class="reference internal" href="c_version.html#glow.time_domain_c.It_SingleContour_C" title="glow.time_domain_c.It_SingleContour_C"><code class="xref py py-class docutils literal notranslate"><span class="pre">It_SingleContour_C</span></code></a></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">p_prec</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Nt&#39;</span><span class="p">:</span> <span class="mi">5000</span><span class="p">,</span>
+          <span class="s1">&#39;tmin&#39;</span><span class="p">:</span> <span class="mf">0.01</span><span class="p">,</span>
+          <span class="s1">&#39;tmax&#39;</span><span class="p">:</span> <span class="mf">1000000.0</span><span class="p">,</span>
+          <span class="s1">&#39;eval_mode&#39;</span><span class="p">:</span> <span class="s1">&#39;interpolate&#39;</span><span class="p">,</span>
+          <span class="s1">&#39;sampling&#39;</span><span class="p">:</span> <span class="s1">&#39;log&#39;</span><span class="p">,</span>
+          <span class="s1">&#39;interp_fill_value&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+          <span class="s1">&#39;interp_kind&#39;</span><span class="p">:</span> <span class="s1">&#39;linear&#39;</span><span class="p">,</span>
+          <span class="s1">&#39;oversampling_n&#39;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+          <span class="s1">&#39;oversampling_tmin&#39;</span><span class="p">:</span> <span class="mf">0.1</span><span class="p">,</span>
+          <span class="s1">&#39;oversampling_tmax&#39;</span><span class="p">:</span> <span class="mf">10.0</span><span class="p">,</span>
+          <span class="s1">&#39;lens_file_xmin&#39;</span><span class="p">:</span> <span class="mf">1e-07</span><span class="p">,</span>
+          <span class="s1">&#39;lens_file_xmax&#39;</span><span class="p">:</span> <span class="mf">10000000.0</span><span class="p">,</span>
+          <span class="s1">&#39;lens_file_Nx&#39;</span><span class="p">:</span> <span class="mi">10000</span><span class="p">,</span>
+          <span class="s1">&#39;lens_file_fname&#39;</span><span class="p">:</span> <span class="s1">&#39;wrapper/glow_lib/external/tmp&#39;</span><span class="p">,</span>
+          <span class="s1">&#39;C_prec&#39;</span><span class="p">:</span> <span class="p">{},</span>
+          <span class="s1">&#39;method&#39;</span><span class="p">:</span> <span class="s1">&#39;standard&#39;</span><span class="p">,</span>
+          <span class="s1">&#39;parallel&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">}</span>
+</pre></div>
+</div>
+<p id="cit-singleintegral-default"><a class="reference internal" href="c_version.html#glow.time_domain_c.It_SingleIntegral_C" title="glow.time_domain_c.It_SingleIntegral_C"><code class="xref py py-class docutils literal notranslate"><span class="pre">It_SingleIntegral_C</span></code></a></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">p_prec</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Nt&#39;</span><span class="p">:</span> <span class="mi">5000</span><span class="p">,</span>
+          <span class="s1">&#39;tmin&#39;</span><span class="p">:</span> <span class="mf">0.01</span><span class="p">,</span>
+          <span class="s1">&#39;tmax&#39;</span><span class="p">:</span> <span class="mf">1000000.0</span><span class="p">,</span>
+          <span class="s1">&#39;eval_mode&#39;</span><span class="p">:</span> <span class="s1">&#39;interpolate&#39;</span><span class="p">,</span>
+          <span class="s1">&#39;sampling&#39;</span><span class="p">:</span> <span class="s1">&#39;log&#39;</span><span class="p">,</span>
+          <span class="s1">&#39;interp_fill_value&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+          <span class="s1">&#39;interp_kind&#39;</span><span class="p">:</span> <span class="s1">&#39;linear&#39;</span><span class="p">,</span>
+          <span class="s1">&#39;oversampling_n&#39;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+          <span class="s1">&#39;oversampling_tmin&#39;</span><span class="p">:</span> <span class="mf">0.1</span><span class="p">,</span>
+          <span class="s1">&#39;oversampling_tmax&#39;</span><span class="p">:</span> <span class="mf">10.0</span><span class="p">,</span>
+          <span class="s1">&#39;lens_file_xmin&#39;</span><span class="p">:</span> <span class="mf">1e-07</span><span class="p">,</span>
+          <span class="s1">&#39;lens_file_xmax&#39;</span><span class="p">:</span> <span class="mf">10000000.0</span><span class="p">,</span>
+          <span class="s1">&#39;lens_file_Nx&#39;</span><span class="p">:</span> <span class="mi">10000</span><span class="p">,</span>
+          <span class="s1">&#39;lens_file_fname&#39;</span><span class="p">:</span> <span class="s1">&#39;wrapper/glow_lib/external/tmp&#39;</span><span class="p">,</span>
+          <span class="s1">&#39;C_prec&#39;</span><span class="p">:</span> <span class="p">{},</span>
+          <span class="s1">&#39;parallel&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+          <span class="s1">&#39;method&#39;</span><span class="p">:</span> <span class="s1">&#39;qag15&#39;</span><span class="p">}</span>
+</pre></div>
+</div>
+<p id="cit-analyticsis-default"><a class="reference internal" href="c_version.html#glow.time_domain_c.It_AnalyticSIS_C" title="glow.time_domain_c.It_AnalyticSIS_C"><code class="xref py py-class docutils literal notranslate"><span class="pre">It_AnalyticSIS_C</span></code></a></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">p_prec</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Nt&#39;</span><span class="p">:</span> <span class="mi">10000</span><span class="p">,</span>
+          <span class="s1">&#39;tmin&#39;</span><span class="p">:</span> <span class="mf">0.01</span><span class="p">,</span>
+          <span class="s1">&#39;tmax&#39;</span><span class="p">:</span> <span class="mf">1000000.0</span><span class="p">,</span>
+          <span class="s1">&#39;eval_mode&#39;</span><span class="p">:</span> <span class="s1">&#39;interpolate&#39;</span><span class="p">,</span>
+          <span class="s1">&#39;sampling&#39;</span><span class="p">:</span> <span class="s1">&#39;log&#39;</span><span class="p">,</span>
+          <span class="s1">&#39;interp_fill_value&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+          <span class="s1">&#39;interp_kind&#39;</span><span class="p">:</span> <span class="s1">&#39;linear&#39;</span><span class="p">,</span>
+          <span class="s1">&#39;oversampling_n&#39;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+          <span class="s1">&#39;oversampling_tmin&#39;</span><span class="p">:</span> <span class="mf">0.1</span><span class="p">,</span>
+          <span class="s1">&#39;oversampling_tmax&#39;</span><span class="p">:</span> <span class="mf">10.0</span><span class="p">,</span>
+          <span class="s1">&#39;lens_file_xmin&#39;</span><span class="p">:</span> <span class="mf">1e-07</span><span class="p">,</span>
+          <span class="s1">&#39;lens_file_xmax&#39;</span><span class="p">:</span> <span class="mf">10000000.0</span><span class="p">,</span>
+          <span class="s1">&#39;lens_file_Nx&#39;</span><span class="p">:</span> <span class="mi">10000</span><span class="p">,</span>
+          <span class="s1">&#39;lens_file_fname&#39;</span><span class="p">:</span> <span class="s1">&#39;wrapper/glow_lib/external/tmp&#39;</span><span class="p">,</span>
+          <span class="s1">&#39;C_prec&#39;</span><span class="p">:</span> <span class="p">{},</span>
+          <span class="s1">&#39;parallel&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">}</span>
+</pre></div>
+</div>
+<p id="cit-areaintegral-default"><a class="reference internal" href="c_version.html#glow.time_domain_c.It_AreaIntegral_C" title="glow.time_domain_c.It_AreaIntegral_C"><code class="xref py py-class docutils literal notranslate"><span class="pre">It_AreaIntegral_C</span></code></a></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">p_prec</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Nt&#39;</span><span class="p">:</span> <span class="mi">500</span><span class="p">,</span>
+          <span class="s1">&#39;tmin&#39;</span><span class="p">:</span> <span class="mf">0.01</span><span class="p">,</span>
+          <span class="s1">&#39;tmax&#39;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+          <span class="s1">&#39;eval_mode&#39;</span><span class="p">:</span> <span class="s1">&#39;interpolate&#39;</span><span class="p">,</span>
+          <span class="s1">&#39;sampling&#39;</span><span class="p">:</span> <span class="s1">&#39;log&#39;</span><span class="p">,</span>
+          <span class="s1">&#39;interp_fill_value&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+          <span class="s1">&#39;interp_kind&#39;</span><span class="p">:</span> <span class="s1">&#39;linear&#39;</span><span class="p">,</span>
+          <span class="s1">&#39;oversampling_n&#39;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+          <span class="s1">&#39;oversampling_tmin&#39;</span><span class="p">:</span> <span class="mf">0.1</span><span class="p">,</span>
+          <span class="s1">&#39;oversampling_tmax&#39;</span><span class="p">:</span> <span class="mf">10.0</span><span class="p">,</span>
+          <span class="s1">&#39;lens_file_xmin&#39;</span><span class="p">:</span> <span class="mf">1e-07</span><span class="p">,</span>
+          <span class="s1">&#39;lens_file_xmax&#39;</span><span class="p">:</span> <span class="mf">10000000.0</span><span class="p">,</span>
+          <span class="s1">&#39;lens_file_Nx&#39;</span><span class="p">:</span> <span class="mi">10000</span><span class="p">,</span>
+          <span class="s1">&#39;lens_file_fname&#39;</span><span class="p">:</span> <span class="s1">&#39;wrapper/glow_lib/external/tmp&#39;</span><span class="p">,</span>
+          <span class="s1">&#39;C_prec&#39;</span><span class="p">:</span> <span class="p">{},</span>
+          <span class="s1">&#39;n_rho&#39;</span><span class="p">:</span> <span class="mi">20000</span><span class="p">,</span>
+          <span class="s1">&#39;n_theta&#39;</span><span class="p">:</span> <span class="mi">2000</span><span class="p">}</span>
+</pre></div>
+</div>
+<p id="cit-multicontour-default"><a class="reference internal" href="c_version.html#glow.time_domain_c.It_MultiContour_C" title="glow.time_domain_c.It_MultiContour_C"><code class="xref py py-class docutils literal notranslate"><span class="pre">It_MultiContour_C</span></code></a></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">p_prec</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Nt&#39;</span><span class="p">:</span> <span class="mi">5000</span><span class="p">,</span>
+          <span class="s1">&#39;tmin&#39;</span><span class="p">:</span> <span class="mf">0.01</span><span class="p">,</span>
+          <span class="s1">&#39;tmax&#39;</span><span class="p">:</span> <span class="mf">1000000.0</span><span class="p">,</span>
+          <span class="s1">&#39;eval_mode&#39;</span><span class="p">:</span> <span class="s1">&#39;interpolate&#39;</span><span class="p">,</span>
+          <span class="s1">&#39;sampling&#39;</span><span class="p">:</span> <span class="s1">&#39;log&#39;</span><span class="p">,</span>
+          <span class="s1">&#39;interp_fill_value&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+          <span class="s1">&#39;interp_kind&#39;</span><span class="p">:</span> <span class="s1">&#39;linear&#39;</span><span class="p">,</span>
+          <span class="s1">&#39;oversampling_n&#39;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+          <span class="s1">&#39;oversampling_tmin&#39;</span><span class="p">:</span> <span class="mf">0.1</span><span class="p">,</span>
+          <span class="s1">&#39;oversampling_tmax&#39;</span><span class="p">:</span> <span class="mf">10.0</span><span class="p">,</span>
+          <span class="s1">&#39;lens_file_xmin&#39;</span><span class="p">:</span> <span class="mf">1e-07</span><span class="p">,</span>
+          <span class="s1">&#39;lens_file_xmax&#39;</span><span class="p">:</span> <span class="mf">10000000.0</span><span class="p">,</span>
+          <span class="s1">&#39;lens_file_Nx&#39;</span><span class="p">:</span> <span class="mi">10000</span><span class="p">,</span>
+          <span class="s1">&#39;lens_file_fname&#39;</span><span class="p">:</span> <span class="s1">&#39;wrapper/glow_lib/external/tmp&#39;</span><span class="p">,</span>
+          <span class="s1">&#39;C_prec&#39;</span><span class="p">:</span> <span class="p">{},</span>
+          <span class="s1">&#39;parallel&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">}</span>
+</pre></div>
+</div>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="c_version.html" class="btn btn-neutral float-left" title="C version - Methods" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../freq_domain/main.html" class="btn btn-neutral float-right" title="Frequency domain" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, glow team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

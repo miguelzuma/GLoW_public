@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>C version - Methods &mdash; glow 0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
+      <link rel="stylesheet" href="../_static/css/functions.css" type="text/css" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=2709fde1"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Default parameters" href="default.html" />
+    <link rel="prev" title="C version - Base object" href="c_base.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            glow
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../usage.html">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../lenses/main.html">Lenses</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="main.html">Time domain</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="main.html#introduction">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="main.html#single-contour">Single contour</a></li>
+<li class="toctree-l2"><a class="reference internal" href="main.html#single-integral">Single integral</a></li>
+<li class="toctree-l2"><a class="reference internal" href="main.html#analytic-sis">Analytic SIS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="main.html#area-integral">Area integral</a></li>
+<li class="toctree-l2"><a class="reference internal" href="main.html#multicontour">Multicontour</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="main.html#module-information">Module information</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="py_base.html">Python version - Base object</a></li>
+<li class="toctree-l3"><a class="reference internal" href="py_version.html">Python version - Methods</a></li>
+<li class="toctree-l3"><a class="reference internal" href="c_base.html">C version - Base object</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">C version - Methods</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#glow.time_domain_c.It_SingleContour_C"><code class="docutils literal notranslate"><span class="pre">It_SingleContour_C</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#glow.time_domain_c.It_SingleIntegral_C"><code class="docutils literal notranslate"><span class="pre">It_SingleIntegral_C</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#glow.time_domain_c.It_AnalyticSIS_C"><code class="docutils literal notranslate"><span class="pre">It_AnalyticSIS_C</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#glow.time_domain_c.It_AreaIntegral_C"><code class="docutils literal notranslate"><span class="pre">It_AreaIntegral_C</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#glow.time_domain_c.It_MultiContour_C"><code class="docutils literal notranslate"><span class="pre">It_MultiContour_C</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="default.html">Default parameters</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../freq_domain/main.html">Frequency domain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api.html">API</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">glow</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="main.html">Time domain</a></li>
+      <li class="breadcrumb-item active">C version - Methods</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/time_domain/c_version.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="c-version-methods">
+<h1>C version - Methods<a class="headerlink" href="#c-version-methods" title="Link to this heading"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="glow.time_domain_c.It_SingleContour_C">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">glow.time_domain_c.</span></span><span class="sig-name descname"><span class="pre">It_SingleContour_C</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Lens</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p_prec</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#glow.time_domain_c.It_SingleContour_C" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="c_base.html#glow.time_domain_c.ItGeneral_C" title="glow.time_domain_c.ItGeneral_C"><code class="xref py py-class docutils literal notranslate"><span class="pre">ItGeneral_C</span></code></a></p>
+<p>Computation for the single contour regime (only one image).</p>
+<p>Additional information: <a class="reference internal" href="main.html#singlecontour-theory"><span class="std std-ref">theory</span></a>, <a class="reference internal" href="default.html#cit-singlecontour-default"><span class="std std-ref">default parameters</span></a>.</p>
+<p>(Only new parameters and attributes are documented. See <a class="reference internal" href="c_base.html#glow.time_domain_c.ItGeneral_C" title="glow.time_domain_c.ItGeneral_C"><code class="xref py py-class docutils literal notranslate"><span class="pre">ItGeneral_C</span></code></a>
+for the internal information of the parent class)</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl>
+<dt><strong>p_prec</strong><span class="classifier">dict, optional</span></dt><dd><p>Precision parameters. New keys:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">parallel</span></code> (<em>bool</em>) – Perform the evaluation over <span class="math notranslate nohighlight">\(\tau\)</span>-arrays in parallel.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">method</span></code> (<em>str</em>) – Method for the computation. Options:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">'standard'</span></code> : Parametrize the contours with the angular variable <span class="math notranslate nohighlight">\(\theta\)</span>. If                it fails, it will automatically switch to <code class="docutils literal notranslate"><span class="pre">'robutst'</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">'robust'</span></code> : Parametric representation of the contours.</p></li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Methods</p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#glow.time_domain_c.It_SingleContour_C.compute" title="glow.time_domain_c.It_SingleContour_C.compute"><code class="xref py py-obj docutils literal notranslate"><span class="pre">compute</span></code></a>(tau)</p></td>
+<td><p>Compute <span class="math notranslate nohighlight">\(I(\tau)\)</span>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#glow.time_domain_c.It_SingleContour_C.default_params" title="glow.time_domain_c.It_SingleContour_C.default_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">default_params</span></code></a>()</p></td>
+<td><p>(<em>subclass defined</em>) Initialize the default parameters.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#glow.time_domain_c.It_SingleContour_C.find_all_images" title="glow.time_domain_c.It_SingleContour_C.find_all_images"><code class="xref py py-obj docutils literal notranslate"><span class="pre">find_all_images</span></code></a>()</p></td>
+<td><p>Find the minimum of the Fermat potential assuming that it is the only critical point.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#glow.time_domain_c.It_SingleContour_C.get_contour" title="glow.time_domain_c.It_SingleContour_C.get_contour"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_contour</span></code></a>(tau[, n_points])</p></td>
+<td><p>Contour corresponding to a given <span class="math notranslate nohighlight">\(\tau\)</span>.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py method">
+<dt class="sig sig-object py" id="glow.time_domain_c.It_SingleContour_C.default_params">
+<span class="sig-name descname"><span class="pre">default_params</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#glow.time_domain_c.It_SingleContour_C.default_params" title="Link to this definition"></a></dt>
+<dd><p>(<em>subclass defined</em>) Initialize the default parameters.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="glow.time_domain_c.It_SingleContour_C.find_all_images">
+<span class="sig-name descname"><span class="pre">find_all_images</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#glow.time_domain_c.It_SingleContour_C.find_all_images" title="Link to this definition"></a></dt>
+<dd><p>Find the minimum of the Fermat potential assuming that it is the only critical point.</p>
+<p>An error is raised if more than one critical point is found.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="glow.time_domain_c.It_SingleContour_C.compute">
+<span class="sig-name descname"><span class="pre">compute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tau</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#glow.time_domain_c.It_SingleContour_C.compute" title="Link to this definition"></a></dt>
+<dd><p>Compute <span class="math notranslate nohighlight">\(I(\tau)\)</span>.</p>
+<p>It includes the step function, <span class="math notranslate nohighlight">\(I(\tau&lt;0)=0\)</span>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>tau</strong><span class="classifier">float</span></dt><dd><p>Relative time delay <span class="math notranslate nohighlight">\(\tau\)</span>.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>I</strong><span class="classifier">float</span></dt><dd><p><span class="math notranslate nohighlight">\(I(\tau)\)</span></p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="glow.time_domain_c.It_SingleContour_C.get_contour">
+<span class="sig-name descname"><span class="pre">get_contour</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tau</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_points</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#glow.time_domain_c.It_SingleContour_C.get_contour" title="Link to this definition"></a></dt>
+<dd><p>Contour corresponding to a given <span class="math notranslate nohighlight">\(\tau\)</span>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>tau</strong><span class="classifier">float or array</span></dt><dd><p>Relative time delay <span class="math notranslate nohighlight">\(\tau\)</span>.</p>
+</dd>
+<dt><strong>n_points</strong><span class="classifier">int</span></dt><dd><p>Number of points in the contour.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>contour</strong><span class="classifier">array of dict</span></dt><dd><p>The length of the output matches the length of the input <code class="docutils literal notranslate"><span class="pre">tau</span></code>.
+For each element, the contour is stored as a dictionary with the following entries:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">'sigma'</span></code> : Parameter of the curve.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">'alpha'</span></code>, <code class="docutils literal notranslate"><span class="pre">'R'</span></code> : Polar coordinates (centered at the position of the minimum).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">'x1'</span></code>, <code class="docutils literal notranslate"><span class="pre">'x2'</span></code> : Cartesian coordinates.</p></li>
+</ul>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="glow.time_domain_c.It_SingleIntegral_C">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">glow.time_domain_c.</span></span><span class="sig-name descname"><span class="pre">It_SingleIntegral_C</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Lens</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p_prec</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#glow.time_domain_c.It_SingleIntegral_C" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="c_base.html#glow.time_domain_c.ItGeneral_C" title="glow.time_domain_c.ItGeneral_C"><code class="xref py py-class docutils literal notranslate"><span class="pre">ItGeneral_C</span></code></a></p>
+<p>Computation for axisymmetric lenses, solving a single radial integral.</p>
+<p>Additional information: <a class="reference internal" href="main.html#singleintegral-theory"><span class="std std-ref">theory</span></a>, <a class="reference internal" href="default.html#cit-singleintegral-default"><span class="std std-ref">default parameters</span></a>.</p>
+<p>(Only new parameters and attributes are documented. See <a class="reference internal" href="c_base.html#glow.time_domain_c.ItGeneral_C" title="glow.time_domain_c.ItGeneral_C"><code class="xref py py-class docutils literal notranslate"><span class="pre">ItGeneral_C</span></code></a>
+for the internal information of the parent class)</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl>
+<dt><strong>p_prec</strong><span class="classifier">dict, optional</span></dt><dd><p>Precision parameters. New keys:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">parallel</span></code> (<em>bool</em>) – Perform the evaluation over <span class="math notranslate nohighlight">\(\tau\)</span>-arrays in parallel.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">method</span></code> (<em>str</em>) – Method for the integral (see the GSL documentation for details). Options:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">'qng'</span></code> : Non-adaptive Gauss-Kronrod integration.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">'qag15'</span></code> : Adaptive 15 point Gauss-Kronrod integration.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">'qag21'</span></code> : Adaptive 21 point Gauss-Kronrod integration.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">'qag31'</span></code> : Adaptive 31 point Gauss-Kronrod integration.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">'qag41'</span></code> : Adaptive 41 point Gauss-Kronrod integration.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">'qag51'</span></code> : Adaptive 51 point Gauss-Kronrod integration.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">'qag61'</span></code> : Adaptive 61 point Gauss-Kronrod integration.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">'direct'</span></code> : Direct integration using the <code class="docutils literal notranslate"><span class="pre">qags</span></code> method from GSL, without performing                a change of variables to smooth the integrand.</p></li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Methods</p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#glow.time_domain_c.It_SingleIntegral_C.check_input" title="glow.time_domain_c.It_SingleIntegral_C.check_input"><code class="xref py py-obj docutils literal notranslate"><span class="pre">check_input</span></code></a>()</p></td>
+<td><p>(<em>subclass defined, optional</em>) Check the input of the implementation.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#glow.time_domain_c.It_SingleIntegral_C.compute" title="glow.time_domain_c.It_SingleIntegral_C.compute"><code class="xref py py-obj docutils literal notranslate"><span class="pre">compute</span></code></a>(tau)</p></td>
+<td><p>Computation of <span class="math notranslate nohighlight">\(I(\tau)\)</span>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#glow.time_domain_c.It_SingleIntegral_C.default_params" title="glow.time_domain_c.It_SingleIntegral_C.default_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">default_params</span></code></a>()</p></td>
+<td><p>(<em>subclass defined</em>) Initialize the default parameters.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#glow.time_domain_c.It_SingleIntegral_C.find_all_images" title="glow.time_domain_c.It_SingleIntegral_C.find_all_images"><code class="xref py py-obj docutils literal notranslate"><span class="pre">find_all_images</span></code></a>()</p></td>
+<td><p>Find all the critical points.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#glow.time_domain_c.It_SingleIntegral_C.get_contour" title="glow.time_domain_c.It_SingleIntegral_C.get_contour"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_contour</span></code></a>(tau[, n_points])</p></td>
+<td><p>Compute the contours.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py method">
+<dt class="sig sig-object py" id="glow.time_domain_c.It_SingleIntegral_C.check_input">
+<span class="sig-name descname"><span class="pre">check_input</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#glow.time_domain_c.It_SingleIntegral_C.check_input" title="Link to this definition"></a></dt>
+<dd><p>(<em>subclass defined, optional</em>) Check the input of the implementation.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="glow.time_domain_c.It_SingleIntegral_C.default_params">
+<span class="sig-name descname"><span class="pre">default_params</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#glow.time_domain_c.It_SingleIntegral_C.default_params" title="Link to this definition"></a></dt>
+<dd><p>(<em>subclass defined</em>) Initialize the default parameters.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="glow.time_domain_c.It_SingleIntegral_C.find_all_images">
+<span class="sig-name descname"><span class="pre">find_all_images</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#glow.time_domain_c.It_SingleIntegral_C.find_all_images" title="Link to this definition"></a></dt>
+<dd><p>Find all the critical points.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>images</strong><span class="classifier">list</span></dt><dd><p>Full list of images. The output is stored in <code class="docutils literal notranslate"><span class="pre">p_crits</span></code>, detailed
+in <a class="reference internal" href="c_base.html#glow.time_domain_c.ItGeneral_C" title="glow.time_domain_c.ItGeneral_C"><code class="xref py py-class docutils literal notranslate"><span class="pre">ItGeneral_C</span></code></a>.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="glow.time_domain_c.It_SingleIntegral_C.compute">
+<span class="sig-name descname"><span class="pre">compute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tau</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#glow.time_domain_c.It_SingleIntegral_C.compute" title="Link to this definition"></a></dt>
+<dd><p>Computation of <span class="math notranslate nohighlight">\(I(\tau)\)</span>.</p>
+<p>It includes the step function, <span class="math notranslate nohighlight">\(I(\tau&lt;0)=0\)</span>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>tau</strong><span class="classifier">float or array</span></dt><dd><p>Relative time delay <span class="math notranslate nohighlight">\(\tau\)</span>.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>I</strong><span class="classifier">float or array</span></dt><dd><p><span class="math notranslate nohighlight">\(I(\tau)\)</span>.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="glow.time_domain_c.It_SingleIntegral_C.get_contour">
+<span class="sig-name descname"><span class="pre">get_contour</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tau</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_points</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#glow.time_domain_c.It_SingleIntegral_C.get_contour" title="Link to this definition"></a></dt>
+<dd><p>Compute the contours.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>tau</strong><span class="classifier">float or array</span></dt><dd><p>Relative time delay <span class="math notranslate nohighlight">\(\tau\)</span>.</p>
+</dd>
+<dt><strong>n_points</strong><span class="classifier">int</span></dt><dd><p>Number of points in the contours. If it is zero, the contour contains the points used
+in the integration.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>contour</strong><span class="classifier">array of dict</span></dt><dd><p>The length of the output matches the length of the input <code class="docutils literal notranslate"><span class="pre">tau</span></code>.
+For each element, the contours are stored as a dictionary with the following entries:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">'x1'</span></code>, <code class="docutils literal notranslate"><span class="pre">'x2'</span></code> : Cartesian coordinates. <code class="docutils literal notranslate"><span class="pre">contour['x1']</span></code> is a list of arrays. The                length of this list is the number of different contours that contribute to the                given <span class="math notranslate nohighlight">\(\tau\)</span>.</p></li>
+</ul>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="glow.time_domain_c.It_AnalyticSIS_C">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">glow.time_domain_c.</span></span><span class="sig-name descname"><span class="pre">It_AnalyticSIS_C</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p_prec</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">psi0</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#glow.time_domain_c.It_AnalyticSIS_C" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="c_base.html#glow.time_domain_c.ItGeneral_C" title="glow.time_domain_c.ItGeneral_C"><code class="xref py py-class docutils literal notranslate"><span class="pre">ItGeneral_C</span></code></a></p>
+<p>Analytic <span class="math notranslate nohighlight">\(I(\tau)\)</span> for the singular isothermal sphere.</p>
+<p>Additional information: <a class="reference internal" href="main.html#analyticsis-theory"><span class="std std-ref">theory</span></a>, <a class="reference internal" href="default.html#cit-analyticsis-default"><span class="std std-ref">default parameters</span></a>.</p>
+<p>(Only new parameters and attributes are documented. See <a class="reference internal" href="c_base.html#glow.time_domain_c.ItGeneral_C" title="glow.time_domain_c.ItGeneral_C"><code class="xref py py-class docutils literal notranslate"><span class="pre">ItGeneral_C</span></code></a>
+for the internal information of the parent class)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>psi0</strong><span class="classifier">float</span></dt><dd><p>Normalization of the lensing potential <span class="math notranslate nohighlight">\(\psi(x) = \psi_0 x\)</span>.</p>
+</dd>
+<dt><strong>p_prec</strong><span class="classifier">dict, optional</span></dt><dd><p>Precision parameters. New keys:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">parallel</span></code> (<em>bool</em>) – Perform the evaluation over <span class="math notranslate nohighlight">\(\tau\)</span>-arrays in parallel.</p></li>
+</ul>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Methods</p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#glow.time_domain_c.It_AnalyticSIS_C.compute" title="glow.time_domain_c.It_AnalyticSIS_C.compute"><code class="xref py py-obj docutils literal notranslate"><span class="pre">compute</span></code></a>(tau)</p></td>
+<td><p>Compute <span class="math notranslate nohighlight">\(I(\tau)\)</span>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#glow.time_domain_c.It_AnalyticSIS_C.default_params" title="glow.time_domain_c.It_AnalyticSIS_C.default_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">default_params</span></code></a>()</p></td>
+<td><p>(<em>subclass defined</em>) Initialize the default parameters.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#glow.time_domain_c.It_AnalyticSIS_C.find_all_images" title="glow.time_domain_c.It_AnalyticSIS_C.find_all_images"><code class="xref py py-obj docutils literal notranslate"><span class="pre">find_all_images</span></code></a>()</p></td>
+<td><p>Compute (analytically) the properties of the images for the SIS.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py method">
+<dt class="sig sig-object py" id="glow.time_domain_c.It_AnalyticSIS_C.default_params">
+<span class="sig-name descname"><span class="pre">default_params</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#glow.time_domain_c.It_AnalyticSIS_C.default_params" title="Link to this definition"></a></dt>
+<dd><p>(<em>subclass defined</em>) Initialize the default parameters.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="glow.time_domain_c.It_AnalyticSIS_C.find_all_images">
+<span class="sig-name descname"><span class="pre">find_all_images</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#glow.time_domain_c.It_AnalyticSIS_C.find_all_images" title="Link to this definition"></a></dt>
+<dd><p>Compute (analytically) the properties of the images for the SIS.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>images</strong><span class="classifier">list</span></dt><dd><p>Full list of images. The output is stored in <code class="docutils literal notranslate"><span class="pre">p_crits</span></code>, detailed
+in <a class="reference internal" href="c_base.html#glow.time_domain_c.ItGeneral_C" title="glow.time_domain_c.ItGeneral_C"><code class="xref py py-class docutils literal notranslate"><span class="pre">ItGeneral_C</span></code></a>.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="glow.time_domain_c.It_AnalyticSIS_C.compute">
+<span class="sig-name descname"><span class="pre">compute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tau</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#glow.time_domain_c.It_AnalyticSIS_C.compute" title="Link to this definition"></a></dt>
+<dd><p>Compute <span class="math notranslate nohighlight">\(I(\tau)\)</span>.</p>
+<p>It includes the step function, <span class="math notranslate nohighlight">\(I(\tau&lt;0)=0\)</span>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>tau</strong><span class="classifier">float or array</span></dt><dd><p>Relative time delay <span class="math notranslate nohighlight">\(\tau\)</span>.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>I</strong><span class="classifier">float or array</span></dt><dd><p><span class="math notranslate nohighlight">\(I(\tau)\)</span>.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="glow.time_domain_c.It_AreaIntegral_C">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">glow.time_domain_c.</span></span><span class="sig-name descname"><span class="pre">It_AreaIntegral_C</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Lens</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p_prec</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#glow.time_domain_c.It_AreaIntegral_C" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="c_base.html#glow.time_domain_c.ItGeneral_C" title="glow.time_domain_c.ItGeneral_C"><code class="xref py py-class docutils literal notranslate"><span class="pre">ItGeneral_C</span></code></a></p>
+<p>Simple implementation of the binning/grid/area method for the computation of the
+time-domain integral.</p>
+<p>Additional information: <a class="reference internal" href="main.html#areaintegral-theory"><span class="std std-ref">theory</span></a>, <a class="reference internal" href="default.html#cit-areaintegral-default"><span class="std std-ref">default parameters</span></a>.</p>
+<p>(Only new parameters and attributes are documented. See <a class="reference internal" href="c_base.html#glow.time_domain_c.ItGeneral_C" title="glow.time_domain_c.ItGeneral_C"><code class="xref py py-class docutils literal notranslate"><span class="pre">ItGeneral_C</span></code></a>
+for the internal information of the parent class)</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl>
+<dt><strong>p_prec</strong><span class="classifier">dict, optional</span></dt><dd><p>Precision parameters. New keys:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">tmax</span></code> (<em>float</em>) – Maximum <span class="math notranslate nohighlight">\(\tau\)</span> to compute. The upper limit in the radial                coordinate <span class="math notranslate nohighlight">\(\rho\)</span> is chosen accordingly.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">n_rho</span></code> (<em>int</em>) – Number of points in the <span class="math notranslate nohighlight">\(\rho\)</span> axis.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">n_theta</span></code> (<em>int</em>) – Number of points in the <span class="math notranslate nohighlight">\(\theta\)</span> axis.</p></li>
+</ul>
+</div></blockquote>
+</dd>
+</dl>
+</dd>
+</dl>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>This implementation is not heavily optimized, it is only intended for
+verification. It yields robust, albeit slow and noisy, results for any lens.</p>
+</div>
+<p class="rubric">Methods</p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#glow.time_domain_c.It_AreaIntegral_C.compute" title="glow.time_domain_c.It_AreaIntegral_C.compute"><code class="xref py py-obj docutils literal notranslate"><span class="pre">compute</span></code></a>()</p></td>
+<td><p>Compute <span class="math notranslate nohighlight">\(I(\tau)\)</span>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#glow.time_domain_c.It_AreaIntegral_C.default_params" title="glow.time_domain_c.It_AreaIntegral_C.default_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">default_params</span></code></a>()</p></td>
+<td><p>(<em>subclass defined</em>) Initialize the default parameters.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py method">
+<dt class="sig sig-object py" id="glow.time_domain_c.It_AreaIntegral_C.default_params">
+<span class="sig-name descname"><span class="pre">default_params</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#glow.time_domain_c.It_AreaIntegral_C.default_params" title="Link to this definition"></a></dt>
+<dd><p>(<em>subclass defined</em>) Initialize the default parameters.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="glow.time_domain_c.It_AreaIntegral_C.compute">
+<span class="sig-name descname"><span class="pre">compute</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#glow.time_domain_c.It_AreaIntegral_C.compute" title="Link to this definition"></a></dt>
+<dd><p>Compute <span class="math notranslate nohighlight">\(I(\tau)\)</span>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>t0</strong><span class="classifier">float</span></dt><dd><p>Minimum time delay <span class="math notranslate nohighlight">\(t_\text{min}\)</span>.</p>
+</dd>
+<dt><strong>t_grid</strong><span class="classifier">array</span></dt><dd><p>Temporal grid <span class="math notranslate nohighlight">\(\tau_i\)</span>.</p>
+</dd>
+<dt><strong>It_grid</strong><span class="classifier">array</span></dt><dd><p>Result grid <span class="math notranslate nohighlight">\(I_i=I(\tau_i)\)</span>.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="glow.time_domain_c.It_MultiContour_C">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">glow.time_domain_c.</span></span><span class="sig-name descname"><span class="pre">It_MultiContour_C</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Lens</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p_prec</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#glow.time_domain_c.It_MultiContour_C" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="c_base.html#glow.time_domain_c.ItGeneral_C" title="glow.time_domain_c.ItGeneral_C"><code class="xref py py-class docutils literal notranslate"><span class="pre">ItGeneral_C</span></code></a></p>
+<p>Computation using the contour method for a generic strong lensing scenario.</p>
+<p>Additional information: <a class="reference internal" href="main.html#multicontour-theory"><span class="std std-ref">theory</span></a>, <a class="reference internal" href="default.html#cit-multicontour-default"><span class="std std-ref">default parameters</span></a>.</p>
+<p>(Only new parameters and attributes are documented. See <a class="reference internal" href="c_base.html#glow.time_domain_c.ItGeneral_C" title="glow.time_domain_c.ItGeneral_C"><code class="xref py py-class docutils literal notranslate"><span class="pre">ItGeneral_C</span></code></a>
+for the internal information of the parent class)</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>p_prec</strong><span class="classifier">dict, optional</span></dt><dd><p>Precision parameters. New keys:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">parallel</span></code> (<em>bool</em>) – Perform the evaluation over <span class="math notranslate nohighlight">\(\tau\)</span>-arrays in parallel.</p></li>
+</ul>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Attributes<span class="colon">:</span></dt>
+<dd class="field-even"><dl>
+<dt><strong>p_centers</strong><span class="classifier">list of dict</span></dt><dd><p>Centers of the different families of contours. Keys:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">type</span></code> (<em>str</em>) – Type of center:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">'min'</span></code>, <code class="docutils literal notranslate"><span class="pre">'max'</span></code> : The center of the family of contours is a minimum/maximum of the                Fermat potential.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">'saddle</span> <span class="pre">8</span> <span class="pre">minmin'</span></code>, <code class="docutils literal notranslate"><span class="pre">'saddle</span> <span class="pre">8</span> <span class="pre">maxmax'</span></code> : The center of the contours is a saddle point,                with a critical curve that looks like an 8 and either two minima or two maxima in the lobes.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">'saddle</span> <span class="pre">O</span> <span class="pre">min'</span></code>, <code class="docutils literal notranslate"><span class="pre">'saddle</span> <span class="pre">O</span> <span class="pre">max'</span></code> : The center of the contours is a saddle point,                with a critical curve that looks like a folded 8 (e.g. the standard SIS) and either                a minimum or a maximum in the innermost lobe.</p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">x10</span></code>, <code class="docutils literal notranslate"><span class="pre">x20</span></code> (<em>float</em>) – Location of the center.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">tau0</span></code>, <code class="docutils literal notranslate"><span class="pre">t0</span></code> (<em>float</em>) – Time delays <span class="math notranslate nohighlight">\(\tau\)</span> and <span class="math notranslate nohighlight">\(t=\tau + t_\text{min}\)</span>            at the center.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">alpha_out</span></code> (<em>float</em>) – Angle with respect to <span class="math notranslate nohighlight">\(x_1\)</span> that is used to search for the            right contour (in a straight line out of the center) and start the integration.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">R_max</span></code> (<em>float</em>) – Distance to the last contour contributing in this family, in the            direction <span class="math notranslate nohighlight">\(\alpha_\text{out}\)</span>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">tau_birth</span></code>, <code class="docutils literal notranslate"><span class="pre">tau_death</span></code> (<em>float</em>) – Minimum and maximum <span class="math notranslate nohighlight">\(\tau\)</span> that the family            of contours will contribute to.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">is_init_birthdeath</span></code> (<em>int</em>) – Wheter the contour has been fully initialized (1) or not (0).            There must be always one (and only one) center where this variable is 0, since            <span class="math notranslate nohighlight">\(R_\text{max}\)</span> and <span class="math notranslate nohighlight">\(\tau_\text{death}\)</span> are not set. This is the outermost            family of contours that extends to infinity.</p></li>
+</ul>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Methods</p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#glow.time_domain_c.It_MultiContour_C.compute" title="glow.time_domain_c.It_MultiContour_C.compute"><code class="xref py py-obj docutils literal notranslate"><span class="pre">compute</span></code></a>(tau)</p></td>
+<td><p>Computation of <span class="math notranslate nohighlight">\(I(\tau)\)</span>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#glow.time_domain_c.It_MultiContour_C.default_params" title="glow.time_domain_c.It_MultiContour_C.default_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">default_params</span></code></a>()</p></td>
+<td><p>(<em>subclass defined</em>) Initialize the default parameters.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#glow.time_domain_c.It_MultiContour_C.display_centers" title="glow.time_domain_c.It_MultiContour_C.display_centers"><code class="xref py py-obj docutils literal notranslate"><span class="pre">display_centers</span></code></a>()</p></td>
+<td><p>Print the information about the centers of the contours in human-readable form.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#glow.time_domain_c.It_MultiContour_C.find_all_images" title="glow.time_domain_c.It_MultiContour_C.find_all_images"><code class="xref py py-obj docutils literal notranslate"><span class="pre">find_all_images</span></code></a>()</p></td>
+<td><p>Find all the critical points.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#glow.time_domain_c.It_MultiContour_C.get_contour" title="glow.time_domain_c.It_MultiContour_C.get_contour"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_contour</span></code></a>(tau[, n_points])</p></td>
+<td><p>Compute the contours.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#glow.time_domain_c.It_MultiContour_C.get_contour_x1x2" title="glow.time_domain_c.It_MultiContour_C.get_contour_x1x2"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_contour_x1x2</span></code></a>(x10, x20[, sigmaf, n_points])</p></td>
+<td><p>Compute the contour passing by a given point in the lens plane.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#glow.time_domain_c.It_MultiContour_C.init_all_centers" title="glow.time_domain_c.It_MultiContour_C.init_all_centers"><code class="xref py py-obj docutils literal notranslate"><span class="pre">init_all_centers</span></code></a>()</p></td>
+<td><p>Find all the centers of contours.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py method">
+<dt class="sig sig-object py" id="glow.time_domain_c.It_MultiContour_C.default_params">
+<span class="sig-name descname"><span class="pre">default_params</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#glow.time_domain_c.It_MultiContour_C.default_params" title="Link to this definition"></a></dt>
+<dd><p>(<em>subclass defined</em>) Initialize the default parameters.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="glow.time_domain_c.It_MultiContour_C.display_centers">
+<span class="sig-name descname"><span class="pre">display_centers</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#glow.time_domain_c.It_MultiContour_C.display_centers" title="Link to this definition"></a></dt>
+<dd><p>Print the information about the centers of the contours in human-readable form.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="glow.time_domain_c.It_MultiContour_C.find_all_images">
+<span class="sig-name descname"><span class="pre">find_all_images</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#glow.time_domain_c.It_MultiContour_C.find_all_images" title="Link to this definition"></a></dt>
+<dd><p>Find all the critical points.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>images</strong><span class="classifier">list</span></dt><dd><p>Full list of images. The output is stored in <code class="docutils literal notranslate"><span class="pre">p_crits</span></code>, detailed
+in <a class="reference internal" href="c_base.html#glow.time_domain_c.ItGeneral_C" title="glow.time_domain_c.ItGeneral_C"><code class="xref py py-class docutils literal notranslate"><span class="pre">ItGeneral_C</span></code></a>.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="glow.time_domain_c.It_MultiContour_C.init_all_centers">
+<span class="sig-name descname"><span class="pre">init_all_centers</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#glow.time_domain_c.It_MultiContour_C.init_all_centers" title="Link to this definition"></a></dt>
+<dd><p>Find all the centers of contours.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>centers</strong><span class="classifier">list</span></dt><dd><p>Full list of centers. The output is stored in <code class="docutils literal notranslate"><span class="pre">p_centers</span></code>, detailed above.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="glow.time_domain_c.It_MultiContour_C.compute">
+<span class="sig-name descname"><span class="pre">compute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tau</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#glow.time_domain_c.It_MultiContour_C.compute" title="Link to this definition"></a></dt>
+<dd><p>Computation of <span class="math notranslate nohighlight">\(I(\tau)\)</span>.</p>
+<p>It includes the step function, <span class="math notranslate nohighlight">\(I(\tau&lt;0)=0\)</span>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>tau</strong><span class="classifier">float or array</span></dt><dd><p>Relative time delay <span class="math notranslate nohighlight">\(\tau\)</span>.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>I</strong><span class="classifier">float or array</span></dt><dd><p><span class="math notranslate nohighlight">\(I(\tau)\)</span>.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="glow.time_domain_c.It_MultiContour_C.get_contour">
+<span class="sig-name descname"><span class="pre">get_contour</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tau</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_points</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#glow.time_domain_c.It_MultiContour_C.get_contour" title="Link to this definition"></a></dt>
+<dd><p>Compute the contours.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>tau</strong><span class="classifier">float or array</span></dt><dd><p>Relative time delay <span class="math notranslate nohighlight">\(\tau\)</span>.</p>
+</dd>
+<dt><strong>n_points</strong><span class="classifier">int</span></dt><dd><p>Number of points in the contours. If it is zero, the contour contains the points used
+in the integration.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>contour</strong><span class="classifier">array of dict</span></dt><dd><p>The length of the output matches the length of the input <code class="docutils literal notranslate"><span class="pre">tau</span></code>.
+For each element, the contours are stored as a dictionary with the following entries:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">'x1'</span></code>, <code class="docutils literal notranslate"><span class="pre">'x2'</span></code> : Cartesian coordinates. <code class="docutils literal notranslate"><span class="pre">contour['x1']</span></code> is a list of arrays. The                length of this list is the number of different contours that contribute to the                given <span class="math notranslate nohighlight">\(\tau\)</span>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">'sigma'</span></code> : Parameter of the curve.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">'alpha'</span></code>, <code class="docutils literal notranslate"><span class="pre">'R'</span></code> : Polar coordinates (with respect to the center of the contour).</p></li>
+</ul>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="glow.time_domain_c.It_MultiContour_C.get_contour_x1x2">
+<span class="sig-name descname"><span class="pre">get_contour_x1x2</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x20</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigmaf</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_points</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#glow.time_domain_c.It_MultiContour_C.get_contour_x1x2" title="Link to this definition"></a></dt>
+<dd><p>Compute the contour passing by a given point in the lens plane.</p>
+<p>The integration is carried out directly in Cartesian coordinates.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>x10, x20</strong><span class="classifier">float or array</span></dt><dd><p>Initial position to start the integration.</p>
+</dd>
+<dt><strong>sigmaf</strong><span class="classifier">float</span></dt><dd><p>Maximum parameter of the curve. The contour is computed in the parametric form
+<span class="math notranslate nohighlight">\(\boldsymbol{x}(\sigma)\)</span> and the integration is carried out from <span class="math notranslate nohighlight">\(\sigma=0\)</span>
+to <span class="math notranslate nohighlight">\(\sigma=\sigma_f\)</span>.</p>
+</dd>
+<dt><strong>n_points</strong><span class="classifier">int</span></dt><dd><p>Number of points in the contour.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>contour</strong><span class="classifier">dict</span></dt><dd><p>The length of the output matches the length of the input <code class="docutils literal notranslate"><span class="pre">x10</span></code>, <code class="docutils literal notranslate"><span class="pre">x20</span></code>.
+For each element, the contours are stored as a dictionary with the following entries:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">'sigma'</span></code> : Parameter of the curve.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">'x1'</span></code>, <code class="docutils literal notranslate"><span class="pre">'x2'</span></code> : Cartesian coordinates.</p></li>
+</ul>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="c_base.html" class="btn btn-neutral float-left" title="C version - Base object" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="default.html" class="btn btn-neutral float-right" title="Default parameters" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, glow team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
