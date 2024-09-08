@@ -1,6 +1,0 @@
-examples_C.ipynb
-================
-
-.. raw:: html
-
-    <iframe src="examples_C.html" width="100%" height="600"></iframe>

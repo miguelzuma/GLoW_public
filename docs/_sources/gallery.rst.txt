@@ -1,9 +1,0 @@
-Gallery
-=======
-
-(in preparation)
-
-.. plot:: pyplots/example_plot.py
-   :include-source:
-   
-(introduce more examples)
