@@ -1,3 +1,22 @@
+/*
+ * GLoW - lenses_lib.c
+ *
+ * Copyright (C) 2023, Hector Villarrubia-Rojo
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 3 of the License, or (at
+ * your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -32,7 +51,7 @@ char *names_lenses[] = {"SIS",
                         "off-center NFW",
                         "combined lens",
                         "grid 1d",
-                        "SIE",
+                        "eSIS",
                         "ext"};
 
 Lens (*init_func_lenses[N_lenses])(void *) = { init_lens_SIS,
@@ -48,7 +67,7 @@ Lens (*init_func_lenses[N_lenses])(void *) = { init_lens_SIS,
                                                init_lens_offcenterNFW,
                                                init_lens_CombinedLens,
                                                init_lens_Grid1d,
-                                               init_lens_SIE,
+                                               init_lens_eSIS,
                                                init_lens_Ext };
 
 void (*free_func_lenses[N_lenses])(pNamedLens *) = { free_pLens_SIS,
@@ -64,7 +83,7 @@ void (*free_func_lenses[N_lenses])(pNamedLens *) = { free_pLens_SIS,
                                                      free_pLens_offcenterNFW,
                                                      free_pLens_CombinedLens,
                                                      free_pLens_Grid1d,
-                                                     free_pLens_SIE,
+                                                     free_pLens_eSIS,
                                                      free_pLens_Ext };
 
 
@@ -269,10 +288,10 @@ double *get_cusp_sing(int *n, pNamedLens *pNLens)
         x2 = ((pLens_offcenterPointLens *)(pNLens->pLens))->xc2;
         xvec = add_cusp_sing(n, xvec, x1, x2);
     }
-    else if(lens_type == i_SIE)
+    else if(lens_type == i_eSIS)
     {
-        x1 = ((pLens_SIE *)(pNLens->pLens))->xc1;
-        x2 = ((pLens_SIE *)(pNLens->pLens))->xc2;
+        x1 = ((pLens_eSIS *)(pNLens->pLens))->xc1;
+        x2 = ((pLens_eSIS *)(pNLens->pLens))->xc2;
         xvec = add_cusp_sing(n, xvec, x1, x2);
     }
     else if(lens_type == i_CombinedLens)
@@ -1745,10 +1764,10 @@ int psi_2ndDerivs_Grid1d(double *psi_derivs, double x1, double x2, void *pLens)
 
 // =================================================================
 
-pNamedLens* create_pLens_SIE(double psi0, double q, double alpha, double xc1, double xc2)
+pNamedLens* create_pLens_eSIS(double psi0, double q, double alpha, double xc1, double xc2)
 {
     pNamedLens *pNLens = (pNamedLens*)malloc(sizeof(pNamedLens));
-    pLens_SIE *pLens = (pLens_SIE*)malloc(sizeof(pLens_SIE));
+    pLens_eSIS *pLens = (pLens_eSIS*)malloc(sizeof(pLens_eSIS));
 
     pLens->psi0 = psi0;
     pLens->q = q;
@@ -1758,34 +1777,34 @@ pNamedLens* create_pLens_SIE(double psi0, double q, double alpha, double xc1, do
     pLens->xc1 = xc1;
     pLens->xc2 = xc2;
 
-    pNLens->lens_type = i_SIE;
+    pNLens->lens_type = i_eSIS;
     pNLens->pLens = pLens;
 
     return pNLens;
 }
 
-void free_pLens_SIE(pNamedLens *pNLens)
+void free_pLens_eSIS(pNamedLens *pNLens)
 {
     free(pNLens->pLens);
     free(pNLens);
 }
 
-Lens init_lens_SIE(void *pLens)
+Lens init_lens_eSIS(void *pLens)
 {
     Lens Psi;
 
-    Psi.psi = psi_SIE;
-    Psi.psi_1stDerivs = psi_1stDerivs_SIE;
-    Psi.psi_2ndDerivs = psi_2ndDerivs_SIE;
+    Psi.psi = psi_eSIS;
+    Psi.psi_1stDerivs = psi_1stDerivs_eSIS;
+    Psi.psi_2ndDerivs = psi_2ndDerivs_eSIS;
     Psi.pLens = pLens;
 
     return Psi;
 }
 
-double psi_a0_SIE(double x1, double x2, void *pLens)
+double psi_a0_eSIS(double x1, double x2, void *pLens)
 {
     double r;
-    pLens_SIE *p = (pLens_SIE *)pLens;
+    pLens_eSIS *p = (pLens_eSIS *)pLens;
     double q2 = p->q*p->q;
 
     r = sqrt(x1*x1 + x2*x2/q2);
@@ -1793,10 +1812,10 @@ double psi_a0_SIE(double x1, double x2, void *pLens)
     return p->psi0*r;
 }
 
-int psi_1stDerivs_a0_SIE(double *psi_derivs, double x1, double x2, void *pLens)
+int psi_1stDerivs_a0_eSIS(double *psi_derivs, double x1, double x2, void *pLens)
 {
     double r, psi, dpsi_dr, d1, d2;
-    pLens_SIE *p = (pLens_SIE *)pLens;
+    pLens_eSIS *p = (pLens_eSIS *)pLens;
     double q2 = p->q*p->q;
 
     r = sqrt(x1*x1 + x2*x2/q2);
@@ -1814,12 +1833,12 @@ int psi_1stDerivs_a0_SIE(double *psi_derivs, double x1, double x2, void *pLens)
     return 0;
 }
 
-int psi_2ndDerivs_a0_SIE(double *psi_derivs, double x1, double x2, void *pLens)
+int psi_2ndDerivs_a0_eSIS(double *psi_derivs, double x1, double x2, void *pLens)
 {
     double r, psi, dpsi_dr, ddpsi_drdr;
     double d1, d2, d11, d22, d12;
     double R1, R2;
-    pLens_SIE *p = (pLens_SIE *)pLens;
+    pLens_eSIS *p = (pLens_eSIS *)pLens;
     double q2 = p->q*p->q;
 
     r = sqrt(x1*x1 + x2*x2/q2);
@@ -1847,43 +1866,43 @@ int psi_2ndDerivs_a0_SIE(double *psi_derivs, double x1, double x2, void *pLens)
     return 0;
 }
 
-double psi_SIE(double x1, double x2, void *pLens)
+double psi_eSIS(double x1, double x2, void *pLens)
 {
     double x_vec[N_dims];
-    pLens_SIE *p = (pLens_SIE *)pLens;
+    pLens_eSIS *p = (pLens_eSIS *)pLens;
 
     x_vec[i_x1] = x1 - p->xc1;
     x_vec[i_x2] = x2 - p->xc2;
     rotate_vector(x_vec, p->ca, p->sa);
 
-    return psi_a0_SIE(x_vec[i_x1], x_vec[i_x2], pLens);
+    return psi_a0_eSIS(x_vec[i_x1], x_vec[i_x2], pLens);
 }
 
-int psi_1stDerivs_SIE(double *psi_derivs, double x1, double x2, void *pLens)
+int psi_1stDerivs_eSIS(double *psi_derivs, double x1, double x2, void *pLens)
 {
     double x_vec[N_dims];
-    pLens_SIE *p = (pLens_SIE *)pLens;
+    pLens_eSIS *p = (pLens_eSIS *)pLens;
 
     x_vec[i_x1] = x1 - p->xc1;
     x_vec[i_x2] = x2 - p->xc2;
     rotate_vector(x_vec, p->ca, p->sa);
 
-    psi_1stDerivs_a0_SIE(psi_derivs, x_vec[i_x1], x_vec[i_x2], pLens);
+    psi_1stDerivs_a0_eSIS(psi_derivs, x_vec[i_x1], x_vec[i_x2], pLens);
     rotate_gradient(psi_derivs, p->ca, p->sa);
 
     return 0;
 }
 
-int psi_2ndDerivs_SIE(double *psi_derivs, double x1, double x2, void *pLens)
+int psi_2ndDerivs_eSIS(double *psi_derivs, double x1, double x2, void *pLens)
 {
     double x_vec[N_dims];
-    pLens_SIE *p = (pLens_SIE *)pLens;
+    pLens_eSIS *p = (pLens_eSIS *)pLens;
 
     x_vec[i_x1] = x1 - p->xc1;
     x_vec[i_x2] = x2 - p->xc2;
     rotate_vector(x_vec, p->ca, p->sa);
 
-    psi_2ndDerivs_a0_SIE(psi_derivs, x_vec[i_x1], x_vec[i_x2], pLens);
+    psi_2ndDerivs_a0_eSIS(psi_derivs, x_vec[i_x1], x_vec[i_x2], pLens);
     rotate_gradient_hessian(psi_derivs, p->ca, p->sa);
 
     return 0;
@@ -1929,7 +1948,7 @@ double psi_Ext(double x1, double x2, void *pLens)
 {
     pLens_Ext *p = (pLens_Ext *)pLens;
 
-    return 0.5*p->kappa*(x1*x1 + x2*x2) + p->gamma1*x1 + p->gamma2*x2;
+    return 0.5*((p->kappa + p->gamma1)*x1*x1 + (p->kappa - p->gamma1)*x2*x2) + p->gamma2*x1*x2;
 }
 
 int psi_1stDerivs_Ext(double *psi_derivs, double x1, double x2, void *pLens)
@@ -1937,10 +1956,10 @@ int psi_1stDerivs_Ext(double *psi_derivs, double x1, double x2, void *pLens)
     double psi, d1, d2;
     pLens_Ext *p = (pLens_Ext *)pLens;
 
-    psi = 0.5*p->kappa*(x1*x1 + x2*x2) + p->gamma1*x1 + p->gamma2*x2;
+    psi = 0.5*( (p->kappa + p->gamma1)*x1*x1 + (p->kappa - p->gamma1)*x2*x2 ) + p->gamma2*x1*x2;
 
-    d1 = p->kappa*x1 + p->gamma1;
-    d2 = p->kappa*x2 + p->gamma2;
+    d1 = (p->kappa + p->gamma1)*x1 + p->gamma2*x2;
+    d2 = (p->kappa - p->gamma1)*x2 + p->gamma2*x1;
 
     psi_derivs[i_0] = psi;
     psi_derivs[i_dx1] = d1;
@@ -1955,14 +1974,14 @@ int psi_2ndDerivs_Ext(double *psi_derivs, double x1, double x2, void *pLens)
     double d1, d2, d11, d22, d12;
     pLens_Ext *p = (pLens_Ext *)pLens;
 
-    psi = 0.5*p->kappa*(x1*x1 + x2*x2) + p->gamma1*x1 + p->gamma2*x2;
+    psi = 0.5*( (p->kappa + p->gamma1)*x1*x1 + (p->kappa - p->gamma1)*x2*x2 ) + p->gamma2*x1*x2;
 
-    d1 = p->kappa*x1 + p->gamma1;
-    d2 = p->kappa*x2 + p->gamma2;
+    d1 = (p->kappa + p->gamma1)*x1 + p->gamma2*x2;
+    d2 = (p->kappa - p->gamma1)*x2 + p->gamma2*x1;
 
-    d11 = p->kappa;
-    d22 = p->kappa;
-    d12 = 0;
+    d11 = p->kappa + p->gamma1;
+    d22 = p->kappa - p->gamma1;
+    d12 = p->gamma2;
 
     psi_derivs[i_0] = psi;
     psi_derivs[i_dx1] = d1;

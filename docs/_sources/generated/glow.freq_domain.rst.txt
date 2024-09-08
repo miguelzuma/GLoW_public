@@ -4,15 +4,6 @@
 .. automodule:: glow.freq_domain
 
    
-   
-   
-
-   
-   
-   
-
-   
-   
    .. rubric:: Classes
 
    .. autosummary::
@@ -22,10 +13,6 @@
       Fw_FFT_OldReg
       Fw_SemiAnalyticSIS
    
-   
-
-   
-   
    .. rubric:: Exceptions
 
    .. autosummary::
@@ -33,7 +20,3 @@
       FreqDomainException
       FreqDomainWarning
    
-   
-
-
-

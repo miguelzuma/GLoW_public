@@ -1,3 +1,22 @@
+/*
+ * GLoW - special_lib.c
+ *
+ * Copyright (C) 2023, Hector Villarrubia-Rojo
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 3 of the License, or (at
+ * your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -536,7 +555,7 @@ double complex F11_recurrence(double u, double c, int n_up, double tol, int *sta
 
     F11_b_2 = F11_series_b(u, n_up+2, c, 1e-1*tol, &status1);
     F11_b_1 = F11_series_b(u, n_up+1, c, 1e-1*tol, &status2);
-    
+
     *status = MAX(status1, status2);
 
     for(i=0;i<n_up;i++)
@@ -1005,7 +1024,7 @@ double complex F11_singlepoint(double u, double c, int *status, int *approx_flag
     if(u > 4)
     {
         *approx_flag = flag_F11_Temme;
-        
+
         coeffs = init_F11_Temme_coeffs(c);
         F11 = F11_Temme(u, coeffs);
         free_F11_Temme_coeffs(coeffs);
@@ -1015,21 +1034,21 @@ double complex F11_singlepoint(double u, double c, int *status, int *approx_flag
         if(z > 22)
         {
             *approx_flag = flag_F11_largez;
-            
+
             F11 = F11_DLMF_largez(u, c, 16);
         }
         else
-        {           
+        {
             if( z < 5 )
             {
                 *approx_flag = flag_F11_series;
-                
+
                 F11 = F11_series(u, c, 1e-5, status);
             }
             else
             {
                 *approx_flag = flag_F11_recurrence;
-                
+
                 b = 22*(int)(z/5);
                 F11 = F11_recurrence(u, c, b, 1e-6, status);
             }
@@ -1095,8 +1114,8 @@ int F11_sorted(double *u, double c, int n_F, double complex *F11, int nthreads)
             {
                 // HVR_DEBUG
                 //~ printf("id=%d   u=%g   type=rec\n", i, u[i]);
-                
-                b = 22*(int)(z/5);             
+
+                b = 22*(int)(z/5);
                 F11[i] = F11_recurrence(u[i], c, b, 1e-6, &status);
             }
         }

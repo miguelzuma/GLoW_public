@@ -69,23 +69,23 @@ implementation. The default parameters for the current build can be consulted
 .. _Psi_tSIS_theory:
 
 Truncated SIS (tSIS)
--------------------------
+--------------------
 (theory here)
 
-See :class:`~glow.lenses.Psi_tSIS` for the implementation. The default parameters for the current 
+See :class:`~glow.lenses.Psi_tSIS` for the implementation. The default parameters for the current
 build can be consulted
 :ref:`here <Psi_tSIS_default>`.
 
 .. ###########################################################################################
 
-.. _Psi_SIE_theory:
+.. _Psi_eSIS_theory:
 
-Singular Isothermal Ellipsoid (SIE)
------------------------------------
+Elliptical SIS (eSIS)
+---------------------
 (theory here)
 
-See :class:`~glow.lenses.Psi_SIE` for the implementation. The default parameters
-for the current build can be consulted :ref:`here <Psi_SIE_default>`.
+See :class:`~glow.lenses.Psi_eSIS` for the implementation. The default parameters
+for the current build can be consulted :ref:`here <Psi_eSIS_default>`.
 
 .. ###########################################################################################
 

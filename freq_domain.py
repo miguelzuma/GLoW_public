@@ -1,3 +1,22 @@
+#
+# GLoW - freq_domain.py
+#
+# Copyright (C) 2023, Hector Villarrubia-Rojo
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 3 of the License, or (at
+# your option) any later version.
+#
+# This program is distributed in the hope that it will be useful, but
+# WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+# General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <http://www.gnu.org/licenses/>.
+#
+
 import warnings
 import numpy as np
 from scipy import signal as sc_signal
@@ -8,6 +27,7 @@ from scipy import integrate as sc_integrate
 # optional dependency: needed only for the point lens
 try:
     import mpmath as mp
+
 except ModuleNotFoundError:
     mp = None
 
@@ -132,7 +152,7 @@ class FwGeneral():
             Default precision parameters.
         """
         p_prec = {'interp_fill_value' : None,
-                  'interp_kind' : 'linear',
+                  'interp_kind' : 'cubic',
                   'T_saddle' : 3}
 
         p_prec2 = self.default_params()
@@ -407,7 +427,7 @@ class Fw_FFT_OldReg(FwGeneral):
                   'N_above_discard' : 8,
                   'N_below_discard' : 4,
                   'N_keep'          : 2,
-                  'interp_kind' : 'linear',
+                  'interp_kind' : 'cubic',
                   'eval_mode'   : 'interpolate',
                   'FFT type'    : 'numpy',
                   'FFT method'  : 'multigrid stack'}
@@ -902,6 +922,11 @@ class Fw_AnalyticPointLens(FwGeneral):
     y : float
         Impact parameter.
 
+    p_prec : dict, optional
+        Precision parameters. New keys:
+
+        * ``dps`` (*int*) -- Number of decimal places used by mpmath.
+
     Warnings
     --------
     Very slow. It requires the `mpmath` module since the hypergeometric function in Scipy does
@@ -943,6 +968,8 @@ class Fw_AnalyticPointLens(FwGeneral):
 
         super().__init__(It, p_prec)
 
+        mp.mp.dps = self.p_prec['dps']
+
         self.y = self.It.y
         self.name = 'analytic point lens'
 
@@ -962,6 +989,11 @@ class Fw_AnalyticPointLens(FwGeneral):
         prec_message = "p_prec = " + self.p_prec.__repr__() + "\n"
 
         return y_message + prec_message + class_call
+
+    def default_params(self):
+        p_prec = {'dps' : 15}
+
+        return p_prec
 
     def compute(self, w):
         """Computation of :math:`F(w)`.

@@ -46,7 +46,7 @@ Below are the default parameters for most of the objects in the module.
 
 ..
     --------------------------------------------------------------------
-    
+
 .. _Psi_tSIS_default:
 
 :class:`~glow.lenses.Psi_tSIS`
@@ -56,11 +56,11 @@ Below are the default parameters for most of the objects in the module.
 ..
     --------------------------------------------------------------------
 
-.. _Psi_SIE_default:
+.. _Psi_eSIS_default:
 
-:class:`~glow.lenses.Psi_SIE`
+:class:`~glow.lenses.Psi_eSIS`
 
-.. include:: ../generated/glow.lenses.Psi_SIE.txt
+.. include:: ../generated/glow.lenses.Psi_eSIS.txt
 
 ..
     --------------------------------------------------------------------

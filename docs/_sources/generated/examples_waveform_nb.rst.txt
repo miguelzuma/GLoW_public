@@ -1,0 +1,6 @@
+examples_waveform.ipynb
+=======================
+
+.. raw:: html
+
+    <iframe src="examples_waveform.html" width="100%" height="600"></iframe>

@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Default parameters &mdash; glow 0.1 documentation</title>
+  <title>Default parameters &mdash; GLoW 0.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
@@ -18,12 +18,12 @@
         <script src="../_static/jquery.js?v=5d32c60e"></script>
         <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
         <script src="../_static/documentation_options.js?v=2709fde1"></script>
-        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/doctools.js?v=9a2dae69"></script>
         <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="API" href="../api.html" />
+    <link rel="next" title="Notebooks" href="../notebooks.html" />
     <link rel="prev" title="C version - Methods" href="c_version.html" /> 
 </head>
 
@@ -36,7 +36,7 @@
           
           
           <a href="../index.html" class="icon icon-home">
-            glow
+            GLoW
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
@@ -66,6 +66,7 @@
 </li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks.html">Notebooks</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../api.html">API</a></li>
 </ul>
 
@@ -75,7 +76,7 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../index.html">glow</a>
+          <a href="../index.html">GLoW</a>
       </nav>
 
       <div class="wy-nav-content">
@@ -99,7 +100,7 @@
 <p>Below are the default parameters for most of the objects in the module.</p>
 <p id="pyfw-fft-default"><a class="reference internal" href="py_version.html#glow.freq_domain.Fw_FFT_OldReg" title="glow.freq_domain.Fw_FFT_OldReg"><code class="xref py py-class docutils literal notranslate"><span class="pre">Fw_FFT_OldReg</span></code></a></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">p_prec</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;interp_fill_value&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
-          <span class="s1">&#39;interp_kind&#39;</span><span class="p">:</span> <span class="s1">&#39;linear&#39;</span><span class="p">,</span>
+          <span class="s1">&#39;interp_kind&#39;</span><span class="p">:</span> <span class="s1">&#39;cubic&#39;</span><span class="p">,</span>
           <span class="s1">&#39;T_saddle&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
           <span class="s1">&#39;wmin&#39;</span><span class="p">:</span> <span class="mf">0.01</span><span class="p">,</span>
           <span class="s1">&#39;wmax&#39;</span><span class="p">:</span> <span class="mf">100.0</span><span class="p">,</span>
@@ -115,28 +116,29 @@
 </div>
 <p id="pyfw-semianalyticsis-default"><a class="reference internal" href="py_version.html#glow.freq_domain.Fw_SemiAnalyticSIS" title="glow.freq_domain.Fw_SemiAnalyticSIS"><code class="xref py py-class docutils literal notranslate"><span class="pre">Fw_SemiAnalyticSIS</span></code></a></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">p_prec</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;interp_fill_value&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
-          <span class="s1">&#39;interp_kind&#39;</span><span class="p">:</span> <span class="s1">&#39;linear&#39;</span><span class="p">,</span>
+          <span class="s1">&#39;interp_kind&#39;</span><span class="p">:</span> <span class="s1">&#39;cubic&#39;</span><span class="p">,</span>
           <span class="s1">&#39;T_saddle&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">}</span>
 </pre></div>
 </div>
 <p id="pyfw-analyticpointlens-default"><a class="reference internal" href="py_version.html#glow.freq_domain.Fw_AnalyticPointLens" title="glow.freq_domain.Fw_AnalyticPointLens"><code class="xref py py-class docutils literal notranslate"><span class="pre">Fw_AnalyticPointLens</span></code></a></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">p_prec</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;interp_fill_value&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
-          <span class="s1">&#39;interp_kind&#39;</span><span class="p">:</span> <span class="s1">&#39;linear&#39;</span><span class="p">,</span>
-          <span class="s1">&#39;T_saddle&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">}</span>
+          <span class="s1">&#39;interp_kind&#39;</span><span class="p">:</span> <span class="s1">&#39;cubic&#39;</span><span class="p">,</span>
+          <span class="s1">&#39;T_saddle&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+          <span class="s1">&#39;dps&#39;</span><span class="p">:</span> <span class="mi">15</span><span class="p">}</span>
 </pre></div>
 </div>
 <p id="cfw-fft-default"><a class="reference internal" href="c_version.html#glow.freq_domain_c.Fw_FFT_C" title="glow.freq_domain_c.Fw_FFT_C"><code class="xref py py-class docutils literal notranslate"><span class="pre">Fw_FFT_C</span></code></a></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">p_prec</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;interp_fill_value&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
-          <span class="s1">&#39;interp_kind&#39;</span><span class="p">:</span> <span class="s1">&#39;linear&#39;</span><span class="p">,</span>
+          <span class="s1">&#39;interp_kind&#39;</span><span class="p">:</span> <span class="s1">&#39;cubic&#39;</span><span class="p">,</span>
           <span class="s1">&#39;reg_stage&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
           <span class="s1">&#39;C_prec&#39;</span><span class="p">:</span> <span class="p">{},</span>
           <span class="s1">&#39;wmin&#39;</span><span class="p">:</span> <span class="mf">0.01</span><span class="p">,</span>
           <span class="s1">&#39;wmax&#39;</span><span class="p">:</span> <span class="mf">100.0</span><span class="p">,</span>
           <span class="s1">&#39;window_transition&#39;</span><span class="p">:</span> <span class="mf">0.2</span><span class="p">,</span>
           <span class="s1">&#39;smallest_tau_max&#39;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
-          <span class="s1">&#39;N_above_discard&#39;</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span>
+          <span class="s1">&#39;N_above_discard&#39;</span><span class="p">:</span> <span class="mi">7</span><span class="p">,</span>
           <span class="s1">&#39;N_below_discard&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
-          <span class="s1">&#39;N_keep&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+          <span class="s1">&#39;N_keep&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
           <span class="s1">&#39;eval_mode&#39;</span><span class="p">:</span> <span class="s1">&#39;interpolate&#39;</span><span class="p">,</span>
           <span class="s1">&#39;FFT method&#39;</span><span class="p">:</span> <span class="s1">&#39;multigrid&#39;</span><span class="p">,</span>
           <span class="s1">&#39;parallel&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">}</span>
@@ -144,7 +146,7 @@
 </div>
 <p id="cfw-semianalyticsis-default"><a class="reference internal" href="c_version.html#glow.freq_domain_c.Fw_SemiAnalyticSIS_C" title="glow.freq_domain_c.Fw_SemiAnalyticSIS_C"><code class="xref py py-class docutils literal notranslate"><span class="pre">Fw_SemiAnalyticSIS_C</span></code></a></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">p_prec</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;interp_fill_value&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
-          <span class="s1">&#39;interp_kind&#39;</span><span class="p">:</span> <span class="s1">&#39;linear&#39;</span><span class="p">,</span>
+          <span class="s1">&#39;interp_kind&#39;</span><span class="p">:</span> <span class="s1">&#39;cubic&#39;</span><span class="p">,</span>
           <span class="s1">&#39;reg_stage&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
           <span class="s1">&#39;C_prec&#39;</span><span class="p">:</span> <span class="p">{},</span>
           <span class="s1">&#39;method&#39;</span><span class="p">:</span> <span class="s1">&#39;osc&#39;</span><span class="p">,</span>
@@ -153,7 +155,7 @@
 </div>
 <p id="cfw-analyticpointlens-default"><a class="reference internal" href="c_version.html#glow.freq_domain_c.Fw_AnalyticPointLens_C" title="glow.freq_domain_c.Fw_AnalyticPointLens_C"><code class="xref py py-class docutils literal notranslate"><span class="pre">Fw_AnalyticPointLens_C</span></code></a></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">p_prec</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;interp_fill_value&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
-          <span class="s1">&#39;interp_kind&#39;</span><span class="p">:</span> <span class="s1">&#39;linear&#39;</span><span class="p">,</span>
+          <span class="s1">&#39;interp_kind&#39;</span><span class="p">:</span> <span class="s1">&#39;cubic&#39;</span><span class="p">,</span>
           <span class="s1">&#39;reg_stage&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
           <span class="s1">&#39;C_prec&#39;</span><span class="p">:</span> <span class="p">{},</span>
           <span class="s1">&#39;parallel&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">}</span>
@@ -161,7 +163,7 @@
 </div>
 <p id="cfw-directft-default"><a class="reference internal" href="c_version.html#glow.freq_domain_c.Fw_DirectFT_C" title="glow.freq_domain_c.Fw_DirectFT_C"><code class="xref py py-class docutils literal notranslate"><span class="pre">Fw_DirectFT_C</span></code></a></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">p_prec</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;interp_fill_value&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
-          <span class="s1">&#39;interp_kind&#39;</span><span class="p">:</span> <span class="s1">&#39;linear&#39;</span><span class="p">,</span>
+          <span class="s1">&#39;interp_kind&#39;</span><span class="p">:</span> <span class="s1">&#39;cubic&#39;</span><span class="p">,</span>
           <span class="s1">&#39;reg_stage&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
           <span class="s1">&#39;C_prec&#39;</span><span class="p">:</span> <span class="p">{},</span>
           <span class="s1">&#39;parallel&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">}</span>
@@ -174,13 +176,13 @@
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="c_version.html" class="btn btn-neutral float-left" title="C version - Methods" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="../api.html" class="btn btn-neutral float-right" title="API" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="../notebooks.html" class="btn btn-neutral float-right" title="Notebooks" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2023, glow team.</p>
+    <p>&#169; Copyright 2023, GLoW team.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

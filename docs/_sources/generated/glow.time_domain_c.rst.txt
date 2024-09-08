@@ -4,15 +4,6 @@
 .. automodule:: glow.time_domain_c
 
    
-   
-   
-
-   
-   
-   
-
-   
-   
    .. rubric:: Classes
 
    .. autosummary::
@@ -24,10 +15,6 @@
       It_SingleContour_C
       It_SingleIntegral_C
    
-   
-
-   
-   
    .. rubric:: Exceptions
 
    .. autosummary::
@@ -35,7 +22,3 @@
       TimeDomainException
       TimeDomainWarning
    
-   
-
-
-

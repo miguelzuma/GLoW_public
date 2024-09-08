@@ -1,0 +1,12 @@
+cython
+numpy
+scipy
+matplotlib
+pandas
+sphinx
+numpydoc
+sphinx_rtd_theme
+mpmath
+astropy
+colossus
+pycbc

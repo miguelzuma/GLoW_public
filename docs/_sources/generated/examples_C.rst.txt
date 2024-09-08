@@ -1,0 +1,6 @@
+examples_C.ipynb
+================
+
+.. raw:: html
+
+    <iframe src="/home/hector/Documents/repos/glow_doc_repo/sphinx_doc/notebooks/examples_C.html" width="100%" height="600"></iframe>

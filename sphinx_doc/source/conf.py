@@ -17,9 +17,9 @@ sys.path.insert(0, os.path.abspath('..'))
 
 # -- Project information -----------------------------------------------------
 
-project = 'glow'
-copyright = '2023, glow team'
-author = 'glow team'
+project = 'GLoW'
+copyright = '2023, GLoW team'
+author = 'GLoW team'
 
 # The full version, including alpha/beta/rc tags
 release = '0.1'

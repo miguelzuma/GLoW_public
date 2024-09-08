@@ -1,3 +1,22 @@
+#
+# GLoW - clenses.pxd
+#
+# Copyright (C) 2023, Hector Villarrubia-Rojo
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 3 of the License, or (at
+# your option) any later version.
+#
+# This program is distributed in the hope that it will be useful, but
+# WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+# General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <http://www.gnu.org/licenses/>.
+#
+
 #cython: language_level=3
 
 ## ----------  Precision ------------- ##
@@ -47,7 +66,7 @@ cdef extern from "lenses_lib.h" nogil:
     pNamedLens* create_pLens_CombinedLens(int n_sublenses)
     int add_lens_CombinedLens(pNamedLens* new_pNLens, pNamedLens* combined_pNLens)
     pNamedLens* create_pLens_Grid1d(char *fname, int n_grid)
-    pNamedLens* create_pLens_SIE(double psi0, double q, double alpha, double xc1, double xc2)
+    pNamedLens* create_pLens_eSIS(double psi0, double q, double alpha, double xc1, double xc2)
     pNamedLens* create_pLens_Ext(double kappa, double gamma1, double gamma1)
 
 cdef pNamedLens* convert_pphys_to_pLens(Psi)

@@ -5,64 +5,28 @@ Usage
 
 Installation
 ------------
-Python
-^^^^^^
-The Python version of the code should work out of the box, provided all the
-required packages are installed. The only non-standard requirement is ``mpmath``
+The only external prerequisite of the code is the GNU Scientific Library (GSL). It can be easily
+installed with your favorite package manager. Alternatively, if you are using Conda, you can install
+and activate the environment that we provide
 
 .. code-block:: console
 
-    $ pip install mpmath
+    $ conda env create --file glow_env.yml && conda activate glow_env
 
-which is only used to compute the analytic amplification factor for the point lens.
-
-C and wrapper
-^^^^^^^^^^^^^
-The C version requires an additional step. Inside the main ``glow`` directory you must run
+After this, the code can be easily installed by running
 
 .. code-block:: console
 
-    $ make
+    $ pip install .
 
-This will automatically compile the C code and the Cython wrapper. In this case the additional
-requirements are Cython and the GNU Scientific Library (GSL). In many systems these can easily be
-installed with
+in the main GLoW directory. If any error occurs, the file ``configure.log`` will contain additional
+information. Open MP is also used to run certain parts of the code in parallel, but it is not
+mandatory. If it is not correctly set up, the installation will configure the code in serial mode.
 
-.. code-block:: console
 
-    $ pip install cython
-    $ sudo apt install libgsl-dev
-
-OpenMP (OMP) support is also needed, but this should be already set up if you are using ``gcc``.
-
-.. warning::
-
-    If you are planning to use a Python environment, ``venv``, for this project, it must be
-    activated *before* running any ``make`` command.
-
-Other useful options are
-
-.. code-block:: console
-
-    $ make clean                  # clean-up
-    $ cd wrapper/glow_lib; make   # compile only the C code
-
-Documentation
-^^^^^^^^^^^^^
-This documentation relies on Sphinx, which can be installed with
-
-.. code-block:: console
-
-    $ pip install sphinx numpydoc sphinx_rtd_theme
-
-The documentation can then be compiled with
-
-.. code-block:: console
-
-    $ make doc    # compile only the documentation
-    $ make all    # compile documentation and code
-
-This will create the HTML file ``docs/glow_doc.html``.
+Manual installation
+^^^^^^^^^^^^^^^^^^^
+(in preparation)
 
 .. ####################################################################################################
 .. ####################################################################################################
@@ -93,7 +57,7 @@ These objects are defined in three different Python modules:
 
 * Computation of :math:`\psi(\pmb{x})`: ``lenses.py`` contains the definitions of :class:`~glow.lenses.PsiGeneral` for generic lenses and :class:`~glow.lenses.PsiAxisym` for axisymmetric lenses, i.e. :math:`\psi(\pmb{x})=\psi(x)`.
 * Computation of :math:`I(\tau)`: ``time_domain.py`` and ``time_domain_c.py`` define :class:`~glow.time_domain.ItGeneral` and :class:`~glow.time_domain_c.ItGeneral_C`, respectively.
-* Computation of :math:`F(w)`: ``freq_domain.py`` and ``freq_domain_c.py`` define ``FwGeneral()`` and ``FwGeneral_C()``, respectively.
+* Computation of :math:`F(w)`: ``freq_domain.py`` and ``freq_domain_c.py`` define :class:`~glow.freq_domain.FwGeneral` and :class:`~glow.freq_domain_c.FwGeneral_C`, respectively.
 
 Different lenses and algorithms are defined in each module as subclasses of these
 base objects. While all modules rely on ``lenses.py``, ``time_domain.py``

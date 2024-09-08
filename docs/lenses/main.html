@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Lenses &mdash; glow 0.1 documentation</title>
+  <title>Lenses &mdash; GLoW 0.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
@@ -18,8 +18,9 @@
         <script src="../_static/jquery.js?v=5d32c60e"></script>
         <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
         <script src="../_static/documentation_options.js?v=2709fde1"></script>
-        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/doctools.js?v=9a2dae69"></script>
         <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -36,7 +37,7 @@
           
           
           <a href="../index.html" class="icon icon-home">
-            glow
+            GLoW
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
@@ -56,7 +57,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#uniform-density-sphere">Uniform density sphere</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#navarro-frenk-white-nfw">Navarro-Frenk-White (NFW)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#truncated-sis-tsis">Truncated SIS (tSIS)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#singular-isothermal-ellipsoid-sie">Singular Isothermal Ellipsoid (SIE)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#elliptical-sis-esis">Elliptical SIS (eSIS)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#external-field">External field</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#composite-lenses">Composite lenses</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-information">Module information</a><ul>
@@ -71,6 +72,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../time_domain/main.html">Time domain</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../freq_domain/main.html">Frequency domain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks.html">Notebooks</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../api.html">API</a></li>
 </ul>
 
@@ -80,7 +82,7 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../index.html">glow</a>
+          <a href="../index.html">GLoW</a>
       </nav>
 
       <div class="wy-nav-content">
@@ -146,11 +148,11 @@ implementation. The default parameters for the current build can be consulted
 build can be consulted
 <a class="reference internal" href="default.html#psi-tsis-default"><span class="std std-ref">here</span></a>.</p>
 </section>
-<section id="singular-isothermal-ellipsoid-sie">
-<span id="psi-sie-theory"></span><h2>Singular Isothermal Ellipsoid (SIE)<a class="headerlink" href="#singular-isothermal-ellipsoid-sie" title="Link to this heading"></a></h2>
+<section id="elliptical-sis-esis">
+<span id="psi-esis-theory"></span><h2>Elliptical SIS (eSIS)<a class="headerlink" href="#elliptical-sis-esis" title="Link to this heading"></a></h2>
 <p>(theory here)</p>
-<p>See <a class="reference internal" href="types.html#glow.lenses.Psi_SIE" title="glow.lenses.Psi_SIE"><code class="xref py py-class docutils literal notranslate"><span class="pre">Psi_SIE</span></code></a> for the implementation. The default parameters
-for the current build can be consulted <a class="reference internal" href="default.html#psi-sie-default"><span class="std std-ref">here</span></a>.</p>
+<p>See <a class="reference internal" href="types.html#glow.lenses.Psi_eSIS" title="glow.lenses.Psi_eSIS"><code class="xref py py-class docutils literal notranslate"><span class="pre">Psi_eSIS</span></code></a> for the implementation. The default parameters
+for the current build can be consulted <a class="reference internal" href="default.html#psi-esis-default"><span class="std std-ref">here</span></a>.</p>
 </section>
 <section id="external-field">
 <span id="psi-ext-theory"></span><h2>External field<a class="headerlink" href="#external-field" title="Link to this heading"></a></h2>
@@ -179,7 +181,7 @@ for the current build can be consulted <a class="reference internal" href="defau
 <li class="toctree-l2"><a class="reference internal" href="types.html#glow.lenses.Psi_Ball"><code class="docutils literal notranslate"><span class="pre">Psi_Ball</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="types.html#glow.lenses.Psi_NFW"><code class="docutils literal notranslate"><span class="pre">Psi_NFW</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="types.html#glow.lenses.Psi_tSIS"><code class="docutils literal notranslate"><span class="pre">Psi_tSIS</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="types.html#glow.lenses.Psi_SIE"><code class="docutils literal notranslate"><span class="pre">Psi_SIE</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="types.html#glow.lenses.Psi_eSIS"><code class="docutils literal notranslate"><span class="pre">Psi_eSIS</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="types.html#glow.lenses.Psi_Ext"><code class="docutils literal notranslate"><span class="pre">Psi_Ext</span></code></a></li>
 </ul>
 </li>
@@ -212,7 +214,7 @@ for the current build can be consulted <a class="reference internal" href="defau
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2023, glow team.</p>
+    <p>&#169; Copyright 2023, GLoW team.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

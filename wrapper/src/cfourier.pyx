@@ -1,3 +1,22 @@
+#
+# GLoW - cfourier.pyx
+#
+# Copyright (C) 2023, Hector Villarrubia-Rojo
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 3 of the License, or (at
+# your option) any later version.
+#
+# This program is distributed in the hope that it will be useful, but
+# WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+# General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <http://www.gnu.org/licenses/>.
+#
+
 #cython: language_level=3
 #cython: boundscheck=False, wraparound=False, initializedcheck=False
 
@@ -453,6 +472,8 @@ def pyCompute_Fw_std(tau_grid, It_reg_grid, p_prec, reg_sch):
     cdef double complex[:] cFws = Fw_grid
     cdef double complex[:] cFws_reg = Fw_reg_grid
 
+    cdef double complex imag_unit = 1.j
+
     ## ---------------------------
     with nogil:
         tau_max = 2*M_PI*(n_ts-1)/n_ts/wmin
@@ -472,7 +493,7 @@ def pyCompute_Fw_std(tau_grid, It_reg_grid, p_prec, reg_sch):
 
         for i in range(1, n_ws):
             cws[i] = 2*M_PI*i*df
-            cFws_reg[i] = -I*i*df*dtau*cFws_reg[i].conjugate()
+            cFws_reg[i] = -imag_unit*i*df*dtau*cFws_reg[i].conjugate()
             cFws[i] = cFws_reg[i] + eval_Fw_sing(cws[i], sch.stage, sch)
     ## ---------------------------
 

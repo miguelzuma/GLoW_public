@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Index &mdash; glow 0.1 documentation</title>
+  <title>Index &mdash; GLoW 0.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="_static/plot_directive.css" />
@@ -17,7 +17,7 @@
         <script src="_static/jquery.js?v=5d32c60e"></script>
         <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
         <script src="_static/documentation_options.js?v=2709fde1"></script>
-        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/doctools.js?v=9a2dae69"></script>
         <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="#" />
@@ -33,7 +33,7 @@
           
           
           <a href="index.html" class="icon icon-home">
-            glow
+            GLoW
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -48,6 +48,7 @@
 <li class="toctree-l1"><a class="reference internal" href="lenses/main.html">Lenses</a></li>
 <li class="toctree-l1"><a class="reference internal" href="time_domain/main.html">Time domain</a></li>
 <li class="toctree-l1"><a class="reference internal" href="freq_domain/main.html">Frequency domain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks.html">Notebooks</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api.html">API</a></li>
 </ul>
 
@@ -57,7 +58,7 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="index.html">glow</a>
+          <a href="index.html">GLoW</a>
       </nav>
 
       <div class="wy-nav-content">
@@ -252,6 +253,8 @@
       <li><a href="lenses/composite.html#glow.lenses.CombinedLens.ddpsi_vec">ddpsi_vec() (glow.lenses.CombinedLens method)</a>
 
       <ul>
+        <li><a href="lenses/types.html#glow.lenses.Psi_eSIS.ddpsi_vec">(glow.lenses.Psi_eSIS method)</a>
+</li>
         <li><a href="lenses/types.html#glow.lenses.Psi_Ext.ddpsi_vec">(glow.lenses.Psi_Ext method)</a>
 </li>
         <li><a href="lenses/offcenter.html#glow.lenses.Psi_offcenterBall.ddpsi_vec">(glow.lenses.Psi_offcenterBall method)</a>
@@ -264,14 +267,12 @@
 </li>
         <li><a href="lenses/offcenter.html#glow.lenses.Psi_offcenterSIS.ddpsi_vec">(glow.lenses.Psi_offcenterSIS method)</a>
 </li>
-        <li><a href="lenses/types.html#glow.lenses.Psi_SIE.ddpsi_vec">(glow.lenses.Psi_SIE method)</a>
-</li>
         <li><a href="lenses/base.html#glow.lenses.PsiAxisym.ddpsi_vec">(glow.lenses.PsiAxisym method)</a>
 </li>
         <li><a href="lenses/base.html#glow.lenses.PsiGeneral.ddpsi_vec">(glow.lenses.PsiGeneral method)</a>
 </li>
       </ul></li>
-      <li><a href="lenses/types.html#glow.lenses.Psi_SIE.ddpsi_vec_a0">ddpsi_vec_a0() (glow.lenses.Psi_SIE method)</a>
+      <li><a href="lenses/types.html#glow.lenses.Psi_eSIS.ddpsi_vec_a0">ddpsi_vec_a0() (glow.lenses.Psi_eSIS method)</a>
 </li>
       <li><a href="freq_domain/py_base.html#glow.freq_domain.FwGeneral.default_general_params">default_general_params() (glow.freq_domain.FwGeneral method)</a>
 
@@ -285,9 +286,11 @@
         <li><a href="time_domain/c_base.html#glow.time_domain_c.ItGeneral_C.default_general_params">(glow.time_domain_c.ItGeneral_C method)</a>
 </li>
       </ul></li>
-      <li><a href="freq_domain/py_version.html#glow.freq_domain.Fw_FFT_OldReg.default_params">default_params() (glow.freq_domain.Fw_FFT_OldReg method)</a>
+      <li><a href="freq_domain/py_version.html#glow.freq_domain.Fw_AnalyticPointLens.default_params">default_params() (glow.freq_domain.Fw_AnalyticPointLens method)</a>
 
       <ul>
+        <li><a href="freq_domain/py_version.html#glow.freq_domain.Fw_FFT_OldReg.default_params">(glow.freq_domain.Fw_FFT_OldReg method)</a>
+</li>
         <li><a href="freq_domain/py_base.html#glow.freq_domain.FwGeneral.default_params">(glow.freq_domain.FwGeneral method)</a>
 </li>
         <li><a href="freq_domain/c_version.html#glow.freq_domain_c.Fw_AnalyticPointLens_C.default_params">(glow.freq_domain_c.Fw_AnalyticPointLens_C method)</a>
@@ -306,6 +309,8 @@
 </li>
         <li><a href="lenses/types.html#glow.lenses.Psi_CIS.default_params">(glow.lenses.Psi_CIS method)</a>
 </li>
+        <li><a href="lenses/types.html#glow.lenses.Psi_eSIS.default_params">(glow.lenses.Psi_eSIS method)</a>
+</li>
         <li><a href="lenses/types.html#glow.lenses.Psi_Ext.default_params">(glow.lenses.Psi_Ext method)</a>
 </li>
         <li><a href="lenses/types.html#glow.lenses.Psi_NFW.default_params">(glow.lenses.Psi_NFW method)</a>
@@ -321,8 +326,6 @@
         <li><a href="lenses/offcenter.html#glow.lenses.Psi_offcenterSIS.default_params">(glow.lenses.Psi_offcenterSIS method)</a>
 </li>
         <li><a href="lenses/types.html#glow.lenses.Psi_PointLens.default_params">(glow.lenses.Psi_PointLens method)</a>
-</li>
-        <li><a href="lenses/types.html#glow.lenses.Psi_SIE.default_params">(glow.lenses.Psi_SIE method)</a>
 </li>
         <li><a href="lenses/types.html#glow.lenses.Psi_SIS.default_params">(glow.lenses.Psi_SIS method)</a>
 </li>
@@ -422,6 +425,8 @@
       <li><a href="lenses/composite.html#glow.lenses.CombinedLens.dpsi_vec">dpsi_vec() (glow.lenses.CombinedLens method)</a>
 
       <ul>
+        <li><a href="lenses/types.html#glow.lenses.Psi_eSIS.dpsi_vec">(glow.lenses.Psi_eSIS method)</a>
+</li>
         <li><a href="lenses/types.html#glow.lenses.Psi_Ext.dpsi_vec">(glow.lenses.Psi_Ext method)</a>
 </li>
         <li><a href="lenses/offcenter.html#glow.lenses.Psi_offcenterBall.dpsi_vec">(glow.lenses.Psi_offcenterBall method)</a>
@@ -434,14 +439,12 @@
 </li>
         <li><a href="lenses/offcenter.html#glow.lenses.Psi_offcenterSIS.dpsi_vec">(glow.lenses.Psi_offcenterSIS method)</a>
 </li>
-        <li><a href="lenses/types.html#glow.lenses.Psi_SIE.dpsi_vec">(glow.lenses.Psi_SIE method)</a>
-</li>
         <li><a href="lenses/base.html#glow.lenses.PsiAxisym.dpsi_vec">(glow.lenses.PsiAxisym method)</a>
 </li>
         <li><a href="lenses/base.html#glow.lenses.PsiGeneral.dpsi_vec">(glow.lenses.PsiGeneral method)</a>
 </li>
       </ul></li>
-      <li><a href="lenses/types.html#glow.lenses.Psi_SIE.dpsi_vec_a0">dpsi_vec_a0() (glow.lenses.Psi_SIE method)</a>
+      <li><a href="lenses/types.html#glow.lenses.Psi_eSIS.dpsi_vec_a0">dpsi_vec_a0() (glow.lenses.Psi_eSIS method)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -575,10 +578,10 @@
 </li>
       <li><a href="freq_domain/c_version.html#glow.freq_domain_c.Fw_FFT_C.get_FreqTable">get_FreqTable() (glow.freq_domain_c.Fw_FFT_C method)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="freq_domain/py_version.html#glow.freq_domain.Fw_FFT_OldReg.get_window">get_window() (glow.freq_domain.Fw_FFT_OldReg method)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     glow.freq_domain
 
@@ -598,6 +601,13 @@
 
       <ul>
         <li><a href="generated/glow.lenses.html#module-glow.lenses">module</a>
+</li>
+      </ul></li>
+      <li>
+    glow.physical_units
+
+      <ul>
+        <li><a href="generated/glow.physical_units.html#module-glow.physical_units">module</a>
 </li>
       </ul></li>
       <li>
@@ -680,6 +690,8 @@
 </li>
         <li><a href="generated/glow.lenses.html#module-glow.lenses">glow.lenses</a>
 </li>
+        <li><a href="generated/glow.physical_units.html#module-glow.physical_units">glow.physical_units</a>
+</li>
         <li><a href="generated/glow.time_domain.html#module-glow.time_domain">glow.time_domain</a>
 </li>
         <li><a href="generated/glow.time_domain_c.html#module-glow.time_domain_c">glow.time_domain_c</a>
@@ -702,6 +714,8 @@
       <li><a href="lenses/composite.html#glow.lenses.CombinedLens.psi">psi() (glow.lenses.CombinedLens method)</a>
 
       <ul>
+        <li><a href="lenses/types.html#glow.lenses.Psi_eSIS.psi">(glow.lenses.Psi_eSIS method)</a>
+</li>
         <li><a href="lenses/types.html#glow.lenses.Psi_Ext.psi">(glow.lenses.Psi_Ext method)</a>
 </li>
         <li><a href="lenses/offcenter.html#glow.lenses.Psi_offcenterBall.psi">(glow.lenses.Psi_offcenterBall method)</a>
@@ -714,18 +728,18 @@
 </li>
         <li><a href="lenses/offcenter.html#glow.lenses.Psi_offcenterSIS.psi">(glow.lenses.Psi_offcenterSIS method)</a>
 </li>
-        <li><a href="lenses/types.html#glow.lenses.Psi_SIE.psi">(glow.lenses.Psi_SIE method)</a>
-</li>
         <li><a href="lenses/base.html#glow.lenses.PsiAxisym.psi">(glow.lenses.PsiAxisym method)</a>
 </li>
         <li><a href="lenses/base.html#glow.lenses.PsiGeneral.psi">(glow.lenses.PsiGeneral method)</a>
 </li>
       </ul></li>
-      <li><a href="lenses/types.html#glow.lenses.Psi_SIE.psi_a0">psi_a0() (glow.lenses.Psi_SIE method)</a>
+      <li><a href="lenses/types.html#glow.lenses.Psi_eSIS.psi_a0">psi_a0() (glow.lenses.Psi_eSIS method)</a>
 </li>
       <li><a href="lenses/types.html#glow.lenses.Psi_Ball">Psi_Ball (class in glow.lenses)</a>
 </li>
       <li><a href="lenses/types.html#glow.lenses.Psi_CIS">Psi_CIS (class in glow.lenses)</a>
+</li>
+      <li><a href="lenses/types.html#glow.lenses.Psi_eSIS">Psi_eSIS (class in glow.lenses)</a>
 </li>
       <li><a href="lenses/types.html#glow.lenses.Psi_Ext">Psi_Ext (class in glow.lenses)</a>
 </li>
@@ -733,10 +747,10 @@
 </li>
       <li><a href="lenses/types.html#glow.lenses.Psi_NFW">Psi_NFW (class in glow.lenses)</a>
 </li>
-      <li><a href="lenses/offcenter.html#glow.lenses.Psi_offcenterBall">Psi_offcenterBall (class in glow.lenses)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="lenses/offcenter.html#glow.lenses.Psi_offcenterBall">Psi_offcenterBall (class in glow.lenses)</a>
+</li>
       <li><a href="lenses/offcenter.html#glow.lenses.Psi_offcenterCIS">Psi_offcenterCIS (class in glow.lenses)</a>
 </li>
       <li><a href="lenses/offcenter.html#glow.lenses.Psi_offcenterNFW">Psi_offcenterNFW (class in glow.lenses)</a>
@@ -746,8 +760,6 @@
       <li><a href="lenses/offcenter.html#glow.lenses.Psi_offcenterSIS">Psi_offcenterSIS (class in glow.lenses)</a>
 </li>
       <li><a href="lenses/types.html#glow.lenses.Psi_PointLens">Psi_PointLens (class in glow.lenses)</a>
-</li>
-      <li><a href="lenses/types.html#glow.lenses.Psi_SIE">Psi_SIE (class in glow.lenses)</a>
 </li>
       <li><a href="lenses/types.html#glow.lenses.Psi_SIS">Psi_SIS (class in glow.lenses)</a>
 </li>
@@ -785,13 +797,13 @@
 <h2 id="R">R</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="lenses/types.html#glow.lenses.Psi_SIE.rotate_grad">rotate_grad() (glow.lenses.Psi_SIE method)</a>
+      <li><a href="lenses/types.html#glow.lenses.Psi_eSIS.rotate_grad">rotate_grad() (glow.lenses.Psi_eSIS method)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="lenses/types.html#glow.lenses.Psi_SIE.rotate_hessian">rotate_hessian() (glow.lenses.Psi_SIE method)</a>
+      <li><a href="lenses/types.html#glow.lenses.Psi_eSIS.rotate_hessian">rotate_hessian() (glow.lenses.Psi_eSIS method)</a>
 </li>
-      <li><a href="lenses/types.html#glow.lenses.Psi_SIE.rotate_vector">rotate_vector() (glow.lenses.Psi_SIE method)</a>
+      <li><a href="lenses/types.html#glow.lenses.Psi_eSIS.rotate_vector">rotate_vector() (glow.lenses.Psi_eSIS method)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -839,7 +851,7 @@
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2023, glow team.</p>
+    <p>&#169; Copyright 2023, GLoW team.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

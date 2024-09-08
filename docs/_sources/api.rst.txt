@@ -14,3 +14,5 @@ API
     glow.freq_domain
 
     glow.freq_domain_c
+
+    glow.physical_units

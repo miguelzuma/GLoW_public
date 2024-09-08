@@ -1,3 +1,22 @@
+#
+# GLoW - clenses.pyx
+#
+# Copyright (C) 2023, Hector Villarrubia-Rojo
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 3 of the License, or (at
+# your option) any later version.
+#
+# This program is distributed in the hope that it will be useful, but
+# WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+# General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <http://www.gnu.org/licenses/>.
+#
+
 #cython: language_level=3
 #cython: boundscheck=False, wraparound=False, initializedcheck=False
 
@@ -55,7 +74,7 @@ cdef pNamedLens* convert_pphys_to_pLens_NFW(Psi):
     cdef double xs   = Psi.p_phys['xs']
 
     return clenses.create_pLens_NFW(psi0, xs)
-    
+
 cdef pNamedLens* convert_pphys_to_pLens_tSIS(Psi):
     cdef double psi0 = Psi.p_phys['psi0']
     cdef double xb   = Psi.p_phys['xb']
@@ -122,14 +141,14 @@ cdef pNamedLens* convert_pphys_to_pLens_Grid1d(Psi):
 
     return clenses.create_pLens_Grid1d(py_fname, n_grid)
 
-cdef pNamedLens* convert_pphys_to_pLens_SIE(Psi):
+cdef pNamedLens* convert_pphys_to_pLens_eSIS(Psi):
     cdef double psi0  = Psi.p_phys['psi0']
     cdef double q     = Psi.p_phys['q']
     cdef double alpha = Psi.p_phys['alpha']
     cdef double xc1   = Psi.p_phys['xc1']
     cdef double xc2   = Psi.p_phys['xc2']
 
-    return clenses.create_pLens_SIE(psi0, q, alpha, xc1, xc2)
+    return clenses.create_pLens_eSIS(psi0, q, alpha, xc1, xc2)
 
 cdef pNamedLens* convert_pphys_to_pLens_Ext(Psi):
     cdef double kappa  = Psi.p_phys['kappa']
@@ -153,7 +172,7 @@ implemented_lenses = ['SIS',
                       'off-center NFW',
                       'combined lens',
                       'grid 1d',
-                      'SIE',
+                      'eSIS',
                       'ext']
 
 def check_implemented_lens(Psi):
@@ -191,8 +210,8 @@ cdef pNamedLens* convert_pphys_to_pLens(Psi):
         return convert_pphys_to_pLens_CombinedLens(Psi)
     elif name == 'grid 1d':
         return convert_pphys_to_pLens_Grid1d(Psi)
-    elif name == 'SIE':
-        return convert_pphys_to_pLens_SIE(Psi)
+    elif name == 'eSIS':
+        return convert_pphys_to_pLens_eSIS(Psi)
     elif name == 'ext':
         return convert_pphys_to_pLens_Ext(Psi)
     else:

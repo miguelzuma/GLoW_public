@@ -1,3 +1,22 @@
+/*
+ * GLoW - common.c
+ *
+ * Copyright (C) 2023, Hector Villarrubia-Rojo
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 3 of the License, or (at
+ * your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ */
+
 #include <gsl/gsl_errno.h>
 #include "common.h"
 
@@ -153,12 +172,12 @@ Prec_General pprec =
     ////////////////////////////////////////////
     .sc_findRtau.id       = id_fdfRoot_newton,
     .sc_findRtau.max_iter = 100,
-    .sc_findRtau.epsabs   = 0,
+    .sc_findRtau.epsabs   = 1e-5,
     .sc_findRtau.epsrel   = 1e-5,
 
     .sc_findRtau_bracket.id       = id_fRoot_brent,
     .sc_findRtau_bracket.max_iter = 100,
-    .sc_findRtau_bracket.epsabs   = 0,
+    .sc_findRtau_bracket.epsabs   = 1e-5,
     .sc_findRtau_bracket.epsrel   = 1e-5,
 
     .sc_intdRdtau.id     = id_stepODE_rk8pd,
@@ -176,13 +195,13 @@ Prec_General pprec =
 
     .sc_intContourRob.id     = id_stepODE_rk8pd,
     .sc_intContourRob.h      = 1e-6,
-    .sc_intContourRob.epsabs = 1e-6,
+    .sc_intContourRob.epsabs = 1e-5,
     .sc_intContourRob.epsrel = 0,
     .sc_intContourRob_sigmaf = 1e10,
 
     .sc_intContour_tau_smallest = 1e-6,
-    .sc_intContour_tol_brack    = 1e-5,
-    .sc_intContour_tol_add      = 1e-4,
+    .sc_intContour_tol_brack    = 1e-4,
+    .sc_intContour_tol_add      = 1e-1,
 
     .sc_drivContour_taumin_over_y2 = 1e-4,
 
@@ -197,15 +216,17 @@ Prec_General pprec =
     .sc_getContourRob.epsrel = 0,
     .sc_getContourRob_sigmaf = 1e10,
 
-    .sc_getContour_tol_brack = 1e-5,
-    .sc_getContour_tol_add   = 1e-4,
+    .sc_getContour_tol_brack = 1e-6,
+    .sc_getContour_tol_add   = 1e-1,
+
+    .sc_warn_switch = _FALSE_,
 
     ////////////////////////////////////////////
     ////////   multi_contour_lib.c     /////////
     ////////////////////////////////////////////
     .mc_intRtau.id     = id_stepODE_rk8pd,
     .mc_intRtau.h      = 1e-6,
-    .mc_intRtau.epsabs = 1e-4,
+    .mc_intRtau.epsabs = 1e-5,
     .mc_intRtau.epsrel = 0,
 
     .mc_brackRtau_small_maxiter   = 100000,
@@ -216,17 +237,17 @@ Prec_General pprec =
     .mc_brackRtau_large_maxiter = 100,
     .mc_brackRtau_large_Rini    = 1e-3,
 
-    .mc_updCondODE_tol_brack = 1e-5,
+    .mc_updCondODE_tol_brack = 1e-4,
     .mc_updCondODE_tol_add   = 1e-1,
 
     .mc_findRbracket.id       = id_fRoot_brent,
     .mc_findRbracket.max_iter = 100,
-    .mc_findRbracket.epsabs   = 0,
+    .mc_findRbracket.epsabs   = 1e-5,
     .mc_findRbracket.epsrel   = 1e-5,
 
     .mc_intContourSaddle.id     = id_stepODE_rk8pd,
     .mc_intContourSaddle.h      = 1e-6,
-    .mc_intContourSaddle.epsabs = 1e-6,
+    .mc_intContourSaddle.epsabs = 1e-5,
     .mc_intContourSaddle.epsrel = 0,
 
     .mc_fillSaddleCenter_nsigma = 100,
@@ -293,7 +314,7 @@ Prec_General pprec =
     ////////////////////////////////////////////
     ////////   analytic_SIS_lib.c     //////////
     ////////////////////////////////////////////
-    .as_eps_soft = 1e-8,
+    .as_eps_soft = 0.,
 
     .as_FwSIS_n = 5,
     .as_FwSIS_nmax_switch = 5,

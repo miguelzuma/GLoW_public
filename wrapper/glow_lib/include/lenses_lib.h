@@ -1,3 +1,22 @@
+/*
+ * GLoW - lenses_lib.h
+ *
+ * Copyright (C) 2023, Hector Villarrubia-Rojo
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 3 of the License, or (at
+ * your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ */
+
 #ifndef LENSES_LIB_H
 #define LENSES_LIB_H
 
@@ -19,7 +38,7 @@ enum indices_derivs {i_0, i_dx1, i_dx2, i_dx1dx1, i_dx2dx2, i_dx1dx2, N_derivs};
 enum indices_lenses {i_SIS, i_CIS, i_PointLens, i_Ball, i_NFW, i_tSIS,
                      i_offcenterSIS, i_offcenterCIS, i_offcenterPointLens,
                      i_offcenterBall, i_offcenterNFW,
-                     i_CombinedLens, i_Grid1d, i_SIE, i_Ext,
+                     i_CombinedLens, i_Grid1d, i_eSIS, i_Ext,
                      N_lenses};
 
 extern char *names_lenses[];
@@ -298,18 +317,18 @@ typedef struct
     double sa;
     double xc1;
     double xc2;
-} pLens_SIE;
+} pLens_eSIS;
 
-pNamedLens* create_pLens_SIE(double psi0, double q, double alpha, double xc1, double xc2);
-void free_pLens_SIE(pNamedLens* pNLens);
-Lens init_lens_SIE(void *pLens);
-double psi_a0_SIE(double x1, double x2, void *pLens);
-int psi_1stDerivs_a0_SIE(double *psi_derivs, double x1, double x2, void *pLens);
-int psi_2ndDerivs_a0_SIE(double *psi_derivs, double x1, double x2, void *pLens);
+pNamedLens* create_pLens_eSIS(double psi0, double q, double alpha, double xc1, double xc2);
+void free_pLens_eSIS(pNamedLens* pNLens);
+Lens init_lens_eSIS(void *pLens);
+double psi_a0_eSIS(double x1, double x2, void *pLens);
+int psi_1stDerivs_a0_eSIS(double *psi_derivs, double x1, double x2, void *pLens);
+int psi_2ndDerivs_a0_eSIS(double *psi_derivs, double x1, double x2, void *pLens);
 
-double psi_SIE(double x1, double x2, void *pLens);
-int psi_1stDerivs_SIE(double *psi_derivs, double x1, double x2, void *pLens);
-int psi_2ndDerivs_SIE(double *psi_derivs, double x1, double x2, void *pLens);
+double psi_eSIS(double x1, double x2, void *pLens);
+int psi_1stDerivs_eSIS(double *psi_derivs, double x1, double x2, void *pLens);
+int psi_2ndDerivs_eSIS(double *psi_derivs, double x1, double x2, void *pLens);
 // =================================================================
 
 

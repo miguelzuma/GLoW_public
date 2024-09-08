@@ -1,11 +1,32 @@
-import subprocess
-import os
+#
+# GLoW - setup.py
+#
+# Copyright (C) 2024, Hector Villarrubia-Rojo
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 3 of the License, or (at
+# your option) any later version.
+#
+# This program is distributed in the hope that it will be useful, but
+# WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+# General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <http://www.gnu.org/licenses/>.
+#
 
-import setuptools
+import os, sys
 
-from setuptools.command.build_ext import build_ext
+sys.path.append(os.path.dirname(__file__))
+import configure
+
+from setuptools import setup
 from setuptools.command.build import build
+from setuptools.command.build_ext import build_ext
 
+# otherwise the *.so are not stored
 class BuildReorder(build):
     sub_commands = [('build_clib', build.has_c_libraries),
                     ('build_ext', build.has_ext_modules),
@@ -13,74 +34,17 @@ class BuildReorder(build):
                     ('build_scripts', build.has_scripts),
                     ]
 
-class BuildClibraries(build_ext):
-    """
-    Build procedure.
-
-    The standard build procedure has been modified so as to run the Makefile for the C++ libraries
-    that form the basis of the lens generation code.
-
-    Methods
-    -------
-    run
-        Executes Makefile and runs standard build procedure
-
-    """
-
+class BuildWrapper(build_ext):
     def run(self):
-        """
-        Executes Makefile and runs standard build procedure. 
-        The Makefile for the C libraries in located in the repository's `wrapper`
-        folder. 
-
-        """
-
-        current_directory = os.getcwd()
-        model_subfolder = f"{current_directory}/wrapper"
-
-        os.chdir(model_subfolder)
-        subprocess.run(['make', '-B'], check=True)
-        os.chdir(current_directory)
-
+        configure.main(skip_parse=True)
         build_ext.run(self)
 
-with open("README.md", "r", encoding="utf-8") as readme_contents:
-    long_description = readme_contents.read()
+## ---------------------------------------------------------------------
 
-with open("requirements.txt", "r", encoding="utf-8") as requirement_file:
-    requirements = requirement_file.read().split("\n")
-
-setuptools.setup(
-    name = "Glow",
-    version='1.1',
-    author = "Hector Villarrubia Rojo",
-    maintainer = "Hector Villarrubia Rojo",
-    author_email = "herojo@aei.mpg.de",
-    license = "GPL",
-    description = ("Software package designed for generating fast and accurate lensed"
-                   "gravitational wave signals given any lens distribution."),
-    long_description = long_description,
-    packages = [
-        "glow",
-        "glow.wrapper",
-    ],
-    package_dir={
-        'glow': '.',
-    },
-    include_package_data=True,
-    package_data = {
-        'glow':  [
-            'wrapper/*.so', 'sensitivities/*.txt']},
+setup(
     has_ext_modules = lambda: True,
-    install_requires = requirements,
     cmdclass = {
         "build": BuildReorder,
-        "build_ext": BuildClibraries,
+        "build_ext": BuildWrapper,
     },
-    classifiers = [
-        "Programming Language :: Python :: 3",
-        "Programming Language :: C",
-        "License :: OSI Approved :: GNU GPL License",
-        ],
-    python_requires = ">=3.9",
 )

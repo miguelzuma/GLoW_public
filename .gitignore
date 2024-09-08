@@ -9,8 +9,15 @@ wrapper/glow_lib/external/*_lens.dat
 # ignore symlink to sphinx doc
 docs/glow_doc.html
 
+# ignore internal symlink to glow
+glow
+
 # ignore files generated for the doc
 sphinx_doc/source/generated
+sphinx_doc/notebooks
+sphinx_doc/source/notebooks.rst
+
+notebooks/*.html
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Usage &mdash; glow 0.1 documentation</title>
+  <title>Usage &mdash; GLoW 0.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="_static/plot_directive.css" />
@@ -18,7 +18,7 @@
         <script src="_static/jquery.js?v=5d32c60e"></script>
         <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
         <script src="_static/documentation_options.js?v=2709fde1"></script>
-        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/doctools.js?v=9a2dae69"></script>
         <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
         <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script src="_static/js/theme.js"></script>
@@ -37,7 +37,7 @@
           
           
           <a href="index.html" class="icon icon-home">
-            glow
+            GLoW
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -50,9 +50,7 @@
               <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Usage</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#installation">Installation</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#python">Python</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#c-and-wrapper">C and wrapper</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#documentation">Documentation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#manual-installation">Manual installation</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#first-steps">First steps</a></li>
@@ -67,6 +65,7 @@
 <li class="toctree-l1"><a class="reference internal" href="lenses/main.html">Lenses</a></li>
 <li class="toctree-l1"><a class="reference internal" href="time_domain/main.html">Time domain</a></li>
 <li class="toctree-l1"><a class="reference internal" href="freq_domain/main.html">Frequency domain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks.html">Notebooks</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api.html">API</a></li>
 </ul>
 
@@ -76,7 +75,7 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="index.html">glow</a>
+          <a href="index.html">GLoW</a>
       </nav>
 
       <div class="wy-nav-content">
@@ -98,52 +97,22 @@
 <h1>Usage<a class="headerlink" href="#usage" title="Link to this heading"></a></h1>
 <section id="installation">
 <span id="id1"></span><h2>Installation<a class="headerlink" href="#installation" title="Link to this heading"></a></h2>
-<section id="python">
-<h3>Python<a class="headerlink" href="#python" title="Link to this heading"></a></h3>
-<p>The Python version of the code should work out of the box, provided all the
-required packages are installed. The only non-standard requirement is <code class="docutils literal notranslate"><span class="pre">mpmath</span></code></p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>pip<span class="w"> </span>install<span class="w"> </span>mpmath
+<p>The only external prerequisite of the code is the GNU Scientific Library (GSL). It can be easily
+installed with your favorite package manager. Alternatively, if you are using Conda, you can install
+and activate the environment that we provide</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>conda<span class="w"> </span>env<span class="w"> </span>create<span class="w"> </span>--file<span class="w"> </span>glow_env.yml<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>conda<span class="w"> </span>activate<span class="w"> </span>glow_env
 </pre></div>
 </div>
-<p>which is only used to compute the analytic amplification factor for the point lens.</p>
-</section>
-<section id="c-and-wrapper">
-<h3>C and wrapper<a class="headerlink" href="#c-and-wrapper" title="Link to this heading"></a></h3>
-<p>The C version requires an additional step. Inside the main <code class="docutils literal notranslate"><span class="pre">glow</span></code> directory you must run</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>make
+<p>After this, the code can be easily installed by running</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>pip<span class="w"> </span>install<span class="w"> </span>.
 </pre></div>
 </div>
-<p>This will automatically compile the C code and the Cython wrapper. In this case the additional
-requirements are Cython and the GNU Scientific Library (GSL). In many systems these can easily be
-installed with</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>pip<span class="w"> </span>install<span class="w"> </span>cython
-<span class="gp">$ </span>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>libgsl-dev
-</pre></div>
-</div>
-<p>OpenMP (OMP) support is also needed, but this should be already set up if you are using <code class="docutils literal notranslate"><span class="pre">gcc</span></code>.</p>
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
-<p>If you are planning to use a Python environment, <code class="docutils literal notranslate"><span class="pre">venv</span></code>, for this project, it must be
-activated <em>before</em> running any <code class="docutils literal notranslate"><span class="pre">make</span></code> command.</p>
-</div>
-<p>Other useful options are</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>make<span class="w"> </span>clean<span class="w">                  </span><span class="c1"># clean-up</span>
-<span class="gp">$ </span><span class="nb">cd</span><span class="w"> </span>wrapper/glow_lib<span class="p">;</span><span class="w"> </span>make<span class="w">   </span><span class="c1"># compile only the C code</span>
-</pre></div>
-</div>
-</section>
-<section id="documentation">
-<h3>Documentation<a class="headerlink" href="#documentation" title="Link to this heading"></a></h3>
-<p>This documentation relies on Sphinx, which can be installed with</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>pip<span class="w"> </span>install<span class="w"> </span>sphinx<span class="w"> </span>numpydoc<span class="w"> </span>sphinx_rtd_theme
-</pre></div>
-</div>
-<p>The documentation can then be compiled with</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>make<span class="w"> </span>doc<span class="w">    </span><span class="c1"># compile only the documentation</span>
-<span class="gp">$ </span>make<span class="w"> </span>all<span class="w">    </span><span class="c1"># compile documentation and code</span>
-</pre></div>
-</div>
-<p>This will create the HTML file <code class="docutils literal notranslate"><span class="pre">docs/glow_doc.html</span></code>.</p>
+<p>in the main GLoW directory. If any error occurs, the file <code class="docutils literal notranslate"><span class="pre">configure.log</span></code> will contain additional
+information. Open MP is also used to run certain parts of the code in parallel, but it is not
+mandatory. If it is not correctly set up, the installation will configure the code in serial mode.</p>
+<section id="manual-installation">
+<h3>Manual installation<a class="headerlink" href="#manual-installation" title="Link to this heading"></a></h3>
+<p>(in preparation)</p>
 </section>
 </section>
 <section id="first-steps">
@@ -168,7 +137,7 @@ structure is</p>
 <ul class="simple">
 <li><p>Computation of <span class="math notranslate nohighlight">\(\psi(\pmb{x})\)</span>: <code class="docutils literal notranslate"><span class="pre">lenses.py</span></code> contains the definitions of <a class="reference internal" href="lenses/base.html#glow.lenses.PsiGeneral" title="glow.lenses.PsiGeneral"><code class="xref py py-class docutils literal notranslate"><span class="pre">PsiGeneral</span></code></a> for generic lenses and <a class="reference internal" href="lenses/base.html#glow.lenses.PsiAxisym" title="glow.lenses.PsiAxisym"><code class="xref py py-class docutils literal notranslate"><span class="pre">PsiAxisym</span></code></a> for axisymmetric lenses, i.e. <span class="math notranslate nohighlight">\(\psi(\pmb{x})=\psi(x)\)</span>.</p></li>
 <li><p>Computation of <span class="math notranslate nohighlight">\(I(\tau)\)</span>: <code class="docutils literal notranslate"><span class="pre">time_domain.py</span></code> and <code class="docutils literal notranslate"><span class="pre">time_domain_c.py</span></code> define <a class="reference internal" href="time_domain/py_base.html#glow.time_domain.ItGeneral" title="glow.time_domain.ItGeneral"><code class="xref py py-class docutils literal notranslate"><span class="pre">ItGeneral</span></code></a> and <a class="reference internal" href="time_domain/c_base.html#glow.time_domain_c.ItGeneral_C" title="glow.time_domain_c.ItGeneral_C"><code class="xref py py-class docutils literal notranslate"><span class="pre">ItGeneral_C</span></code></a>, respectively.</p></li>
-<li><p>Computation of <span class="math notranslate nohighlight">\(F(w)\)</span>: <code class="docutils literal notranslate"><span class="pre">freq_domain.py</span></code> and <code class="docutils literal notranslate"><span class="pre">freq_domain_c.py</span></code> define <code class="docutils literal notranslate"><span class="pre">FwGeneral()</span></code> and <code class="docutils literal notranslate"><span class="pre">FwGeneral_C()</span></code>, respectively.</p></li>
+<li><p>Computation of <span class="math notranslate nohighlight">\(F(w)\)</span>: <code class="docutils literal notranslate"><span class="pre">freq_domain.py</span></code> and <code class="docutils literal notranslate"><span class="pre">freq_domain_c.py</span></code> define <a class="reference internal" href="freq_domain/py_base.html#glow.freq_domain.FwGeneral" title="glow.freq_domain.FwGeneral"><code class="xref py py-class docutils literal notranslate"><span class="pre">FwGeneral</span></code></a> and <a class="reference internal" href="freq_domain/c_base.html#glow.freq_domain_c.FwGeneral_C" title="glow.freq_domain_c.FwGeneral_C"><code class="xref py py-class docutils literal notranslate"><span class="pre">FwGeneral_C</span></code></a>, respectively.</p></li>
 </ul>
 <p>Different lenses and algorithms are defined in each module as subclasses of these
 base objects. While all modules rely on <code class="docutils literal notranslate"><span class="pre">lenses.py</span></code>, <code class="docutils literal notranslate"><span class="pre">time_domain.py</span></code>
@@ -275,7 +244,7 @@ of the function.</p>
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2023, glow team.</p>
+    <p>&#169; Copyright 2023, GLoW team.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
