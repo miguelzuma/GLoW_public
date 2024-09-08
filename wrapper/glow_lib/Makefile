@@ -28,7 +28,7 @@ TEST_DIR = tests
 
 CC = gcc
 CFLAGS = -fPIC -fopenmp -Ofast
-LDFLAGS = -fopenmp -lglow -lgsl -lgslcblas -lmvec -lm
+LDFLAGS = -fopenmp -lglow -lgsl -lgslcblas -lm
 
 #CFLAGS = -fPIC -g -Wall
 #LDFLAGS = -lglow -lgsl -lgslcblas -lm

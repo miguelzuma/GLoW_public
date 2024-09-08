@@ -1,0 +1,8 @@
+name: glow_env
+channels:
+  - conda-forge
+dependencies:
+  - gsl
+  - llvm-openmp
+  - libcblas
+  - pip

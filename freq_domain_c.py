@@ -1,3 +1,22 @@
+#
+# GLoW - freq_domain_c.py
+#
+# Copyright (C) 2023, Hector Villarrubia-Rojo
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 3 of the License, or (at
+# your option) any later version.
+#
+# This program is distributed in the hope that it will be useful, but
+# WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+# General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <http://www.gnu.org/licenses/>.
+#
+
 import warnings
 import numpy as np
 from scipy import signal as sc_signal
@@ -138,7 +157,7 @@ class FwGeneral_C():
             Default precision parameters.
         """
         p_prec = {'interp_fill_value' : None,
-                  'interp_kind' : 'linear',
+                  'interp_kind' : 'cubic',
                   'reg_stage' : 2,
                   'C_prec' : {}}
 
@@ -418,10 +437,10 @@ class Fw_FFT_C(FwGeneral_C):
                   'wmax' : 1e2,
                   'window_transition' : 0.2,
                   'smallest_tau_max'  : 10,
-                  'N_above_discard' : 6,
+                  'N_above_discard' : 7,
                   'N_below_discard' : 4,
-                  'N_keep'          : 2,
-                  'interp_kind' : 'linear',
+                  'N_keep'          : 5,
+                  'interp_kind' : 'cubic',
                   'eval_mode'   : 'interpolate',
                   'FFT method'  : 'multigrid',
                   'parallel' : True}

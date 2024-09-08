@@ -1,0 +1,3 @@
+ - test_lenses.py: Test all the implemented lenses and check the
+                   consistency of the derivatives and the C/Python
+                   implementation.

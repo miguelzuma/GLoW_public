@@ -1,3 +1,22 @@
+/*
+ * GLoW - roots_lib.c
+ *
+ * Copyright (C) 2023, Hector Villarrubia-Rojo
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 3 of the License, or (at
+ * your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -363,7 +382,6 @@ CritPoint *find_all_CritPoints_1D(int *n_cpoints, double y, Lens *Psi)
     n_buffer = 10;
     ps = (CritPoint *)malloc(n_buffer*sizeof(CritPoint));
 
-    // HVR -> check convergence of these points
     // find at least one crit point with Newton's method
     p.point = ps;
     find_CritPoint_1D(-xmax, &p);
@@ -371,12 +389,26 @@ CritPoint *find_all_CritPoints_1D(int *n_cpoints, double y, Lens *Psi)
     p.point = ps+1;
     find_CritPoint_1D(xmax, &p);
 
+    if( (ps[0].type != type_non_converged) && (ps[1].type != type_non_converged) )
+    {
+        // if both converged keep the most distant
+        if(ABS(ps[1].x1) > ABS(ps[0].x1))
+            swap_CritPoint(ps, ps+1);
+    }
+    else if( (ps[0].type == type_non_converged) && (ps[1].type == type_non_converged) )
+    {
+        // if neither converged, error
+        PERROR("Failed to find the first 1d critical point")
+    }
+    else if( (ps[0].type == type_non_converged) && (ps[1].type != type_non_converged) )
+    {
+        // if only the second one converged, swap them and use it
+        swap_CritPoint(ps, ps+1);
+    }
+
     // HVR_DEBUG
     //~ display_CritPoint(ps);
     //~ display_CritPoint(ps+1);
-
-    if(ABS(ps[1].x1) > ABS(ps[0].x1))
-        swap_CritPoint(ps, ps+1);
 
     // use this point to set a scale to bracket
     n_points = 1;

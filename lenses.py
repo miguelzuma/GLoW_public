@@ -1,3 +1,22 @@
+#
+# GLoW - lenses.py
+#
+# Copyright (C) 2023, Hector Villarrubia-Rojo
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 3 of the License, or (at
+# your option) any later version.
+#
+# This program is distributed in the hope that it will be useful, but
+# WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+# General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <http://www.gnu.org/licenses/>.
+#
+
 import warnings
 import numpy as np
 import scipy.special as sc_special
@@ -688,7 +707,7 @@ class Psi_SIS(PsiAxisym):
         p_prec : dict
             Empty dictionary.
         """
-        p_phys = {'name' : 'SIS',\
+        p_phys = {'name' : 'SIS',
                   'psi0' : 1}
         p_prec = {}
         return p_phys, p_prec
@@ -758,8 +777,8 @@ class Psi_CIS(PsiAxisym):
         p_prec : dict
             Empty dictionary.
         """
-        p_phys = {'name' : 'CIS',\
-                  'psi0' : 1,\
+        p_phys = {'name' : 'CIS',
+                  'psi0' : 1,
                   'rc'   : 0.05}
         p_prec = {}
         return p_phys, p_prec
@@ -861,7 +880,7 @@ class Psi_PointLens(PsiAxisym):
         p_prec : dict
             Default precision parameters.
         """
-        p_phys = {'name' : 'point lens',\
+        p_phys = {'name' : 'point lens',
                   'psi0' : 1}
         p_prec = {'xc' : 1e-10}
         return p_phys, p_prec
@@ -933,8 +952,8 @@ class Psi_Ball(PsiAxisym):
         p_prec : dict
             Empty dictionary.
         """
-        p_phys = {'name' : 'ball',\
-                  'psi0' : 1.,\
+        p_phys = {'name' : 'ball',
+                  'psi0' : 1.,
                   'b'    : 1.}
         p_prec = {}
         return p_phys, p_prec
@@ -1049,10 +1068,10 @@ class Psi_NFW(PsiAxisym):
         p_prec : dict
             Default precision parameters.
         """
-        p_phys = {'name' : 'NFW',\
-                  'psi0' : 1.0,\
+        p_phys = {'name' : 'NFW',
+                  'psi0' : 1.0,
                   'xs'   : 0.1}
-        p_prec = {'eps_soft' : 1e-15,\
+        p_prec = {'eps_soft' : 1e-15,
                   'eps_NFW'  : 1e-2}
         return p_phys, p_prec
 
@@ -1245,8 +1264,8 @@ class Psi_tSIS(PsiAxisym):
         p_prec : dict
             Empty dictionary.
         """
-        p_phys = {'name' : 'tSIS',\
-                  'psi0' : 1,\
+        p_phys = {'name' : 'tSIS',
+                  'psi0' : 1,
                   'xb'   : 10}
         p_prec = {}
         return p_phys, p_prec
@@ -1347,9 +1366,9 @@ class Psi_offcenterSIS(PsiGeneral):
         p_prec : dict
             Empty dictionary.
         """
-        p_phys = {'name' : 'off-center SIS',\
-                  'psi0' : 1,\
-                  'xc1'  : 0,\
+        p_phys = {'name' : 'off-center SIS',
+                  'psi0' : 1,
+                  'xc1'  : 0,
                   'xc2'  : 0}
         p_prec = {}
         return p_phys, p_prec
@@ -1421,10 +1440,10 @@ class Psi_offcenterCIS(PsiGeneral):
         p_prec : dict
             Empty dictionary.
         """
-        p_phys = {'name' : 'off-center CIS',\
-                  'psi0' : 1,\
-                  'xc1'  : 0,\
-                  'xc2'  : 0,\
+        p_phys = {'name' : 'off-center CIS',
+                  'psi0' : 1,
+                  'xc1'  : 0,
+                  'xc2'  : 0,
                   'rc'   : 0.05}
         p_prec = {}
         return p_phys, p_prec
@@ -1499,9 +1518,9 @@ class Psi_offcenterPointLens(PsiGeneral):
         p_prec : dict
             Empty dictionary.
         """
-        p_phys = {'name' : 'off-center point lens',\
-                  'psi0' : 1,\
-                  'xc1'  : 0,\
+        p_phys = {'name' : 'off-center point lens',
+                  'psi0' : 1,
+                  'xc1'  : 0,
                   'xc2'  : 0}
         p_prec = {'xc' : 1e-10}
         return p_phys, p_prec
@@ -1573,10 +1592,10 @@ class Psi_offcenterBall(PsiGeneral):
         p_prec : dict
             Empty dictionary.
         """
-        p_phys = {'name' : 'off-center ball',\
-                  'psi0' : 1.,\
-                  'b'    : 1.,\
-                  'xc1'  : 0.,\
+        p_phys = {'name' : 'off-center ball',
+                  'psi0' : 1.,
+                  'b'    : 1.,
+                  'xc1'  : 0.,
                   'xc2'  : 0.}
         p_prec = {}
         return p_phys, p_prec
@@ -1741,22 +1760,22 @@ class Psi_Ext(PsiGeneral):
 
         .. math::
             \begin{align}
-                \psi(x_1, x_2) &= \kappa (x_1^2+x_2^2)/2 + \gamma_1x_1 + \gamma_2x_2
+                \psi(x_1, x_2) &= \kappa (x_1^2+x_2^2)/2 + \gamma_1(x_1^2-x_2^2)/2 + \gamma_2x_1x_2
             \end{align}
         """
-        return self.kappa*(x1*x1 + x2*x2)/2. + self.gamma1*x1 + self.gamma2*x2
+        return self.kappa*(x1*x1 + x2*x2)/2. + self.gamma1*(x1*x1 - x2*x2)/2. + self.gamma2*x2*x1
 
     def dpsi_vec(self, x1, x2):
         r"""First derivatives of the lensing potential.
 
         .. math::
             \begin{align}
-                \partial_{1}\psi &= \kappa x_1 + \gamma_1\\
-                \partial_{2}\psi &= \kappa x_2 + \gamma_2
+                \partial_{1}\psi &= \kappa x_1 + \gamma_1 x_1 + \gamma_2 x_2\\
+                \partial_{2}\psi &= \kappa x_2 - \gamma_1 x_2 + \gamma_2 x_1
             \end{align}
         """
-        d1 = self.kappa*x1 + np.full_like(x1, self.gamma1)
-        d2 = self.kappa*x2 + np.full_like(x1, self.gamma2)
+        d1 = self.kappa*x1 + self.gamma1*x1 + self.gamma2*x2
+        d2 = self.kappa*x2 - self.gamma1*x2 + self.gamma2*x1
         return d1, d2
 
     def ddpsi_vec(self, x1, x2):
@@ -1764,14 +1783,14 @@ class Psi_Ext(PsiGeneral):
 
         .. math::
             \begin{align}
-                \partial_{11}\psi &= \kappa\\
-                \partial_{12}\psi &= 0\\
-                \partial_{22}\psi &= \kappa
+                \partial_{11}\psi &= \kappa + \gamma_1\\
+                \partial_{12}\psi &= \gamma_2\\
+                \partial_{22}\psi &= \kappa - \gamma_1
             \end{align}
         """
-        d11 = np.full_like(x1, self.kappa)
-        d12 = np.zeros_like(x1)
-        d22 = np.full_like(x1, self.kappa)
+        d11 = np.full_like(x1, self.kappa + self.gamma1)
+        d12 = np.full_like(x1, self.gamma2)
+        d22 = np.full_like(x1, self.kappa - self.gamma1)
         return d11, d12, d22
 
 
@@ -1952,10 +1971,10 @@ class CombinedLens(PsiAxisym):
         return np.sum(ddpsis, axis=0)
 
 
-class Psi_SIE(PsiGeneral):
-    """Lens object for the singular isothermal ellipsoid (SIE).
+class Psi_eSIS(PsiGeneral):
+    """Lens object for the elliptical SIS (eSIS).
 
-    Additional information: :ref:`theory <Psi_SIE_theory>`, :ref:`default parameters <Psi_SIE_default>`.
+    Additional information: :ref:`theory <Psi_eSIS_theory>`, :ref:`default parameters <Psi_eSIS_default>`.
 
     Parameters
     ----------
@@ -1973,7 +1992,7 @@ class Psi_SIE(PsiGeneral):
     asymp_index : float
         0.5
     asymp_amplitude : float
-        :math:`\\psi_0/\sqrt{2}`
+        :math:`\\psi_0/\\sqrt{2}`
     """
     def __init__(self, p_phys={}, p_prec={}):
         super().__init__(p_phys, p_prec)
@@ -1982,7 +2001,7 @@ class Psi_SIE(PsiGeneral):
         self.q     = self.p_phys['q']
         self.alpha = self.p_phys['alpha']
 
-        self.eps = 1e-8
+        self.eps = 1e-14
         self.ca = np.cos(self.alpha)
         self.sa = np.sin(self.alpha)
 
@@ -1999,7 +2018,7 @@ class Psi_SIE(PsiGeneral):
         p_prec : dict
             Empty dictionary.
         """
-        p_phys = {'name' : 'SIE',
+        p_phys = {'name' : 'eSIS',
                   'psi0'  : 1.,
                   'q'     : 1.,
                   'alpha' : 0,
@@ -2116,7 +2135,7 @@ class Psi_SIE(PsiGeneral):
 
         """
         x = np.sqrt(x1*x1 + x2*x2/self.q**2)
-        return self.psi0*self._psi_x(x)
+        return self._psi_x(x)
 
     def dpsi_vec_a0(self, x1, x2):
         r"""First derivatives of the lensing potential (zero angle).

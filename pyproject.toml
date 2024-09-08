@@ -1,0 +1,56 @@
+[build-system]
+requires = ["setuptools", "cython", "numpy"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "glow"
+version = "0.1"
+
+requires-python = ">=3.7"
+dependencies = [
+  "cython",
+  "numpy",
+  "scipy",
+  "matplotlib",
+  "pandas",
+  "sphinx",
+  "numpydoc",
+  "sphinx_rtd_theme",
+  "mpmath",
+  "astropy",
+  "colossus",
+  "pycbc",
+]
+
+readme = "README.md"
+license = {text = "GPL3"}
+
+description = "Fast and accurate lensed gravitational wave signals given any lens distribution."
+keywords = ["gravitational waves", "lensing", "gravitational lensing"]
+
+authors = [{name = "GLoW team", email = "hectorvi@ucm.es"}]
+
+maintainers = [
+  {name = "Hector Villarrubia-Rojo", email = "hectorvi@ucm.es"}
+]
+
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Intended Audience :: Science/Research",
+  "Topic :: Scientific/Engineering :: Astronomy",
+  "Topic :: Scientific/Engineering :: Physics",
+  "License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)",
+  "Programming Language :: C",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Cython",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/miguelzuma/glow_public"
+"Bug Reports" = "https://github.com/miguelzuma/glow_public/issues"
+"Documentation" = "https://miguelzuma.github.io/GLoW_public"
+
+[tool.setuptools]
+packages = ["glow", "glow.wrapper"]
+package-dir = {"glow" = "."}
+package-data = {"glow" = ["wrapper/*.so", "sensitivities/*.txt"]}

@@ -41,7 +41,7 @@ int main(int argc, char *argv[])
 
     // Different lenses only appear here
     //~ p = create_pLens_SIS(psi0);
-    p = create_pLens_PointLens(psi0);
+    p = create_pLens_PointLens(psi0, 1e-10);
     //~ p = create_pLens_CIS(psi0, 0.1);
     //~ p = create_pLens_NFW(psi0, 0.01);
     Psi = init_lens(p);

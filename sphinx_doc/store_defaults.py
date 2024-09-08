@@ -31,7 +31,7 @@ if __name__ == '__main__':
     out_params(lenses, lenses.Psi_Ball)
     out_params(lenses, lenses.Psi_NFW)
     out_params(lenses, lenses.Psi_tSIS)
-    out_params(lenses, lenses.Psi_SIE)
+    out_params(lenses, lenses.Psi_eSIS)
     out_params(lenses, lenses.Psi_Ext)
     out_params(lenses, lenses.Psi_offcenterSIS)
     out_params(lenses, lenses.Psi_offcenterCIS)
@@ -46,7 +46,7 @@ if __name__ == '__main__':
     out_params(time_domain, time_domain.It_AnalyticSIS)
     out_params(time_domain, time_domain.It_NaiveAreaIntegral)
     print(" -> Done")
-    
+
     print(" * Storing time_domain_c defaults", end='')
     out_params(time_domain, time_domain_c.It_SingleContour_C)
     out_params(time_domain, time_domain_c.It_SingleIntegral_C)
@@ -54,16 +54,17 @@ if __name__ == '__main__':
     out_params(time_domain, time_domain_c.It_AreaIntegral_C)
     out_params(time_domain, time_domain_c.It_MultiContour_C)
     print(" -> Done")
-    
+
     print(" * Storing freq_domain defaults", end='')
     out_params(freq_domain, freq_domain.Fw_FFT_OldReg)
     out_params(freq_domain, freq_domain.Fw_SemiAnalyticSIS)
     out_params(freq_domain, freq_domain.Fw_AnalyticPointLens)
-    
+    print(" -> Done")
+
     print(" * Storing freq_domain_c defaults", end='')
     out_params(freq_domain, freq_domain_c.Fw_FFT_C)
     out_params(freq_domain, freq_domain_c.Fw_SemiAnalyticSIS_C)
     out_params(freq_domain, freq_domain_c.Fw_AnalyticPointLens_C)
     out_params(freq_domain, freq_domain_c.Fw_DirectFT_C)
-    
     print(" -> Done")
+

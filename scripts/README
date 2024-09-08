@@ -1,0 +1,7 @@
+ - glow_paper: All the figures in the GLoW paper can be reproduced with
+               the scripts in this folder. Note: PL_approx_plot.py will
+               take around an hour to run. This long execution time is
+               due to the computation of Fw with mpmath, once the data
+               is computed the script will save it and load it in later
+               runs. If you cannot compute it and need the data please
+               contact us.

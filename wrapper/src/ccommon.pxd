@@ -1,3 +1,22 @@
+#
+# GLoW - ccommon.pxd
+#
+# Copyright (C) 2023, Hector Villarrubia-Rojo
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 3 of the License, or (at
+# your option) any later version.
+#
+# This program is distributed in the hope that it will be useful, but
+# WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+# General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <http://www.gnu.org/licenses/>.
+#
+
 #cython: language_level=3
 
 cdef update_pprec(Prec_General pprec_general)
@@ -72,6 +91,7 @@ cdef extern from "common.h" nogil:
         double sc_getContourRob_sigmaf
         double sc_getContour_tol_brack
         double sc_getContour_tol_add
+        char sc_warn_switch
 
         Prec_Solver mc_intRtau
         int mc_brackRtau_small_maxiter

@@ -1,3 +1,22 @@
+#
+# GLoW - time_domain_c.py
+#
+# Copyright (C) 2023, Hector Villarrubia-Rojo
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 3 of the License, or (at
+# your option) any later version.
+#
+# This program is distributed in the hope that it will be useful, but
+# WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+# General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <http://www.gnu.org/licenses/>.
+#
+
 import os
 import warnings
 import numpy as np
@@ -91,7 +110,7 @@ class ItGeneral_C():
     name : str
         (*subclass defined*) Name of the method.
     tmin : float
-        (*subclass defined*) Minimum of the Fermat potential, :math:`t_\\text{min}=\phi(\\boldsymbol{x}_\\text{min})`.
+        (*subclass defined*) Minimum of the Fermat potential, :math:`t_\\text{min}=\\phi(\\boldsymbol{x}_\\text{min})`.
     I0 : float
         (*subclass defined*) Value of :math:`I(\\tau)` at :math:`\\tau=0`.
     p_crits : list of dict
@@ -160,20 +179,20 @@ class ItGeneral_C():
         p_prec : dict
             Default precision parameters.
         """
-        p_prec = {'Nt'       : 5000, \
-                  'tmin'     : 1e-2, \
-                  'tmax'     : 1e6, \
-                  'eval_mode' : 'interpolate', \
-                  'sampling' : 'log', \
-                  'interp_fill_value' : None, \
-                  'interp_kind'       : 'linear', \
-                  'oversampling_n'    : 10, \
-                  'oversampling_tmin' : 1e-1, \
-                  'oversampling_tmax' : 1e1, \
-                  'lens_file_xmin'  : 1e-7, \
-                  'lens_file_xmax'  : 1e7, \
-                  'lens_file_Nx'    : 10000, \
-                  'lens_file_fname' : 'wrapper/glow_lib/external/tmp', \
+        p_prec = {'Nt'       : 3000,
+                  'tmin'     : 1e-2,
+                  'tmax'     : 1e6,
+                  'eval_mode' : 'interpolate',
+                  'sampling' : 'oversampling',
+                  'interp_fill_value' : None,
+                  'interp_kind'       : 'linear',
+                  'oversampling_n'    : 10,
+                  'oversampling_tmin' : 1e-1,
+                  'oversampling_tmax' : 1e1,
+                  'lens_file_xmin'  : 1e-7,
+                  'lens_file_xmax'  : 1e7,
+                  'lens_file_Nx'    : 10000,
+                  'lens_file_fname' : 'wrapper/glow_lib/external/tmp',
                   'C_prec' : {}}
 
         p_prec2 = self.default_params()
@@ -597,7 +616,7 @@ class It_SingleContour_C(ItGeneral_C):
         self.t_grid, self.It_grid, self.eval_It = self.compute_all()
 
     def default_params(self):
-        p_prec = {'method'   : 'standard',\
+        p_prec = {'method'   : 'standard',
                   'parallel' : True}
         return p_prec
 
@@ -717,8 +736,8 @@ class It_SingleIntegral_C(ItGeneral_C):
             raise TimeDomainException(message)
 
     def default_params(self):
-        p_prec = {'parallel' : True,\
-                  'method' : 'qag15'}
+        p_prec = {'method'   : 'qag15',
+                  'parallel' : True}
         return p_prec
 
     def find_all_images(self):
@@ -827,7 +846,7 @@ class It_AnalyticSIS_C(ItGeneral_C):
         return y_message + psi0_message + prec_message + class_call
 
     def default_params(self):
-        p_prec = {'Nt'       : 10000, \
+        p_prec = {'Nt'       : 10000,
                   'parallel' : True}
         return p_prec
 
@@ -913,9 +932,10 @@ class It_AreaIntegral_C(ItGeneral_C):
         self.eval_It = lambda t: np.piecewise(t, [t<0, t>=0], [0, self.interp_It])
 
     def default_params(self):
-        p_prec = {'n_rho' : 20000,\
-                  'n_theta' : 2000,\
-                  'tmax' : 10,\
+        p_prec = {'n_rho' : 20000,
+                  'n_theta' : 2000,
+                  'sampling' : 'log',
+                  'tmax' : 10,
                   'Nt' : 500}
 
         return p_prec

@@ -18,20 +18,19 @@ The online documentation can be found
 The pure Python version of the code should work out of the box. It only requires standard scientific
 packages like ``numpy`` and ``scipy``.
 
-The C version requires an additional step. Inside the main ``glow`` directory you must run
+The C version requires an external library, the GNU Scientific Library (GSL), that can be easily
+installed with your favorite package manager. Alternatively, if you are using Conda, you can install
+and activate the environment that we provide
 ```console
-$ make
+conda env create --file glow_env.yml && conda activate glow_env
 ```
-This will automatically compile the C library and the Cython wrapper. In this case the additional
-requirements are Cython and the GNU Scientific Library (GSL). In many systems these can be easily
-installed with
+Once the previous requirements are met, the code can be easily installed by running
 ```console
-$ pip install cython
-$ sudo apt install libgsl-dev
+pip install .
 ```
-
-> [!WARNING]
-> If you are planning to use a Python environment, ``venv``, for this project, it must be activated *before* running any ``make`` command.
+in the main GLoW directory. If any error occurs, the file ``configure.log`` will contain additional
+information. Open MP is also used to run certain parts of the code in parallel, but it is not
+mandatory. If it is not correctly set up, the installation will configure the code in serial mode.
 
 More detailed installation instructions can be found in the
 [online documentation](https://miguelzuma.github.io/GLoW_public/usage.html#installation).

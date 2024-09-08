@@ -1,3 +1,22 @@
+#
+# GLoW - croots.pyx
+#
+# Copyright (C) 2023, Hector Villarrubia-Rojo
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 3 of the License, or (at
+# your option) any later version.
+#
+# This program is distributed in the hope that it will be useful, but
+# WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+# General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <http://www.gnu.org/licenses/>.
+#
+
 #cython: language_level=3
 #cython: boundscheck=False, wraparound=False, initializedcheck=False
 
@@ -25,27 +44,27 @@ def pyFind_CritPoint_2D(x1guess, x2guess, y, Psi, keep_all=True):
     cdef pImage im
     cdef pNamedLens *pNLens = convert_pphys_to_pLens(Psi)
     cdef Lens cPsi = init_lens(pNLens)
-    
+
     cdef double[:] cx1guess = np.ascontiguousarray(x1guess, dtype=np.double)
     cdef double[:] cx2guess = np.ascontiguousarray(x2guess, dtype=np.double)
     cdef int i_max = cx1guess.shape[0]
     cdef CritPoint *points = <CritPoint *>malloc(i_max*sizeof(CritPoint))
-    
+
     im.y = y
     im.Psi = &cPsi
     for i in range(i_max):
-        im.point = &points[i]    
+        im.point = &points[i]
         croots.find_CritPoint_root_2D(cx1guess[i], cx2guess[i], &im)
-        
+
     if keep_all is False:
         i_max = filter_different_CritPoint_list(points, i_max)
         p = [convert_CritPoint_to_pcrit(points[k]) for k in range(i_max)]
     else:
         p = convert_CritPoint_list(points, i_max)
-    
+
     free(points)
     free_pLens(pNLens)
-    
+
     return p
 
 cdef filter_different_CritPoint_list(CritPoint *points, int n_points):
@@ -53,7 +72,7 @@ cdef filter_different_CritPoint_list(CritPoint *points, int n_points):
     cdef int ctrue  = pprec.ctrue
     cdef int cfalse = pprec.cfalse
     cdef int compare_flag
-    
+
     n = 1
     compare_flag = cfalse
     for i in range(1, n_points):
@@ -61,18 +80,18 @@ cdef filter_different_CritPoint_list(CritPoint *points, int n_points):
             if is_same_CritPoint(&points[i], &points[j]) == ctrue:
                 compare_flag = ctrue
                 continue
-        
+
         if compare_flag == cfalse:
             swap_CritPoint(&points[n], &points[i])
             n += 1
-        
+
         compare_flag = cfalse
-        
+
     return n
 
 cdef convert_CritPoint_list(CritPoint *points, int n_points):
     cdef int i
-    
+
     pytypes = np.empty(n_points, dtype=np.intc)
     pyx1    = np.empty(n_points, dtype=np.double)
     pyx2    = np.empty(n_points, dtype=np.double)
@@ -83,27 +102,27 @@ cdef convert_CritPoint_list(CritPoint *points, int n_points):
     cdef double[:] cx2  = pyx2
     cdef double[:] ct   = pyt
     cdef double[:] cmag = pymag
-    
+
     dic_types = {<int>types_CritPoint.type_min : 'min',
                  <int>types_CritPoint.type_max : 'max',
                  <int>types_CritPoint.type_saddle : 'saddle',
                  <int>types_CritPoint.type_singcusp_max  : 'sing/cusp max',
                  <int>types_CritPoint.type_singcusp_min  : 'sing/cusp min',
                  <int>types_CritPoint.type_non_converged : 'non-converged'}
-        
+
     for i in range(n_points):
         ctypes[i] = points[i].type
         cx1[i]    = points[i].x1
         cx2[i]    = points[i].x2
         ct[i]     = points[i].t
         cmag[i]   = points[i].mag
-        
+
     pypoints = {'type' : pytypes,
                 'x1'   : pyx1,
                 'x2'   : pyx2,
                 't'    : pyt,
                 'mag'  : pymag}
-                
+
     return pypoints, dic_types
 
 cpdef convert_CritPoint_to_pcrit(CritPoint p):

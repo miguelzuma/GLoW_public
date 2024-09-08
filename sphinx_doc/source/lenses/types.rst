@@ -23,8 +23,8 @@ Lens types
 .. autoclass:: glow.lenses.Psi_tSIS
     :show-inheritance:
     :members:
-    :undoc-members:    
-.. autoclass:: glow.lenses.Psi_SIE
+    :undoc-members:
+.. autoclass:: glow.lenses.Psi_eSIS
     :show-inheritance:
     :members:
     :undoc-members:

@@ -1,0 +1,2 @@
+# Mark Jupyter notebooks as vendored so they don't count in language statistics
+*.ipynb linguist-vendored

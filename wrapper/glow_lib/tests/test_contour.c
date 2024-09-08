@@ -40,7 +40,7 @@ int main(int argc, char *argv[])
     // Create the lens
     //~ pNLens = create_pLens_offcenterCIS(1, 0.05, 0.1, 0.1);
     pNLens = create_pLens_offcenterSIS(1, 0., 0.);
-    //~ pNLens = create_pLens_SIE(1, 1.2, 0.01);
+    //~ pNLens = create_pLens_eSIS(1, 1.2, 0.01);
 
     // benchmark lens
     //~ rc = 0.05;

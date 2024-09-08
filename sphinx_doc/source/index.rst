@@ -15,6 +15,7 @@ Contents
     lenses/main
     time_domain/main
     freq_domain/main
+    notebooks
     api
 
 
