@@ -1,0 +1,23 @@
+﻿glow.time\_domain
+=================
+
+.. automodule:: glow.time_domain
+
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+   
+      ItGeneral
+      It_AnalyticSIS
+      It_NaiveAreaIntegral
+      It_SingleContour
+      It_SingleIntegral
+   
+   .. rubric:: Exceptions
+
+   .. autosummary::
+   
+      TimeDomainException
+      TimeDomainWarning
+   

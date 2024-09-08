@@ -1,0 +1,940 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Python version - Methods &mdash; GLoW 0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
+      <link rel="stylesheet" href="../_static/css/functions.css" type="text/css" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=2709fde1"></script>
+        <script src="../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="C version - Base object" href="c_base.html" />
+    <link rel="prev" title="Python version - Base object" href="py_base.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            GLoW
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../usage.html">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../lenses/main.html">Lenses</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="main.html">Time domain</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="main.html#introduction">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="main.html#single-contour">Single contour</a></li>
+<li class="toctree-l2"><a class="reference internal" href="main.html#single-integral">Single integral</a></li>
+<li class="toctree-l2"><a class="reference internal" href="main.html#analytic-sis">Analytic SIS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="main.html#area-integral">Area integral</a></li>
+<li class="toctree-l2"><a class="reference internal" href="main.html#multicontour">Multicontour</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="main.html#module-information">Module information</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="py_base.html">Python version - Base object</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Python version - Methods</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#glow.time_domain.It_SingleContour"><code class="docutils literal notranslate"><span class="pre">It_SingleContour</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#glow.time_domain.It_SingleIntegral"><code class="docutils literal notranslate"><span class="pre">It_SingleIntegral</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#glow.time_domain.It_AnalyticSIS"><code class="docutils literal notranslate"><span class="pre">It_AnalyticSIS</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#glow.time_domain.It_NaiveAreaIntegral"><code class="docutils literal notranslate"><span class="pre">It_NaiveAreaIntegral</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="c_base.html">C version - Base object</a></li>
+<li class="toctree-l3"><a class="reference internal" href="c_version.html">C version - Methods</a></li>
+<li class="toctree-l3"><a class="reference internal" href="default.html">Default parameters</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../freq_domain/main.html">Frequency domain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks.html">Notebooks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api.html">API</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">GLoW</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="main.html">Time domain</a></li>
+      <li class="breadcrumb-item active">Python version - Methods</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/time_domain/py_version.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="python-version-methods">
+<h1>Python version - Methods<a class="headerlink" href="#python-version-methods" title="Link to this heading"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="glow.time_domain.It_SingleContour">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">glow.time_domain.</span></span><span class="sig-name descname"><span class="pre">It_SingleContour</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Lens</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p_prec</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#glow.time_domain.It_SingleContour" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="py_base.html#glow.time_domain.ItGeneral" title="glow.time_domain.ItGeneral"><code class="xref py py-class docutils literal notranslate"><span class="pre">ItGeneral</span></code></a></p>
+<p>Computation for the single contour regime (only one image).</p>
+<p>Additional information: <a class="reference internal" href="main.html#singlecontour-theory"><span class="std std-ref">theory</span></a>, <a class="reference internal" href="default.html#pyit-singlecontour-default"><span class="std std-ref">default parameters</span></a>.</p>
+<p>(Only new parameters and attributes are documented. See <a class="reference internal" href="py_base.html#glow.time_domain.ItGeneral" title="glow.time_domain.ItGeneral"><code class="xref py py-class docutils literal notranslate"><span class="pre">ItGeneral</span></code></a>
+for the internal information of the parent class)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>p_prec</strong><span class="classifier">dict, optional</span></dt><dd><p>Precision parameters. New keys:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">soft</span></code> (<em>float</em>) – Softening factor.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">method</span></code> (<em>str</em>) – ODE integration method. Any kind recognized by Scipy            is allowed, e.g. <code class="docutils literal notranslate"><span class="pre">'RK45'</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">rtol</span></code> (<em>float</em>) – Relative tolerance for the integration.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">atol</span></code> (<em>float</em>) – Absolute tolerance for the integration.</p></li>
+</ul>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Methods</p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#glow.time_domain.It_SingleContour.compute_novec" title="glow.time_domain.It_SingleContour.compute_novec"><code class="xref py py-obj docutils literal notranslate"><span class="pre">compute_novec</span></code></a>(tau)</p></td>
+<td><p>Compute <span class="math notranslate nohighlight">\(I(\tau)\)</span>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#glow.time_domain.It_SingleContour.default_params" title="glow.time_domain.It_SingleContour.default_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">default_params</span></code></a>()</p></td>
+<td><p>(<em>subclass defined</em>) Initialize the default parameters.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#glow.time_domain.It_SingleContour.deriv_phi" title="glow.time_domain.It_SingleContour.deriv_phi"><code class="xref py py-obj docutils literal notranslate"><span class="pre">deriv_phi</span></code></a>(R, phi[, xc1, xc2])</p></td>
+<td><p>Compute first derivatives of the Fermat potential wrt polar coordinates.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#glow.time_domain.It_SingleContour.find_R_of_tau" title="glow.time_domain.It_SingleContour.find_R_of_tau"><code class="xref py py-obj docutils literal notranslate"><span class="pre">find_R_of_tau</span></code></a>(tau)</p></td>
+<td><p>Find the radius that corresponds to a given <span class="math notranslate nohighlight">\(\tau\)</span>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#glow.time_domain.It_SingleContour.find_all_images" title="glow.time_domain.It_SingleContour.find_all_images"><code class="xref py py-obj docutils literal notranslate"><span class="pre">find_all_images</span></code></a>()</p></td>
+<td><p>Find the minimum of the Fermat potential assuming that it is the only critical point.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#glow.time_domain.It_SingleContour.get_contour" title="glow.time_domain.It_SingleContour.get_contour"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_contour</span></code></a>(tau[, N])</p></td>
+<td><p>Contour corresponding to a given <span class="math notranslate nohighlight">\(\tau\)</span> in Cartesian coordinates.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#glow.time_domain.It_SingleContour.integrate_contour" title="glow.time_domain.It_SingleContour.integrate_contour"><code class="xref py py-obj docutils literal notranslate"><span class="pre">integrate_contour</span></code></a>(tau[, dense_output])</p></td>
+<td><p>Integration of the contour corresponding to a given <span class="math notranslate nohighlight">\(\tau\)</span>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#glow.time_domain.It_SingleContour.sys" title="glow.time_domain.It_SingleContour.sys"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sys</span></code></a>(t, u)</p></td>
+<td><p>ODE system defining the contours (and <span class="math notranslate nohighlight">\(I(t)\)</span>).</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#glow.time_domain.It_SingleContour.x1x2" title="glow.time_domain.It_SingleContour.x1x2"><code class="xref py py-obj docutils literal notranslate"><span class="pre">x1x2</span></code></a>(R, phi[, xc1, xc2])</p></td>
+<td><p>Convert polar to Cartesian coordinates.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Compared to <a class="reference internal" href="c_version.html#glow.time_domain_c.It_SingleContour_C" title="glow.time_domain_c.It_SingleContour_C"><code class="xref py py-class docutils literal notranslate"><span class="pre">It_SingleContour_C</span></code></a>, this class presents several drawbacks:</p>
+<ul class="simple">
+<li><p>It does not check that we are indeed in the single contour regime. Proceed with caution…</p></li>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">'robust'</span></code> option (i.e. parametric integration) is not implemented.</p></li>
+<li><p>It is not parallelized and way slower than the C implementation.</p></li>
+</ul>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="glow.time_domain.It_SingleContour.default_params">
+<span class="sig-name descname"><span class="pre">default_params</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#glow.time_domain.It_SingleContour.default_params" title="Link to this definition"></a></dt>
+<dd><p>(<em>subclass defined</em>) Initialize the default parameters.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="glow.time_domain.It_SingleContour.x1x2">
+<span class="sig-name descname"><span class="pre">x1x2</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">R</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">phi</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xc1</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xc2</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#glow.time_domain.It_SingleContour.x1x2" title="Link to this definition"></a></dt>
+<dd><p>Convert polar to Cartesian coordinates.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="glow.time_domain.It_SingleContour.deriv_phi">
+<span class="sig-name descname"><span class="pre">deriv_phi</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">R</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">phi</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xc1</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xc2</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#glow.time_domain.It_SingleContour.deriv_phi" title="Link to this definition"></a></dt>
+<dd><p>Compute first derivatives of the Fermat potential wrt polar coordinates.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="glow.time_domain.It_SingleContour.find_all_images">
+<span class="sig-name descname"><span class="pre">find_all_images</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#glow.time_domain.It_SingleContour.find_all_images" title="Link to this definition"></a></dt>
+<dd><p>Find the minimum of the Fermat potential assuming that it is the only critical point.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="glow.time_domain.It_SingleContour.find_R_of_tau">
+<span class="sig-name descname"><span class="pre">find_R_of_tau</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tau</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#glow.time_domain.It_SingleContour.find_R_of_tau" title="Link to this definition"></a></dt>
+<dd><p>Find the radius that corresponds to a given <span class="math notranslate nohighlight">\(\tau\)</span>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="glow.time_domain.It_SingleContour.sys">
+<span class="sig-name descname"><span class="pre">sys</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">t</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">u</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#glow.time_domain.It_SingleContour.sys" title="Link to this definition"></a></dt>
+<dd><p>ODE system defining the contours (and <span class="math notranslate nohighlight">\(I(t)\)</span>).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="glow.time_domain.It_SingleContour.integrate_contour">
+<span class="sig-name descname"><span class="pre">integrate_contour</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tau</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dense_output</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#glow.time_domain.It_SingleContour.integrate_contour" title="Link to this definition"></a></dt>
+<dd><p>Integration of the contour corresponding to a given <span class="math notranslate nohighlight">\(\tau\)</span>.</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>tau</strong><span class="classifier">float</span></dt><dd><p>Relative time delay <span class="math notranslate nohighlight">\(\tau\)</span>.</p>
+</dd>
+<dt><strong>dense_output</strong><span class="classifier">bool</span></dt><dd><p>Include interpolation functions in the output.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl>
+<dt><strong>sol</strong><span class="classifier">output of Scipy’s <code class="docutils literal notranslate"><span class="pre">solve_ivp</span></code></span></dt><dd><p>Solution of the differential equation.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="glow.time_domain.It_SingleContour.compute_novec">
+<span class="sig-name descname"><span class="pre">compute_novec</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tau</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#glow.time_domain.It_SingleContour.compute_novec" title="Link to this definition"></a></dt>
+<dd><p>Compute <span class="math notranslate nohighlight">\(I(\tau)\)</span>. Non-vectorized version.</p>
+<p>It includes the step function, <span class="math notranslate nohighlight">\(I(\tau&lt;0)=0\)</span>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>tau</strong><span class="classifier">float</span></dt><dd><p>Relative time delay <span class="math notranslate nohighlight">\(\tau\)</span>.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>I</strong><span class="classifier">float</span></dt><dd><p><span class="math notranslate nohighlight">\(I(\tau)\)</span></p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="glow.time_domain.It_SingleContour.get_contour">
+<span class="sig-name descname"><span class="pre">get_contour</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tau</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">N</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#glow.time_domain.It_SingleContour.get_contour" title="Link to this definition"></a></dt>
+<dd><p>Contour corresponding to a given <span class="math notranslate nohighlight">\(\tau\)</span> in Cartesian coordinates.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>tau</strong><span class="classifier">float</span></dt><dd><p>Relative time delay <span class="math notranslate nohighlight">\(\tau\)</span>.</p>
+</dd>
+<dt><strong>N</strong><span class="classifier">int</span></dt><dd><p>Number of points in the contour.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>x1s, x2s</strong><span class="classifier">array</span></dt><dd><p>Contour in Cartesian coordinates.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="glow.time_domain.It_SingleIntegral">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">glow.time_domain.</span></span><span class="sig-name descname"><span class="pre">It_SingleIntegral</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Lens</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p_prec</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#glow.time_domain.It_SingleIntegral" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="py_base.html#glow.time_domain.ItGeneral" title="glow.time_domain.ItGeneral"><code class="xref py py-class docutils literal notranslate"><span class="pre">ItGeneral</span></code></a></p>
+<p>Computation for axisymmetric lenses, solving a single radial integral.</p>
+<p>Additional information: <a class="reference internal" href="main.html#singleintegral-theory"><span class="std std-ref">theory</span></a>, <a class="reference internal" href="default.html#pyit-singleintegral-default"><span class="std std-ref">default parameters</span></a>.</p>
+<p>(Only new parameters and attributes are documented. See <a class="reference internal" href="py_base.html#glow.time_domain.ItGeneral" title="glow.time_domain.ItGeneral"><code class="xref py py-class docutils literal notranslate"><span class="pre">ItGeneral</span></code></a>
+for the internal information of the parent class)</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl>
+<dt><strong>p_prec</strong><span class="classifier">dict, optional</span></dt><dd><p>Precision parameters. New keys:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">method</span></code> (<em>str</em>) – Function used for the radial integration. Options:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">'quad'</span></code>: Scipy’s <code class="docutils literal notranslate"><span class="pre">quad</span></code>, using QUADPACK.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">'quadrature'</span></code>: Scipy’s <code class="docutils literal notranslate"><span class="pre">quadrature</span></code>, fixed-tolerance Gaussian quadrature.</p></li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Methods</p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#glow.time_domain.It_SingleIntegral.check_input" title="glow.time_domain.It_SingleIntegral.check_input"><code class="xref py py-obj docutils literal notranslate"><span class="pre">check_input</span></code></a>()</p></td>
+<td><p>(<em>subclass defined, optional</em>) Check the input of the implementation.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#glow.time_domain.It_SingleIntegral.check_singcusp" title="glow.time_domain.It_SingleIntegral.check_singcusp"><code class="xref py py-obj docutils literal notranslate"><span class="pre">check_singcusp</span></code></a>()</p></td>
+<td><p>Check for the presence of singularities and cusps at the center.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#glow.time_domain.It_SingleIntegral.classify_image" title="glow.time_domain.It_SingleIntegral.classify_image"><code class="xref py py-obj docutils literal notranslate"><span class="pre">classify_image</span></code></a>(sol)</p></td>
+<td><p>Classify an image.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#glow.time_domain.It_SingleIntegral.compute" title="glow.time_domain.It_SingleIntegral.compute"><code class="xref py py-obj docutils literal notranslate"><span class="pre">compute</span></code></a>(tau)</p></td>
+<td><p>Computation of <span class="math notranslate nohighlight">\(I(\tau)\)</span>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#glow.time_domain.It_SingleIntegral.default_params" title="glow.time_domain.It_SingleIntegral.default_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">default_params</span></code></a>()</p></td>
+<td><p>(<em>subclass defined</em>) Initialize the default parameters.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#glow.time_domain.It_SingleIntegral.find_all_images" title="glow.time_domain.It_SingleIntegral.find_all_images"><code class="xref py py-obj docutils literal notranslate"><span class="pre">find_all_images</span></code></a>()</p></td>
+<td><p>Find all the critical points.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#glow.time_domain.It_SingleIntegral.find_bracket" title="glow.time_domain.It_SingleIntegral.find_bracket"><code class="xref py py-obj docutils literal notranslate"><span class="pre">find_bracket</span></code></a>(t)</p></td>
+<td><p>Find all the different brackets of integration (i.e. all the different contours).</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#glow.time_domain.It_SingleIntegral.find_image_bracket_1d" title="glow.time_domain.It_SingleIntegral.find_image_bracket_1d"><code class="xref py py-obj docutils literal notranslate"><span class="pre">find_image_bracket_1d</span></code></a>(x1_lo, x1_hi)</p></td>
+<td><p>Find a root of <span class="math notranslate nohighlight">\(\phi'(\boldsymbol{x})=0\)</span>, using a bracketing algorithm.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#glow.time_domain.It_SingleIntegral.find_image_newton_1d" title="glow.time_domain.It_SingleIntegral.find_image_newton_1d"><code class="xref py py-obj docutils literal notranslate"><span class="pre">find_image_newton_1d</span></code></a>(x1_guess)</p></td>
+<td><p>Find a root of <span class="math notranslate nohighlight">\(\phi'(\boldsymbol{x})=0\)</span>, using Newton's method.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#glow.time_domain.It_SingleIntegral.find_moving_bracket_1d" title="glow.time_domain.It_SingleIntegral.find_moving_bracket_1d"><code class="xref py py-obj docutils literal notranslate"><span class="pre">find_moving_bracket_1d</span></code></a>(xguess_lo, xguess_hi, t)</p></td>
+<td><p>Find a root of <span class="math notranslate nohighlight">\(\phi(x_1, 0)=t\)</span>, using a moving bracket method.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#glow.time_domain.It_SingleIntegral.find_root_bracket_1d" title="glow.time_domain.It_SingleIntegral.find_root_bracket_1d"><code class="xref py py-obj docutils literal notranslate"><span class="pre">find_root_bracket_1d</span></code></a>(x1_lo, x1_hi, t)</p></td>
+<td><p>Find a root of <span class="math notranslate nohighlight">\(\phi(x_1, 0)=t\)</span>, using a bracketing algorithm.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#glow.time_domain.It_SingleIntegral.find_root_newton_1d" title="glow.time_domain.It_SingleIntegral.find_root_newton_1d"><code class="xref py py-obj docutils literal notranslate"><span class="pre">find_root_newton_1d</span></code></a>(x1_guess, t)</p></td>
+<td><p>Find a root of <span class="math notranslate nohighlight">\(\phi(x_1, 0)=t\)</span>, using Newton's method.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#glow.time_domain.It_SingleIntegral.get_contour" title="glow.time_domain.It_SingleIntegral.get_contour"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_contour</span></code></a>(tau[, N])</p></td>
+<td><p>Compute the contours in Cartesian coordinates.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#glow.time_domain.It_SingleIntegral.integrate_quad" title="glow.time_domain.It_SingleIntegral.integrate_quad"><code class="xref py py-obj docutils literal notranslate"><span class="pre">integrate_quad</span></code></a>(t)</p></td>
+<td><p>Computation of <span class="math notranslate nohighlight">\(I(t)\)</span> with the <code class="docutils literal notranslate"><span class="pre">'quad'</span></code> method.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#glow.time_domain.It_SingleIntegral.integrate_quadrature" title="glow.time_domain.It_SingleIntegral.integrate_quadrature"><code class="xref py py-obj docutils literal notranslate"><span class="pre">integrate_quadrature</span></code></a>(t)</p></td>
+<td><p>Computation of <span class="math notranslate nohighlight">\(I(t)\)</span> with the <code class="docutils literal notranslate"><span class="pre">'quadrature'</span></code> method.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The C version <a class="reference internal" href="c_version.html#glow.time_domain_c.It_SingleIntegral_C" title="glow.time_domain_c.It_SingleIntegral_C"><code class="xref py py-class docutils literal notranslate"><span class="pre">It_SingleIntegral_C</span></code></a> should always be preferred.
+It uses the same algorithm, but the implementation is faster and more robust.</p>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="glow.time_domain.It_SingleIntegral.check_input">
+<span class="sig-name descname"><span class="pre">check_input</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#glow.time_domain.It_SingleIntegral.check_input" title="Link to this definition"></a></dt>
+<dd><p>(<em>subclass defined, optional</em>) Check the input of the implementation.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="glow.time_domain.It_SingleIntegral.default_params">
+<span class="sig-name descname"><span class="pre">default_params</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#glow.time_domain.It_SingleIntegral.default_params" title="Link to this definition"></a></dt>
+<dd><p>(<em>subclass defined</em>) Initialize the default parameters.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="glow.time_domain.It_SingleIntegral.find_image_newton_1d">
+<span class="sig-name descname"><span class="pre">find_image_newton_1d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x1_guess</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#glow.time_domain.It_SingleIntegral.find_image_newton_1d" title="Link to this definition"></a></dt>
+<dd><p>Find a root of <span class="math notranslate nohighlight">\(\phi'(\boldsymbol{x})=0\)</span>, using Newton’s method.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>x1_guess</strong><span class="classifier">float</span></dt><dd><p>Initial guess.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>image</strong><span class="classifier">dict</span></dt><dd><p>Dictionary with the format explained in <a class="reference internal" href="py_base.html#glow.time_domain.ItGeneral" title="glow.time_domain.ItGeneral"><code class="xref py py-class docutils literal notranslate"><span class="pre">ItGeneral</span></code></a>.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="glow.time_domain.It_SingleIntegral.find_image_bracket_1d">
+<span class="sig-name descname"><span class="pre">find_image_bracket_1d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x1_lo</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x1_hi</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#glow.time_domain.It_SingleIntegral.find_image_bracket_1d" title="Link to this definition"></a></dt>
+<dd><p>Find a root of <span class="math notranslate nohighlight">\(\phi'(\boldsymbol{x})=0\)</span>, using a bracketing algorithm.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>x1_lo, x1_hi</strong><span class="classifier">float</span></dt><dd><p>Bracket containing at least one root (function must change sign).</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>image</strong><span class="classifier">dict</span></dt><dd><p>Dictionary with the format explained in <a class="reference internal" href="py_base.html#glow.time_domain.ItGeneral" title="glow.time_domain.ItGeneral"><code class="xref py py-class docutils literal notranslate"><span class="pre">ItGeneral</span></code></a>.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="glow.time_domain.It_SingleIntegral.find_root_newton_1d">
+<span class="sig-name descname"><span class="pre">find_root_newton_1d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x1_guess</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#glow.time_domain.It_SingleIntegral.find_root_newton_1d" title="Link to this definition"></a></dt>
+<dd><p>Find a root of <span class="math notranslate nohighlight">\(\phi(x_1, 0)=t\)</span>, using Newton’s method.</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>x1_guess</strong><span class="classifier">float</span></dt><dd><p>Initial guess.</p>
+</dd>
+<dt><strong>t</strong><span class="classifier">float</span></dt><dd><p>Time delay <span class="math notranslate nohighlight">\(t\)</span> (Note: related to the relative time delay
+as <span class="math notranslate nohighlight">\(t=\tau+t_\text{min}\)</span>).</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl>
+<dt><strong>sol</strong><span class="classifier">Scipy’s output of <code class="docutils literal notranslate"><span class="pre">root_scalar</span></code></span></dt><dd><p>Solution.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="glow.time_domain.It_SingleIntegral.find_root_bracket_1d">
+<span class="sig-name descname"><span class="pre">find_root_bracket_1d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x1_lo</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x1_hi</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#glow.time_domain.It_SingleIntegral.find_root_bracket_1d" title="Link to this definition"></a></dt>
+<dd><p>Find a root of <span class="math notranslate nohighlight">\(\phi(x_1, 0)=t\)</span>, using a bracketing algorithm.</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>x1_lo, x1_hi</strong><span class="classifier">float</span></dt><dd><p>Bracket containing at least one root (function must change sign).</p>
+</dd>
+<dt><strong>t</strong><span class="classifier">float</span></dt><dd><p>Time delay <span class="math notranslate nohighlight">\(t\)</span> (Note: related to the relative time delay
+as <span class="math notranslate nohighlight">\(t=\tau+t_\text{min}\)</span>).</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl>
+<dt><strong>sol</strong><span class="classifier">Scipy’s output of <code class="docutils literal notranslate"><span class="pre">root_scalar</span></code></span></dt><dd><p>Solution.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="glow.time_domain.It_SingleIntegral.find_moving_bracket_1d">
+<span class="sig-name descname"><span class="pre">find_moving_bracket_1d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">xguess_lo</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xguess_hi</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#glow.time_domain.It_SingleIntegral.find_moving_bracket_1d" title="Link to this definition"></a></dt>
+<dd><p>Find a root of <span class="math notranslate nohighlight">\(\phi(x_1, 0)=t\)</span>, using a moving bracket method.</p>
+<p>The algorithm starts with an initial bracket <span class="math notranslate nohighlight">\([x_\text{lo}, x_\text{hi}]\)</span>.
+If <span class="math notranslate nohighlight">\(f(x_\text{lo})f(x_\text{hi}) &lt; 0\)</span>, there is a root in the bracket and
+a standard algorithm is used. Otherwise, the bracket is transformed to
+<span class="math notranslate nohighlight">\([x_\text{lo}, x_\text{hi}]\to [x_\text{hi}, x_\text{hi}+\Delta x]\)</span>. The
+process is repeated, increasing <span class="math notranslate nohighlight">\(\Delta x\)</span> with each iteration, until the
+bracketing condition is met.</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>xguess_lo, xguess_hi</strong><span class="classifier">float</span></dt><dd><p>Initial bracket.</p>
+</dd>
+<dt><strong>t</strong><span class="classifier">float</span></dt><dd><p>Time delay <span class="math notranslate nohighlight">\(t\)</span> (Note: related to the relative time delay
+as <span class="math notranslate nohighlight">\(t=\tau+t_\text{min}\)</span>).</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl>
+<dt><strong>sol</strong><span class="classifier">Scipy’s output of <code class="docutils literal notranslate"><span class="pre">root_scalar</span></code> or None</span></dt><dd><p>Returns None if the bracketing condition is never met.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="glow.time_domain.It_SingleIntegral.classify_image">
+<span class="sig-name descname"><span class="pre">classify_image</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sol</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#glow.time_domain.It_SingleIntegral.classify_image" title="Link to this definition"></a></dt>
+<dd><p>Classify an image.</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl>
+<dt><strong>sol</strong><span class="classifier">Scipy’s output of <code class="docutils literal notranslate"><span class="pre">root_scalar</span></code></span></dt><dd><p>Solution to <span class="math notranslate nohighlight">\(\phi'(\boldsymbol{x})=0\)</span>.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>image</strong><span class="classifier">dict</span></dt><dd><p>Dictionary with the image information. The format is explained
+in <a class="reference internal" href="py_base.html#glow.time_domain.ItGeneral" title="glow.time_domain.ItGeneral"><code class="xref py py-class docutils literal notranslate"><span class="pre">ItGeneral</span></code></a>. If the solution has
+not converged, it returns an empty dictionary instead.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="glow.time_domain.It_SingleIntegral.check_singcusp">
+<span class="sig-name descname"><span class="pre">check_singcusp</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#glow.time_domain.It_SingleIntegral.check_singcusp" title="Link to this definition"></a></dt>
+<dd><p>Check for the presence of singularities and cusps at the center.</p>
+<p>Since <span class="math notranslate nohighlight">\(\phi'(x=0)\)</span> may diverge, we check if
+<span class="math notranslate nohighlight">\(\partial_{x_1}\phi(-\delta x, 0)\phi(\delta x, 0) &lt; 0\)</span>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>singcusp</strong><span class="classifier">dict</span></dt><dd><p>Image-like dictionary, with the format explained
+in <a class="reference internal" href="py_base.html#glow.time_domain.ItGeneral" title="glow.time_domain.ItGeneral"><code class="xref py py-class docutils literal notranslate"><span class="pre">ItGeneral</span></code></a>.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="glow.time_domain.It_SingleIntegral.find_all_images">
+<span class="sig-name descname"><span class="pre">find_all_images</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#glow.time_domain.It_SingleIntegral.find_all_images" title="Link to this definition"></a></dt>
+<dd><p>Find all the critical points.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>images</strong><span class="classifier">list</span></dt><dd><p>Full list of images. The output is stored in <code class="docutils literal notranslate"><span class="pre">p_crits</span></code>, detailed
+in <a class="reference internal" href="py_base.html#glow.time_domain.ItGeneral" title="glow.time_domain.ItGeneral"><code class="xref py py-class docutils literal notranslate"><span class="pre">ItGeneral</span></code></a>.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="glow.time_domain.It_SingleIntegral.find_bracket">
+<span class="sig-name descname"><span class="pre">find_bracket</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">t</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#glow.time_domain.It_SingleIntegral.find_bracket" title="Link to this definition"></a></dt>
+<dd><p>Find all the different brackets of integration (i.e. all the
+different contours).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>t</strong><span class="classifier">float</span></dt><dd><p>Time delay <span class="math notranslate nohighlight">\(t\)</span>.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>brackets</strong><span class="classifier">list</span></dt><dd><p>List of brackets with the limits of integration <span class="math notranslate nohighlight">\([r_i, r_f]\)</span>.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="glow.time_domain.It_SingleIntegral.integrate_quadrature">
+<span class="sig-name descname"><span class="pre">integrate_quadrature</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">t</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#glow.time_domain.It_SingleIntegral.integrate_quadrature" title="Link to this definition"></a></dt>
+<dd><p>Computation of <span class="math notranslate nohighlight">\(I(t)\)</span> with the <code class="docutils literal notranslate"><span class="pre">'quadrature'</span></code> method.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>t</strong><span class="classifier">float or array</span></dt><dd><p>Time delay <span class="math notranslate nohighlight">\(t\)</span>.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>I</strong><span class="classifier">float or array</span></dt><dd><p><span class="math notranslate nohighlight">\(I(t)\)</span>.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="glow.time_domain.It_SingleIntegral.integrate_quad">
+<span class="sig-name descname"><span class="pre">integrate_quad</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">t</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#glow.time_domain.It_SingleIntegral.integrate_quad" title="Link to this definition"></a></dt>
+<dd><p>Computation of <span class="math notranslate nohighlight">\(I(t)\)</span> with the <code class="docutils literal notranslate"><span class="pre">'quad'</span></code> method.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>t</strong><span class="classifier">float or array</span></dt><dd><p>Time delay <span class="math notranslate nohighlight">\(t\)</span>.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>I</strong><span class="classifier">float or array</span></dt><dd><p><span class="math notranslate nohighlight">\(I(t)\)</span>.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="glow.time_domain.It_SingleIntegral.compute">
+<span class="sig-name descname"><span class="pre">compute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tau</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#glow.time_domain.It_SingleIntegral.compute" title="Link to this definition"></a></dt>
+<dd><p>Computation of <span class="math notranslate nohighlight">\(I(\tau)\)</span>.</p>
+<p>Depending on the precision parameter <code class="docutils literal notranslate"><span class="pre">method</span></code>, it chooses between
+<a class="reference internal" href="#glow.time_domain.It_SingleIntegral.integrate_quadrature" title="glow.time_domain.It_SingleIntegral.integrate_quadrature"><code class="xref py py-func docutils literal notranslate"><span class="pre">integrate_quadrature()</span></code></a> or <a class="reference internal" href="#glow.time_domain.It_SingleIntegral.integrate_quad" title="glow.time_domain.It_SingleIntegral.integrate_quad"><code class="xref py py-func docutils literal notranslate"><span class="pre">integrate_quad()</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>tau</strong><span class="classifier">float or array</span></dt><dd><p>Relative time delay <span class="math notranslate nohighlight">\(\tau\)</span>.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>I</strong><span class="classifier">float or array</span></dt><dd><p><span class="math notranslate nohighlight">\(I(\tau)\)</span>.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="glow.time_domain.It_SingleIntegral.get_contour">
+<span class="sig-name descname"><span class="pre">get_contour</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tau</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">N</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#glow.time_domain.It_SingleIntegral.get_contour" title="Link to this definition"></a></dt>
+<dd><p>Compute the contours in Cartesian coordinates.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>tau</strong><span class="classifier">float</span></dt><dd><p>Relative time delay <span class="math notranslate nohighlight">\(\tau\)</span>.</p>
+</dd>
+<dt><strong>N</strong><span class="classifier">int</span></dt><dd><p>Number of points in the contour.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>contour</strong><span class="classifier">list</span></dt><dd><p>The length of this list is determined by the number of contours
+contributing to the given <span class="math notranslate nohighlight">\(\tau\)</span>. Each element (i.e. each
+contour) is given in the format <span class="math notranslate nohighlight">\([x_1, x_2]\)</span>.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="glow.time_domain.It_AnalyticSIS">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">glow.time_domain.</span></span><span class="sig-name descname"><span class="pre">It_AnalyticSIS</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p_prec</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">psi0</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#glow.time_domain.It_AnalyticSIS" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="py_base.html#glow.time_domain.ItGeneral" title="glow.time_domain.ItGeneral"><code class="xref py py-class docutils literal notranslate"><span class="pre">ItGeneral</span></code></a></p>
+<p>Analytic <span class="math notranslate nohighlight">\(I(\tau)\)</span> for the singular isothermal sphere.</p>
+<p>Additional information: <a class="reference internal" href="main.html#analyticsis-theory"><span class="std std-ref">theory</span></a>, <a class="reference internal" href="default.html#pyit-analyticsis-default"><span class="std std-ref">default parameters</span></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>psi0</strong><span class="classifier">float</span></dt><dd><p>Normalization of the lensing potential <span class="math notranslate nohighlight">\(\psi(x) = \psi_0 x\)</span>.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Methods</p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#glow.time_domain.It_AnalyticSIS.I_func" title="glow.time_domain.It_AnalyticSIS.I_func"><code class="xref py py-obj docutils literal notranslate"><span class="pre">I_func</span></code></a>(a, b, c, d[, soft])</p></td>
+<td><p>Combination of complete elliptic integrals.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#glow.time_domain.It_AnalyticSIS.compute" title="glow.time_domain.It_AnalyticSIS.compute"><code class="xref py py-obj docutils literal notranslate"><span class="pre">compute</span></code></a>(tau)</p></td>
+<td><p>Compute <span class="math notranslate nohighlight">\(I(\tau)\)</span>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#glow.time_domain.It_AnalyticSIS.default_params" title="glow.time_domain.It_AnalyticSIS.default_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">default_params</span></code></a>()</p></td>
+<td><p>(<em>subclass defined</em>) Initialize the default parameters.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#glow.time_domain.It_AnalyticSIS.ellip_K" title="glow.time_domain.It_AnalyticSIS.ellip_K"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ellip_K</span></code></a>(k)</p></td>
+<td><p>Complete elliptic integral of the first kind, <span class="math notranslate nohighlight">\(K(k)\)</span>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#glow.time_domain.It_AnalyticSIS.ellip_Pi" title="glow.time_domain.It_AnalyticSIS.ellip_Pi"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ellip_Pi</span></code></a>(n, k)</p></td>
+<td><p>Complete elliptic integral of the third kind, <span class="math notranslate nohighlight">\(\Pi(n, k)\)</span>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#glow.time_domain.It_AnalyticSIS.find_images" title="glow.time_domain.It_AnalyticSIS.find_images"><code class="xref py py-obj docutils literal notranslate"><span class="pre">find_images</span></code></a>()</p></td>
+<td><p>Compute (analytically) the properties of the images for the SIS.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py method">
+<dt class="sig sig-object py" id="glow.time_domain.It_AnalyticSIS.default_params">
+<span class="sig-name descname"><span class="pre">default_params</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#glow.time_domain.It_AnalyticSIS.default_params" title="Link to this definition"></a></dt>
+<dd><p>(<em>subclass defined</em>) Initialize the default parameters.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="glow.time_domain.It_AnalyticSIS.find_images">
+<span class="sig-name descname"><span class="pre">find_images</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#glow.time_domain.It_AnalyticSIS.find_images" title="Link to this definition"></a></dt>
+<dd><p>Compute (analytically) the properties of the images for the SIS.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>images</strong><span class="classifier">list</span></dt><dd><p>Full list of images. The output is stored in <code class="docutils literal notranslate"><span class="pre">p_crits</span></code>, detailed
+in <a class="reference internal" href="py_base.html#glow.time_domain.ItGeneral" title="glow.time_domain.ItGeneral"><code class="xref py py-class docutils literal notranslate"><span class="pre">ItGeneral</span></code></a>.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="glow.time_domain.It_AnalyticSIS.ellip_K">
+<span class="sig-name descname"><span class="pre">ellip_K</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">k</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#glow.time_domain.It_AnalyticSIS.ellip_K" title="Link to this definition"></a></dt>
+<dd><p>Complete elliptic integral of the first kind, <span class="math notranslate nohighlight">\(K(k)\)</span>.</p>
+<p>We follow the notation of <a class="reference internal" href="#r706dbfc8a4f6-1" id="id1">[1]</a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>k</strong><span class="classifier">float or array</span></dt><dd></dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>K</strong><span class="classifier">float or array</span></dt><dd></dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">References</p>
+<div role="list" class="citation-list">
+<div class="citation" id="r706dbfc8a4f6-1" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">1</a><span class="fn-bracket">]</span></span>
+<p>I. S. Gradshteyn and I. M. Ryzhik, <em>Table of Integrals, Series, and Products</em> (Academic Press, 2007).</p>
+</div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="glow.time_domain.It_AnalyticSIS.ellip_Pi">
+<span class="sig-name descname"><span class="pre">ellip_Pi</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#glow.time_domain.It_AnalyticSIS.ellip_Pi" title="Link to this definition"></a></dt>
+<dd><p>Complete elliptic integral of the third kind, <span class="math notranslate nohighlight">\(\Pi(n, k)\)</span>.</p>
+<p>We follow the notation of <a class="reference internal" href="#re6d5dcf3f4b9-1" id="id3">[1]</a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>n, k</strong><span class="classifier">float or array</span></dt><dd></dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>Pi</strong><span class="classifier">float or array</span></dt><dd></dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">References</p>
+<div role="list" class="citation-list">
+<div class="citation" id="re6d5dcf3f4b9-1" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id3">1</a><span class="fn-bracket">]</span></span>
+<p>I. S. Gradshteyn and I. M. Ryzhik, <em>Table of Integrals, Series, and Products</em> (Academic Press, 2007).</p>
+</div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="glow.time_domain.It_AnalyticSIS.I_func">
+<span class="sig-name descname"><span class="pre">I_func</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">c</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">d</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">soft</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#glow.time_domain.It_AnalyticSIS.I_func" title="Link to this definition"></a></dt>
+<dd><p>Combination of complete elliptic integrals.</p>
+<div class="math notranslate nohighlight">
+\[I_\text{SIS}(a, b, c, d) =
+\frac{8(b-c)}{\sqrt{(a-c)(b-d)}}
+\left[
+    \Pi\left(\frac{a-b}{a-c}, r\right) + \frac{c\,K(r)}{(b-c)}
+\right]\]</div>
+<p>where</p>
+<div class="math notranslate nohighlight">
+\[r \equiv \sqrt{\frac{(a-b)(c-d)}{(a-c)(b-d)}}\]</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>a, b, c, d</strong><span class="classifier">float or array</span></dt><dd></dd>
+<dt><strong>soft</strong><span class="classifier">float</span></dt><dd><p>Softening factor, to help avoid divergences in denominators.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>I_SIS</strong><span class="classifier">float or array</span></dt><dd></dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="glow.time_domain.It_AnalyticSIS.compute">
+<span class="sig-name descname"><span class="pre">compute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tau</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#glow.time_domain.It_AnalyticSIS.compute" title="Link to this definition"></a></dt>
+<dd><p>Compute <span class="math notranslate nohighlight">\(I(\tau)\)</span>.</p>
+<p>Define the integral piece-wise in three regions:</p>
+<blockquote>
+<div><ul>
+<li><p>Region 1: <span class="math notranslate nohighlight">\((u &gt; 1)\ \to\ (\tau &gt; (\psi_0+y)^2/2)\)</span></p></li>
+<li><p>Region 2: <span class="math notranslate nohighlight">\((\sqrt{1-R^2} &lt; u &lt; 1)\ \to\ (2\psi_0 y &lt; \tau &lt; (\psi_0+y)^2/2)\)</span></p>
+<blockquote>
+<div><ul class="simple">
+<li><p>2A: <span class="math notranslate nohighlight">\((R &gt; 0)\ \to\ (\psi_0 &gt; y)\)</span></p></li>
+<li><p>2B: <span class="math notranslate nohighlight">\((R &lt; 0)\ \to\ (\psi_0 &lt; y)\)</span></p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p>Region 3: <span class="math notranslate nohighlight">\((0 &lt; u &lt; \sqrt{1-R^2})\ \to\ (0 &lt; \tau &lt; 2\psi_0 y)\)</span></p></li>
+</ul>
+</div></blockquote>
+<p>where</p>
+<div class="math notranslate nohighlight">
+\[u \equiv \frac{\sqrt{2\tau}}{\psi_0 + y}\ ,\qquad
+R \equiv \frac{\psi_0-y}{\psi_0 + y}\]</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>tau</strong><span class="classifier">float or array</span></dt><dd><p>Relative time delay <span class="math notranslate nohighlight">\(\tau\)</span>.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>I</strong><span class="classifier">float or array</span></dt><dd><p><span class="math notranslate nohighlight">\(I(\tau)\)</span>.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="glow.time_domain.It_NaiveAreaIntegral">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">glow.time_domain.</span></span><span class="sig-name descname"><span class="pre">It_NaiveAreaIntegral</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Lens</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p_prec</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#glow.time_domain.It_NaiveAreaIntegral" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="py_base.html#glow.time_domain.ItGeneral" title="glow.time_domain.ItGeneral"><code class="xref py py-class docutils literal notranslate"><span class="pre">ItGeneral</span></code></a></p>
+<p>Simple implementation of the binning/grid/area method for the computation of <span class="math notranslate nohighlight">\(I(\tau)\)</span>.</p>
+<p>The algorithm uses a uniform grid with polar coordinates centered at the lens position, <span class="math notranslate nohighlight">\(\rho=r^2\)</span>
+and <span class="math notranslate nohighlight">\(\theta\)</span>.
+First, it stores all the evaluations of the
+Fermat potential into an array. This array is then sorted (thus we can
+directly compute the minimum time delay) and divided into
+<span class="math notranslate nohighlight">\(\Delta t\)</span>-boxes of unequal size. The size (i.e. temporal
+spacing) is chosen with the criterium that each box is computed using
+the same number of points.</p>
+<p>This method is extraordinarily simple, provides the minimum time-delay and
+adaptative time sampling, but it cannot be scaled (since sorting becomes
+prohibitive). Also, with this method, some portion for large <span class="math notranslate nohighlight">\(\tau\)</span> must
+be thrown away (some of the contributions to the integral are always left
+out of the grid).</p>
+<p>Additional information: <a class="reference internal" href="main.html#areaintegral-theory"><span class="std std-ref">theory</span></a>, <a class="reference internal" href="default.html#pyit-naiveareaintegral-default"><span class="std std-ref">default parameters</span></a>.</p>
+<p>(Only new parameters and attributes are documented. See <a class="reference internal" href="py_base.html#glow.time_domain.ItGeneral" title="glow.time_domain.ItGeneral"><code class="xref py py-class docutils literal notranslate"><span class="pre">ItGeneral</span></code></a>
+for the internal information of the parent class)</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl>
+<dt><strong>p_prec</strong><span class="classifier">dict, optional</span></dt><dd><p>Precision parameters. New keys:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">rho_min</span></code>, <code class="docutils literal notranslate"><span class="pre">rho_max</span></code> (<em>float</em>) – Minimum and maximum radial coordinate <span class="math notranslate nohighlight">\(\rho=r^2\)</span>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">N_rho</span></code> (<em>int</em>) – Number of points in the <span class="math notranslate nohighlight">\(\rho\)</span> axis.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">N_theta</span></code> (<em>int</em>) – Number of points in the <span class="math notranslate nohighlight">\(\theta\)</span> axis.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">N_intervals</span></code> (<em>int</em>) – Number of points in the evaluation of <span class="math notranslate nohighlight">\(I(\tau)\)</span>.</p></li>
+</ul>
+</div></blockquote>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Methods</p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#glow.time_domain.It_NaiveAreaIntegral.compute" title="glow.time_domain.It_NaiveAreaIntegral.compute"><code class="xref py py-obj docutils literal notranslate"><span class="pre">compute</span></code></a>()</p></td>
+<td><p>Compute <span class="math notranslate nohighlight">\(I(\tau)\)</span>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#glow.time_domain.It_NaiveAreaIntegral.default_params" title="glow.time_domain.It_NaiveAreaIntegral.default_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">default_params</span></code></a>()</p></td>
+<td><p>(<em>subclass defined</em>) Initialize the default parameters.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>This method is only included due to its simplicity and lack of assumptions. It should never be
+used for applications that require high precision or speed. It is intended only for verification.
+The C version <a class="reference internal" href="c_version.html#glow.time_domain_c.It_AreaIntegral_C" title="glow.time_domain_c.It_AreaIntegral_C"><code class="xref py py-class docutils literal notranslate"><span class="pre">It_AreaIntegral_C</span></code></a> provides a (slightly) better
+optimization, avoiding both the storage of all the grid evaluations and the time-sorting problem, using
+instead a fixed temporal grid.</p>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="glow.time_domain.It_NaiveAreaIntegral.default_params">
+<span class="sig-name descname"><span class="pre">default_params</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#glow.time_domain.It_NaiveAreaIntegral.default_params" title="Link to this definition"></a></dt>
+<dd><p>(<em>subclass defined</em>) Initialize the default parameters.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="glow.time_domain.It_NaiveAreaIntegral.compute">
+<span class="sig-name descname"><span class="pre">compute</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#glow.time_domain.It_NaiveAreaIntegral.compute" title="Link to this definition"></a></dt>
+<dd><p>Compute <span class="math notranslate nohighlight">\(I(\tau)\)</span>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>t0</strong><span class="classifier">float</span></dt><dd><p>Minimum time delay <span class="math notranslate nohighlight">\(t_\text{min}\)</span>.</p>
+</dd>
+<dt><strong>t_k</strong><span class="classifier">array</span></dt><dd><p>Temporal grid <span class="math notranslate nohighlight">\(\tau_i = t_i - t_\text{min}\)</span>.</p>
+</dd>
+<dt><strong>It_k</strong><span class="classifier">array</span></dt><dd><p>Result grid <span class="math notranslate nohighlight">\(I_i=I(t_i)\)</span>.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="py_base.html" class="btn btn-neutral float-left" title="Python version - Base object" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="c_base.html" class="btn btn-neutral float-right" title="C version - Base object" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, GLoW team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

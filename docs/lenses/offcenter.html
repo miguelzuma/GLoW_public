@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Off-center versions &mdash; GLoW 0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
+      <link rel="stylesheet" href="../_static/css/functions.css" type="text/css" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=2709fde1"></script>
+        <script src="../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Composite lenses" href="composite.html" />
+    <link rel="prev" title="Lens types" href="types.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            GLoW
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../usage.html">Usage</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="main.html">Lenses</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="main.html#introduction">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="main.html#singular-isothermal-sphere-sis">Singular Isothermal Sphere (SIS)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="main.html#cored-isothermal-sphere-cis">Cored Isothermal Sphere (CIS)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="main.html#point-lens">Point lens</a></li>
+<li class="toctree-l2"><a class="reference internal" href="main.html#uniform-density-sphere">Uniform density sphere</a></li>
+<li class="toctree-l2"><a class="reference internal" href="main.html#navarro-frenk-white-nfw">Navarro-Frenk-White (NFW)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="main.html#truncated-sis-tsis">Truncated SIS (tSIS)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="main.html#elliptical-sis-esis">Elliptical SIS (eSIS)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="main.html#external-field">External field</a></li>
+<li class="toctree-l2"><a class="reference internal" href="main.html#composite-lenses">Composite lenses</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="main.html#module-information">Module information</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="base.html">Base objects</a></li>
+<li class="toctree-l3"><a class="reference internal" href="types.html">Lens types</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Off-center versions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#glow.lenses.Psi_offcenterSIS"><code class="docutils literal notranslate"><span class="pre">Psi_offcenterSIS</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#glow.lenses.Psi_offcenterCIS"><code class="docutils literal notranslate"><span class="pre">Psi_offcenterCIS</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#glow.lenses.Psi_offcenterPointLens"><code class="docutils literal notranslate"><span class="pre">Psi_offcenterPointLens</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#glow.lenses.Psi_offcenterBall"><code class="docutils literal notranslate"><span class="pre">Psi_offcenterBall</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#glow.lenses.Psi_offcenterNFW"><code class="docutils literal notranslate"><span class="pre">Psi_offcenterNFW</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="composite.html">Composite lenses</a></li>
+<li class="toctree-l3"><a class="reference internal" href="default.html">Default parameters</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../time_domain/main.html">Time domain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../freq_domain/main.html">Frequency domain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks.html">Notebooks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api.html">API</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">GLoW</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="main.html">Lenses</a></li>
+      <li class="breadcrumb-item active">Off-center versions</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/lenses/offcenter.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="off-center-versions">
+<h1>Off-center versions<a class="headerlink" href="#off-center-versions" title="Link to this heading"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="glow.lenses.Psi_offcenterSIS">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">glow.lenses.</span></span><span class="sig-name descname"><span class="pre">Psi_offcenterSIS</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">p_phys</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p_prec</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#glow.lenses.Psi_offcenterSIS" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="base.html#glow.lenses.PsiGeneral" title="glow.lenses.PsiGeneral"><code class="xref py py-class docutils literal notranslate"><span class="pre">PsiGeneral</span></code></a></p>
+<p>Lens object for the singular isothermal sphere (SIS) centered at (xc1, xc2).</p>
+<p>Additional information: <a class="reference internal" href="main.html#psi-sis-theory"><span class="std std-ref">theory</span></a>, <a class="reference internal" href="default.html#psi-offcentersis-default"><span class="std std-ref">default parameters</span></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>p_phys</strong><span class="classifier">dict</span></dt><dd><p>Physical parameters, with keys:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">psi0</span></code> (<em>float</em>) – Normalization of the lens.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">xc1</span></code> (<em>float</em>) – Location in the x1 axis.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">xc2</span></code> (<em>float</em>) – Location in the x2 axis.</p></li>
+</ul>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Attributes<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>asymp_index</strong><span class="classifier">float</span></dt><dd><p>0.5</p>
+</dd>
+<dt><strong>asymp_amplitude</strong><span class="classifier">float</span></dt><dd><p><span class="math notranslate nohighlight">\(\psi_0/\sqrt{2}\)</span></p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Methods</p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#glow.lenses.Psi_offcenterSIS.ddpsi_vec" title="glow.lenses.Psi_offcenterSIS.ddpsi_vec"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ddpsi_vec</span></code></a>(x1, x2)</p></td>
+<td><p>Second derivatives of the lensing potential.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#glow.lenses.Psi_offcenterSIS.default_params" title="glow.lenses.Psi_offcenterSIS.default_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">default_params</span></code></a>()</p></td>
+<td><p>Initialize the default parameters.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#glow.lenses.Psi_offcenterSIS.dpsi_vec" title="glow.lenses.Psi_offcenterSIS.dpsi_vec"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dpsi_vec</span></code></a>(x1, x2)</p></td>
+<td><p>First derivatives of the lensing potential.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#glow.lenses.Psi_offcenterSIS.psi" title="glow.lenses.Psi_offcenterSIS.psi"><code class="xref py py-obj docutils literal notranslate"><span class="pre">psi</span></code></a>(x1, x2)</p></td>
+<td><p>Lensing potential.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py method">
+<dt class="sig sig-object py" id="glow.lenses.Psi_offcenterSIS.default_params">
+<span class="sig-name descname"><span class="pre">default_params</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#glow.lenses.Psi_offcenterSIS.default_params" title="Link to this definition"></a></dt>
+<dd><p>Initialize the default parameters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>p_phys</strong><span class="classifier">dict</span></dt><dd><p>Default physical parameters.</p>
+</dd>
+<dt><strong>p_prec</strong><span class="classifier">dict</span></dt><dd><p>Empty dictionary.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="glow.lenses.Psi_offcenterSIS.psi">
+<span class="sig-name descname"><span class="pre">psi</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x2</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#glow.lenses.Psi_offcenterSIS.psi" title="Link to this definition"></a></dt>
+<dd><p>Lensing potential.</p>
+<p>Evaluate the equivalent method of <a class="reference internal" href="types.html#glow.lenses.Psi_SIS" title="glow.lenses.Psi_SIS"><code class="xref py py-class docutils literal notranslate"><span class="pre">Psi_SIS</span></code></a> at (x1-xc1, x2-xc2).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="glow.lenses.Psi_offcenterSIS.dpsi_vec">
+<span class="sig-name descname"><span class="pre">dpsi_vec</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x2</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#glow.lenses.Psi_offcenterSIS.dpsi_vec" title="Link to this definition"></a></dt>
+<dd><p>First derivatives of the lensing potential.</p>
+<p>Evaluate the equivalent method of <a class="reference internal" href="types.html#glow.lenses.Psi_SIS" title="glow.lenses.Psi_SIS"><code class="xref py py-class docutils literal notranslate"><span class="pre">Psi_SIS</span></code></a> at (x1-xc1, x2-xc2).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="glow.lenses.Psi_offcenterSIS.ddpsi_vec">
+<span class="sig-name descname"><span class="pre">ddpsi_vec</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x2</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#glow.lenses.Psi_offcenterSIS.ddpsi_vec" title="Link to this definition"></a></dt>
+<dd><p>Second derivatives of the lensing potential.</p>
+<p>Evaluate the equivalent method of <a class="reference internal" href="types.html#glow.lenses.Psi_SIS" title="glow.lenses.Psi_SIS"><code class="xref py py-class docutils literal notranslate"><span class="pre">Psi_SIS</span></code></a> at (x1-xc1, x2-xc2).</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="glow.lenses.Psi_offcenterCIS">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">glow.lenses.</span></span><span class="sig-name descname"><span class="pre">Psi_offcenterCIS</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">p_phys</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p_prec</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#glow.lenses.Psi_offcenterCIS" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="base.html#glow.lenses.PsiGeneral" title="glow.lenses.PsiGeneral"><code class="xref py py-class docutils literal notranslate"><span class="pre">PsiGeneral</span></code></a></p>
+<p>Lens object for the cored isothermal sphere (CIS) centered at (xc1, xc2).</p>
+<p>Additional information: <a class="reference internal" href="main.html#psi-cis-theory"><span class="std std-ref">theory</span></a>, <a class="reference internal" href="default.html#psi-offcentercis-default"><span class="std std-ref">default parameters</span></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>p_phys</strong><span class="classifier">dict</span></dt><dd><p>Physical parameters, with keys:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">psi0</span></code> (<em>float</em>) – Normalization of the lens.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">rc</span></code> (<em>float</em>) – Core radius.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">xc1</span></code> (<em>float</em>) – Location in the x1 axis.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">xc2</span></code> (<em>float</em>) – Location in the x2 axis.</p></li>
+</ul>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Attributes<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>asymp_index</strong><span class="classifier">float</span></dt><dd><p>0.5</p>
+</dd>
+<dt><strong>asymp_amplitude</strong><span class="classifier">float</span></dt><dd><p><span class="math notranslate nohighlight">\(\psi_0/\sqrt{2}\)</span></p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Methods</p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#glow.lenses.Psi_offcenterCIS.ddpsi_vec" title="glow.lenses.Psi_offcenterCIS.ddpsi_vec"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ddpsi_vec</span></code></a>(x1, x2)</p></td>
+<td><p>Second derivatives of the lensing potential.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#glow.lenses.Psi_offcenterCIS.default_params" title="glow.lenses.Psi_offcenterCIS.default_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">default_params</span></code></a>()</p></td>
+<td><p>Initialize the default parameters.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#glow.lenses.Psi_offcenterCIS.dpsi_vec" title="glow.lenses.Psi_offcenterCIS.dpsi_vec"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dpsi_vec</span></code></a>(x1, x2)</p></td>
+<td><p>First derivatives of the lensing potential.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#glow.lenses.Psi_offcenterCIS.psi" title="glow.lenses.Psi_offcenterCIS.psi"><code class="xref py py-obj docutils literal notranslate"><span class="pre">psi</span></code></a>(x1, x2)</p></td>
+<td><p>Lensing potential.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py method">
+<dt class="sig sig-object py" id="glow.lenses.Psi_offcenterCIS.default_params">
+<span class="sig-name descname"><span class="pre">default_params</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#glow.lenses.Psi_offcenterCIS.default_params" title="Link to this definition"></a></dt>
+<dd><p>Initialize the default parameters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>p_phys</strong><span class="classifier">dict</span></dt><dd><p>Default physical parameters.</p>
+</dd>
+<dt><strong>p_prec</strong><span class="classifier">dict</span></dt><dd><p>Empty dictionary.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="glow.lenses.Psi_offcenterCIS.psi">
+<span class="sig-name descname"><span class="pre">psi</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x2</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#glow.lenses.Psi_offcenterCIS.psi" title="Link to this definition"></a></dt>
+<dd><p>Lensing potential.</p>
+<p>Evaluate the equivalent method of <a class="reference internal" href="types.html#glow.lenses.Psi_CIS" title="glow.lenses.Psi_CIS"><code class="xref py py-class docutils literal notranslate"><span class="pre">Psi_CIS</span></code></a> at (x1-xc1, x2-xc2).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="glow.lenses.Psi_offcenterCIS.dpsi_vec">
+<span class="sig-name descname"><span class="pre">dpsi_vec</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x2</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#glow.lenses.Psi_offcenterCIS.dpsi_vec" title="Link to this definition"></a></dt>
+<dd><p>First derivatives of the lensing potential.</p>
+<p>Evaluate the equivalent method of <a class="reference internal" href="types.html#glow.lenses.Psi_CIS" title="glow.lenses.Psi_CIS"><code class="xref py py-class docutils literal notranslate"><span class="pre">Psi_CIS</span></code></a> at (x1-xc1, x2-xc2).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="glow.lenses.Psi_offcenterCIS.ddpsi_vec">
+<span class="sig-name descname"><span class="pre">ddpsi_vec</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x2</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#glow.lenses.Psi_offcenterCIS.ddpsi_vec" title="Link to this definition"></a></dt>
+<dd><p>Second derivatives of the lensing potential.</p>
+<p>Evaluate the equivalent method of <a class="reference internal" href="types.html#glow.lenses.Psi_CIS" title="glow.lenses.Psi_CIS"><code class="xref py py-class docutils literal notranslate"><span class="pre">Psi_CIS</span></code></a> at (x1-xc1, x2-xc2).</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="glow.lenses.Psi_offcenterPointLens">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">glow.lenses.</span></span><span class="sig-name descname"><span class="pre">Psi_offcenterPointLens</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">p_phys</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p_prec</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#glow.lenses.Psi_offcenterPointLens" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="base.html#glow.lenses.PsiGeneral" title="glow.lenses.PsiGeneral"><code class="xref py py-class docutils literal notranslate"><span class="pre">PsiGeneral</span></code></a></p>
+<p>Lens object for the point lens centered at (xc1, xc2).</p>
+<p>Additional information: <a class="reference internal" href="main.html#psi-pointlens-theory"><span class="std std-ref">theory</span></a>, <a class="reference internal" href="default.html#psi-offcenterpointlens-default"><span class="std std-ref">default parameters</span></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>p_phys</strong><span class="classifier">dict</span></dt><dd><p>Physical parameters, with keys:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">psi0</span></code> (<em>float</em>) – Normalization of the lens.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">xc1</span></code> (<em>float</em>) – Location in the x1 axis.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">xc2</span></code> (<em>float</em>) – Location in the x2 axis.</p></li>
+</ul>
+</dd>
+<dt><strong>p_prec</strong><span class="classifier">dict</span></dt><dd><p>Precision parameters, with keys:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">xc</span></code> (<em>float</em>) – Point mass regularization (Plummer sphere).</p></li>
+</ul>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Attributes<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>asymp_index</strong><span class="classifier">float</span></dt><dd><ol class="arabic simple">
+<li></li>
+</ol>
+</dd>
+<dt><strong>asymp_amplitude</strong><span class="classifier">float</span></dt><dd><p><span class="math notranslate nohighlight">\(\psi_0/2\)</span></p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Methods</p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#glow.lenses.Psi_offcenterPointLens.ddpsi_vec" title="glow.lenses.Psi_offcenterPointLens.ddpsi_vec"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ddpsi_vec</span></code></a>(x1, x2)</p></td>
+<td><p>Second derivatives of the lensing potential.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#glow.lenses.Psi_offcenterPointLens.default_params" title="glow.lenses.Psi_offcenterPointLens.default_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">default_params</span></code></a>()</p></td>
+<td><p>Initialize the default parameters.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#glow.lenses.Psi_offcenterPointLens.dpsi_vec" title="glow.lenses.Psi_offcenterPointLens.dpsi_vec"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dpsi_vec</span></code></a>(x1, x2)</p></td>
+<td><p>First derivatives of the lensing potential.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#glow.lenses.Psi_offcenterPointLens.psi" title="glow.lenses.Psi_offcenterPointLens.psi"><code class="xref py py-obj docutils literal notranslate"><span class="pre">psi</span></code></a>(x1, x2)</p></td>
+<td><p>Lensing potential.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py method">
+<dt class="sig sig-object py" id="glow.lenses.Psi_offcenterPointLens.default_params">
+<span class="sig-name descname"><span class="pre">default_params</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#glow.lenses.Psi_offcenterPointLens.default_params" title="Link to this definition"></a></dt>
+<dd><p>Initialize the default parameters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>p_phys</strong><span class="classifier">dict</span></dt><dd><p>Default physical parameters.</p>
+</dd>
+<dt><strong>p_prec</strong><span class="classifier">dict</span></dt><dd><p>Empty dictionary.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="glow.lenses.Psi_offcenterPointLens.psi">
+<span class="sig-name descname"><span class="pre">psi</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x2</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#glow.lenses.Psi_offcenterPointLens.psi" title="Link to this definition"></a></dt>
+<dd><p>Lensing potential.</p>
+<p>Evaluate the equivalent method of <a class="reference internal" href="types.html#glow.lenses.Psi_PointLens" title="glow.lenses.Psi_PointLens"><code class="xref py py-class docutils literal notranslate"><span class="pre">Psi_PointLens</span></code></a> at (x1-xc1, x2-xc2).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="glow.lenses.Psi_offcenterPointLens.dpsi_vec">
+<span class="sig-name descname"><span class="pre">dpsi_vec</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x2</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#glow.lenses.Psi_offcenterPointLens.dpsi_vec" title="Link to this definition"></a></dt>
+<dd><p>First derivatives of the lensing potential.</p>
+<p>Evaluate the equivalent method of <a class="reference internal" href="types.html#glow.lenses.Psi_PointLens" title="glow.lenses.Psi_PointLens"><code class="xref py py-class docutils literal notranslate"><span class="pre">Psi_PointLens</span></code></a> at (x1-xc1, x2-xc2).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="glow.lenses.Psi_offcenterPointLens.ddpsi_vec">
+<span class="sig-name descname"><span class="pre">ddpsi_vec</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x2</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#glow.lenses.Psi_offcenterPointLens.ddpsi_vec" title="Link to this definition"></a></dt>
+<dd><p>Second derivatives of the lensing potential.</p>
+<p>Evaluate the equivalent method of <a class="reference internal" href="types.html#glow.lenses.Psi_PointLens" title="glow.lenses.Psi_PointLens"><code class="xref py py-class docutils literal notranslate"><span class="pre">Psi_PointLens</span></code></a> at (x1-xc1, x2-xc2).</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="glow.lenses.Psi_offcenterBall">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">glow.lenses.</span></span><span class="sig-name descname"><span class="pre">Psi_offcenterBall</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">p_phys</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p_prec</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#glow.lenses.Psi_offcenterBall" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="base.html#glow.lenses.PsiGeneral" title="glow.lenses.PsiGeneral"><code class="xref py py-class docutils literal notranslate"><span class="pre">PsiGeneral</span></code></a></p>
+<p>Lens object for the uniform density sphere centered at (xc1, xc2).</p>
+<p>Additional information: <a class="reference internal" href="main.html#psi-ball-theory"><span class="std std-ref">theory</span></a>, <a class="reference internal" href="default.html#psi-offcenterball-default"><span class="std std-ref">default parameters</span></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>p_phys</strong><span class="classifier">dict</span></dt><dd><p>Physical parameters, with keys:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">psi0</span></code> (<em>float</em>) – Normalization of the lens.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">b</span></code> (<em>float</em>) – Radius of the sphere.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">xc1</span></code> (<em>float</em>) – Location in the x1 axis.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">xc2</span></code> (<em>float</em>) – Location in the x2 axis.</p></li>
+</ul>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Attributes<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>asymp_index</strong><span class="classifier">float</span></dt><dd><ol class="arabic simple">
+<li></li>
+</ol>
+</dd>
+<dt><strong>asymp_amplitude</strong><span class="classifier">float</span></dt><dd><p><span class="math notranslate nohighlight">\(\psi_0/2\)</span></p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Methods</p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#glow.lenses.Psi_offcenterBall.check_input" title="glow.lenses.Psi_offcenterBall.check_input"><code class="xref py py-obj docutils literal notranslate"><span class="pre">check_input</span></code></a>()</p></td>
+<td><p>Check that the radius is positive.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#glow.lenses.Psi_offcenterBall.ddpsi_vec" title="glow.lenses.Psi_offcenterBall.ddpsi_vec"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ddpsi_vec</span></code></a>(x1, x2)</p></td>
+<td><p>Second derivatives of the lensing potential.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#glow.lenses.Psi_offcenterBall.default_params" title="glow.lenses.Psi_offcenterBall.default_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">default_params</span></code></a>()</p></td>
+<td><p>Initialize the default parameters.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#glow.lenses.Psi_offcenterBall.dpsi_vec" title="glow.lenses.Psi_offcenterBall.dpsi_vec"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dpsi_vec</span></code></a>(x1, x2)</p></td>
+<td><p>First derivatives of the lensing potential.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#glow.lenses.Psi_offcenterBall.psi" title="glow.lenses.Psi_offcenterBall.psi"><code class="xref py py-obj docutils literal notranslate"><span class="pre">psi</span></code></a>(x1, x2)</p></td>
+<td><p>Lensing potential.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py method">
+<dt class="sig sig-object py" id="glow.lenses.Psi_offcenterBall.default_params">
+<span class="sig-name descname"><span class="pre">default_params</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#glow.lenses.Psi_offcenterBall.default_params" title="Link to this definition"></a></dt>
+<dd><p>Initialize the default parameters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>p_phys</strong><span class="classifier">dict</span></dt><dd><p>Default physical parameters.</p>
+</dd>
+<dt><strong>p_prec</strong><span class="classifier">dict</span></dt><dd><p>Empty dictionary.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="glow.lenses.Psi_offcenterBall.check_input">
+<span class="sig-name descname"><span class="pre">check_input</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#glow.lenses.Psi_offcenterBall.check_input" title="Link to this definition"></a></dt>
+<dd><p>Check that the radius is positive.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt>LensException</dt><dd></dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="glow.lenses.Psi_offcenterBall.psi">
+<span class="sig-name descname"><span class="pre">psi</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x2</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#glow.lenses.Psi_offcenterBall.psi" title="Link to this definition"></a></dt>
+<dd><p>Lensing potential.</p>
+<p>Evaluate the equivalent method of <a class="reference internal" href="types.html#glow.lenses.Psi_Ball" title="glow.lenses.Psi_Ball"><code class="xref py py-class docutils literal notranslate"><span class="pre">Psi_Ball</span></code></a> at (x1-xc1, x2-xc2).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="glow.lenses.Psi_offcenterBall.dpsi_vec">
+<span class="sig-name descname"><span class="pre">dpsi_vec</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x2</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#glow.lenses.Psi_offcenterBall.dpsi_vec" title="Link to this definition"></a></dt>
+<dd><p>First derivatives of the lensing potential.</p>
+<p>Evaluate the equivalent method of <a class="reference internal" href="types.html#glow.lenses.Psi_Ball" title="glow.lenses.Psi_Ball"><code class="xref py py-class docutils literal notranslate"><span class="pre">Psi_Ball</span></code></a> at (x1-xc1, x2-xc2).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="glow.lenses.Psi_offcenterBall.ddpsi_vec">
+<span class="sig-name descname"><span class="pre">ddpsi_vec</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x2</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#glow.lenses.Psi_offcenterBall.ddpsi_vec" title="Link to this definition"></a></dt>
+<dd><p>Second derivatives of the lensing potential.</p>
+<p>Evaluate the equivalent method of <a class="reference internal" href="types.html#glow.lenses.Psi_Ball" title="glow.lenses.Psi_Ball"><code class="xref py py-class docutils literal notranslate"><span class="pre">Psi_Ball</span></code></a> at (x1-xc1, x2-xc2).</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="glow.lenses.Psi_offcenterNFW">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">glow.lenses.</span></span><span class="sig-name descname"><span class="pre">Psi_offcenterNFW</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">p_phys</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p_prec</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#glow.lenses.Psi_offcenterNFW" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="base.html#glow.lenses.PsiGeneral" title="glow.lenses.PsiGeneral"><code class="xref py py-class docutils literal notranslate"><span class="pre">PsiGeneral</span></code></a></p>
+<p>Lens object for the NFW lens centered at (xc1, xc2).</p>
+<p>Additional information: <a class="reference internal" href="main.html#psi-nfw-theory"><span class="std std-ref">theory</span></a>, <a class="reference internal" href="default.html#psi-offcenternfw-default"><span class="std std-ref">default parameters</span></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>p_phys</strong><span class="classifier">dict</span></dt><dd><p>Physical parameters, with keys:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">psi0</span></code> (<em>float</em>) – Normalization of the lens.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">xs</span></code> (<em>float</em>) – Rescaled NFW radius.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">xc1</span></code> (<em>float</em>) – Location in the x1 axis.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">xc2</span></code> (<em>float</em>) – Location in the x2 axis.</p></li>
+</ul>
+</dd>
+<dt><strong>p_prec</strong><span class="classifier">dict</span></dt><dd><p>Precision parameters, with keys:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">eps_soft</span></code> (<em>float</em>) – Softening factor.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">eps_NFW</span></code> (<em>float</em>) – Switch on Taylor expansion                                     when <span class="math notranslate nohighlight">\(x/x_s &lt; \epsilon_\text{NFW}\)</span>.</p></li>
+</ul>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Methods</p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#glow.lenses.Psi_offcenterNFW.ddpsi_vec" title="glow.lenses.Psi_offcenterNFW.ddpsi_vec"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ddpsi_vec</span></code></a>(x1, x2)</p></td>
+<td><p>Second derivatives of the lensing potential.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#glow.lenses.Psi_offcenterNFW.default_params" title="glow.lenses.Psi_offcenterNFW.default_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">default_params</span></code></a>()</p></td>
+<td><p>Initialize the default parameters.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#glow.lenses.Psi_offcenterNFW.dpsi_vec" title="glow.lenses.Psi_offcenterNFW.dpsi_vec"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dpsi_vec</span></code></a>(x1, x2)</p></td>
+<td><p>First derivatives of the lensing potential.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#glow.lenses.Psi_offcenterNFW.psi" title="glow.lenses.Psi_offcenterNFW.psi"><code class="xref py py-obj docutils literal notranslate"><span class="pre">psi</span></code></a>(x1, x2)</p></td>
+<td><p>Lensing potential.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py method">
+<dt class="sig sig-object py" id="glow.lenses.Psi_offcenterNFW.default_params">
+<span class="sig-name descname"><span class="pre">default_params</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#glow.lenses.Psi_offcenterNFW.default_params" title="Link to this definition"></a></dt>
+<dd><p>Initialize the default parameters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>p_phys</strong><span class="classifier">dict</span></dt><dd><p>Default physical parameters.</p>
+</dd>
+<dt><strong>p_prec</strong><span class="classifier">dict</span></dt><dd><p>Default precision parameters.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="glow.lenses.Psi_offcenterNFW.psi">
+<span class="sig-name descname"><span class="pre">psi</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x2</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#glow.lenses.Psi_offcenterNFW.psi" title="Link to this definition"></a></dt>
+<dd><p>Lensing potential.</p>
+<p>Evaluate the equivalent method of <a class="reference internal" href="types.html#glow.lenses.Psi_NFW" title="glow.lenses.Psi_NFW"><code class="xref py py-class docutils literal notranslate"><span class="pre">Psi_NFW</span></code></a> at (x1-xc1, x2-xc2).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="glow.lenses.Psi_offcenterNFW.dpsi_vec">
+<span class="sig-name descname"><span class="pre">dpsi_vec</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x2</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#glow.lenses.Psi_offcenterNFW.dpsi_vec" title="Link to this definition"></a></dt>
+<dd><p>First derivatives of the lensing potential.</p>
+<p>Evaluate the equivalent method of <a class="reference internal" href="types.html#glow.lenses.Psi_NFW" title="glow.lenses.Psi_NFW"><code class="xref py py-class docutils literal notranslate"><span class="pre">Psi_NFW</span></code></a> at (x1-xc1, x2-xc2).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="glow.lenses.Psi_offcenterNFW.ddpsi_vec">
+<span class="sig-name descname"><span class="pre">ddpsi_vec</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x2</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#glow.lenses.Psi_offcenterNFW.ddpsi_vec" title="Link to this definition"></a></dt>
+<dd><p>Second derivatives of the lensing potential.</p>
+<p>Evaluate the equivalent method of <a class="reference internal" href="types.html#glow.lenses.Psi_NFW" title="glow.lenses.Psi_NFW"><code class="xref py py-class docutils literal notranslate"><span class="pre">Psi_NFW</span></code></a> at (x1-xc1, x2-xc2).</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="types.html" class="btn btn-neutral float-left" title="Lens types" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="composite.html" class="btn btn-neutral float-right" title="Composite lenses" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, GLoW team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

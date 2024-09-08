@@ -1,0 +1,6 @@
+Notebooks
+=========
+.. toctree::
+    :maxdepth: 2
+
+    generated/examples_old_nb

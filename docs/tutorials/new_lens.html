@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Implementing a new lens &mdash; GLoW 0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
+      <link rel="stylesheet" href="../_static/css/functions.css" type="text/css" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=2709fde1"></script>
+        <script src="../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Implementing a new C module" href="new_module.html" />
+    <link rel="prev" title="Usage" href="../usage.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            GLoW
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../usage.html">Usage</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../usage.html#installation">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../usage.html#first-steps">First steps</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../usage.html#tutorials">Tutorials</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Implementing a new lens</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#python">Python</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#c-and-cython-wrapper">C and Cython wrapper</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#testing">Testing</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="new_module.html">Implementing a new C module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="debugging.html">Debugging</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../lenses/main.html">Lenses</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../time_domain/main.html">Time domain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../freq_domain/main.html">Frequency domain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks.html">Notebooks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api.html">API</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">GLoW</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../usage.html">Usage</a></li>
+      <li class="breadcrumb-item active">Implementing a new lens</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/tutorials/new_lens.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="implementing-a-new-lens">
+<h1>Implementing a new lens<a class="headerlink" href="#implementing-a-new-lens" title="Link to this heading"></a></h1>
+<p>The best way to implement a new lens is to copy an existing implementation (e.g. CIS)
+and make the appropiate changes. Below we outline the procedure and all the places
+where changes should be made for a standard lens implementation.</p>
+<p>We will assume that the new lens is called <code class="docutils literal notranslate"><span class="pre">MyLens</span></code> with parameters <code class="docutils literal notranslate"><span class="pre">psi0</span></code>, <code class="docutils literal notranslate"><span class="pre">p1</span></code>,
+<code class="docutils literal notranslate"><span class="pre">p2</span></code> …  (it is highly recommended to always add a parameter <code class="docutils literal notranslate"><span class="pre">psi0</span></code> that allows to
+scale the lensing potential if needed, even if it is one with the preferred choice of units).</p>
+<section id="python">
+<h2>Python<a class="headerlink" href="#python" title="Link to this heading"></a></h2>
+<ol class="arabic">
+<li><p><em>Define the lens and its parameters (Mandatory)</em>.</p>
+<blockquote>
+<div><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># lenses.py</span>
+<span class="k">class</span> <span class="nc">Psi_MyLens</span><span class="p">(</span><span class="n">PsiGeneral</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Lens object for MyLens.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    p_phys : dict</span>
+<span class="sd">        Physical parameters, with keys:</span>
+
+<span class="sd">        * ``psi0`` (*float*) -- Normalization of the lens.</span>
+<span class="sd">        * ``p1`` (*??*) -- ??</span>
+<span class="sd">        * ``p2`` (*??*) -- ??</span>
+<span class="sd">        * ...</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p_phys</span><span class="o">=</span><span class="p">{},</span> <span class="n">p_prec</span><span class="o">=</span><span class="p">{}):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">p_phys</span><span class="p">,</span> <span class="n">p_prec</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">default_params</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">p_phys</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;name&#39;</span> <span class="p">:</span> <span class="s1">&#39;my lens&#39;</span><span class="p">,</span>\
+                  <span class="s1">&#39;psi0&#39;</span> <span class="p">:</span> <span class="mi">1</span><span class="p">,</span>\
+                  <span class="s1">&#39;p1&#39;</span>   <span class="p">:</span> <span class="mf">1.</span><span class="p">,</span>\
+                  <span class="s1">&#39;p2&#39;</span>   <span class="p">:</span> <span class="mf">1.</span><span class="p">,</span>\
+                  <span class="o">...</span><span class="p">}</span>
+        <span class="n">p_prec</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">return</span> <span class="n">p_phys</span><span class="p">,</span> <span class="n">p_prec</span>
+</pre></div>
+</div>
+<p>All the parameters that we plan to use with the lens must be included in <code class="docutils literal notranslate"><span class="pre">default_params()</span></code>. If we pass parameters that are not defined here the code will warn us.</p>
+</div></blockquote>
+</li>
+<li><p><em>Check the input (Optional)</em>.</p>
+<blockquote>
+<div><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># lenses.py</span>
+<span class="k">class</span> <span class="nc">Psi_MyLens</span><span class="p">(</span><span class="n">PsiGeneral</span><span class="p">):</span>
+    <span class="o">...</span>
+    <span class="k">def</span> <span class="nf">check_input</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">psi0</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">p_phys</span><span class="p">[</span><span class="s1">&#39;psi0&#39;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">psi0</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">message</span> <span class="o">=</span> <span class="s2">&quot;psi0 = </span><span class="si">%g</span><span class="s2"> &lt; 0 found&quot;</span> <span class="o">%</span> <span class="n">psi0</span>
+            <span class="k">raise</span> <span class="n">LensException</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p><em>Implement the lensing potential (Optional)</em>. If we are going to implement the lens in C, we can skip this step. It is however advisable to have an independent Python implementation.</p>
+<blockquote>
+<div><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># lenses.py</span>
+<span class="k">class</span> <span class="nc">Psi_MyLens</span><span class="p">(</span><span class="n">PsiGeneral</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p_phys</span><span class="o">=</span><span class="p">{},</span> <span class="n">p_prec</span><span class="o">=</span><span class="p">{}):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">p_phys</span><span class="p">,</span> <span class="n">p_prec</span><span class="p">)</span>
+
+    <span class="o">...</span>
+
+    <span class="k">def</span> <span class="nf">psi</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">):</span>
+        <span class="k">return</span> <span class="o">...</span>
+
+    <span class="k">def</span> <span class="nf">dpsi_vec</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">):</span>
+        <span class="n">d1</span> <span class="o">=</span> <span class="o">...</span>
+        <span class="n">d2</span> <span class="o">=</span> <span class="o">...</span>
+        <span class="k">return</span> <span class="n">d1</span><span class="p">,</span> <span class="n">d2</span>
+
+    <span class="k">def</span> <span class="nf">ddpsi_vec</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">):</span>
+        <span class="n">d11</span> <span class="o">=</span> <span class="o">...</span>
+        <span class="n">d12</span> <span class="o">=</span> <span class="o">...</span>
+        <span class="n">d22</span> <span class="o">=</span> <span class="o">...</span>
+        <span class="k">return</span> <span class="n">d11</span><span class="p">,</span> <span class="n">d12</span><span class="p">,</span> <span class="n">d22</span>
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p><em>Asymptotic information (Optional)</em>. If the derivative of the lens potential behaves asymptotically like a power-law,</p>
+<blockquote>
+<div><div class="math notranslate nohighlight">
+\[\psi'{\sim}\frac{A_\psi}{r^\gamma}, \quad r\to\infty\]</div>
+<p>there are two more quantities that we can define:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{align}
+    \gamma_\text{asymp} &amp;\equiv (\gamma+1)/2\ ,\\
+    A_\text{asymp} &amp;\equiv A_\psi/2^{\gamma_\text{asymp}}\ .
+\end{align}\end{split}\]</div>
+<p>These two quantities will help to regularize <span class="math notranslate nohighlight">\(I(\tau)\)</span> and reduce the noise in the computation of <span class="math notranslate nohighlight">\(F(w)\)</span>. If we choose the wrong parameters the results will still be consistent, but maybe more noisy than they should be. The regularization scheme is designed for power laws, but for lenses with logarithms, e.g. <span class="math notranslate nohighlight">\(\psi'\sim r^{-\gamma}\log r\)</span>, it is still worth trying it since it will typically improve the results. We can include this information in the lens as</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># lenses.py</span>
+<span class="k">class</span> <span class="nc">Psi_MyLens</span><span class="p">(</span><span class="n">PsiGeneral</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p_phys</span><span class="o">=</span><span class="p">{},</span> <span class="n">p_prec</span><span class="o">=</span><span class="p">{}):</span>
+        <span class="o">...</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">asymp_index</span>     <span class="o">=</span> <span class="o">...</span> <span class="c1"># gamma_asymp</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">asymp_amplitude</span> <span class="o">=</span> <span class="o">...</span> <span class="c1"># A_asymp</span>
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p><em>Axisymmetric lenses (Optional)</em>. If our lens is axisymmetric we can simplify the calculation of the derivatives. First, we need to declare the lens as a subclass of <a class="reference internal" href="../lenses/base.html#glow.lenses.PsiAxisym" title="glow.lenses.PsiAxisym"><code class="xref py py-class docutils literal notranslate"><span class="pre">PsiAxisym</span></code></a> and repeat all the steps above, changing only the implementation of the lensing potential:</p>
+<blockquote>
+<div><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># lenses.py</span>
+<span class="k">class</span> <span class="nc">Psi_MyLens</span><span class="p">(</span><span class="n">PsiAxisym</span><span class="p">):</span>
+    <span class="o">...</span>
+    <span class="k">def</span> <span class="nf">psi_x</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="o">...</span>
+
+    <span class="k">def</span> <span class="nf">dpsi_dx</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="o">...</span>
+
+    <span class="k">def</span> <span class="nf">ddpsi_ddx</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="o">...</span>
+</pre></div>
+</div>
+<p>The resulting lens will still have the <code class="docutils literal notranslate"><span class="pre">psi(x1,</span> <span class="pre">x2)</span></code>, <code class="docutils literal notranslate"><span class="pre">dpsi_vec(x1,</span> <span class="pre">x2)</span></code>, <code class="docutils literal notranslate"><span class="pre">ddpsi_vec(x1,</span> <span class="pre">x2)</span></code> methods but these will be computed from the radial derivatives defined above.</p>
+</div></blockquote>
+</li>
+</ol>
+</section>
+<section id="c-and-cython-wrapper">
+<h2>C and Cython wrapper<a class="headerlink" href="#c-and-cython-wrapper" title="Link to this heading"></a></h2>
+<ol class="arabic">
+<li><p><em>Declare the lens and data structures.</em> First go to <code class="docutils literal notranslate"><span class="pre">wrapper/glow_lib/include/lenses.h</span></code> and add a new identifier for our lens</p>
+<blockquote>
+<div><div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="c1">// lenses.h</span>
+<span class="k">enum</span><span class="w"> </span><span class="n">indices_lenses</span><span class="w"> </span><span class="p">{</span><span class="n">i_SIS</span><span class="p">,</span><span class="w"> </span><span class="p">...</span>
+<span class="w">                     </span><span class="p">...</span>
+<span class="w">                     </span><span class="n">i_MyLens</span><span class="p">,</span>
+<span class="w">                     </span><span class="n">N_lenses</span><span class="p">};</span>
+</pre></div>
+</div>
+<p>Define the structure that will store the parameters</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="c1">// lenses.h</span>
+<span class="k">typedef</span><span class="w"> </span><span class="k">struct</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="kt">double</span><span class="w"> </span><span class="n">psi0</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">double</span><span class="w"> </span><span class="n">p1</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">double</span><span class="w"> </span><span class="n">p2</span><span class="p">;</span>
+<span class="w">    </span><span class="p">...</span>
+<span class="p">}</span><span class="w"> </span><span class="n">pLens_MyLens</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>and finally add the following definitions to <code class="docutils literal notranslate"><span class="pre">lenses.h</span></code>.</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="c1">// lenses.h</span>
+<span class="n">pNamedLens</span><span class="o">*</span><span class="w"> </span><span class="nf">create_pLens_MyLens</span><span class="p">(</span><span class="kt">double</span><span class="w"> </span><span class="n">psi0</span><span class="p">,</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="n">p1</span><span class="p">,</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="n">p2</span><span class="p">,</span><span class="w"> </span><span class="p">...);</span>
+<span class="kt">void</span><span class="w"> </span><span class="nf">free_pLens_MyLens</span><span class="p">(</span><span class="n">pNamedLens</span><span class="o">*</span><span class="w"> </span><span class="n">pNLens</span><span class="p">);</span>
+<span class="n">Lens</span><span class="w"> </span><span class="nf">init_lens_MyLens</span><span class="p">(</span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">pLens</span><span class="p">);</span>
+<span class="kt">double</span><span class="w"> </span><span class="nf">psi_MyLens</span><span class="p">(</span><span class="kt">double</span><span class="w"> </span><span class="n">x1</span><span class="p">,</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="n">x2</span><span class="p">,</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">pLens</span><span class="p">);</span>
+<span class="kt">int</span><span class="w"> </span><span class="nf">psi_1stDerivs_MyLens</span><span class="p">(</span><span class="kt">double</span><span class="w"> </span><span class="o">*</span><span class="n">psi_derivs</span><span class="p">,</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="n">x1</span><span class="p">,</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="n">x2</span><span class="p">,</span>
+<span class="w">                         </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">pLens</span><span class="p">);</span>
+<span class="kt">int</span><span class="w"> </span><span class="nf">psi_2ndDerivs_MyLens</span><span class="p">(</span><span class="kt">double</span><span class="w"> </span><span class="o">*</span><span class="n">psi_derivs</span><span class="p">,</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="n">x1</span><span class="p">,</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="n">x2</span><span class="p">,</span>
+<span class="w">                         </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">pLens</span><span class="p">);</span>
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p><em>Implement the lensing potential.</em> Now we must actually define these functions in <code class="docutils literal notranslate"><span class="pre">wrapper/glow_lib/source/lenses.c</span></code>. The first step is to add a name for our lens <em>in the same position as our identifier</em> <code class="docutils literal notranslate"><span class="pre">i_MyLens</span></code></p>
+<blockquote>
+<div><div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="c1">// lenses.c</span>
+<span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">names_lenses</span><span class="p">[]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="s">&quot;SIS&quot;</span><span class="p">,</span>
+<span class="w">                        </span><span class="p">...</span>
+<span class="w">                        </span><span class="s">&quot;my lens&quot;</span><span class="p">};</span>
+</pre></div>
+</div>
+<p>Again <em>in the same position</em>, we must add the allocation and free function for our lens</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="c1">// lenses.c</span>
+<span class="n">Lens</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="n">init_func_lenses</span><span class="p">[</span><span class="n">N_lenses</span><span class="p">])(</span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">init_lens_SIS</span><span class="p">,</span>
+<span class="w">                                               </span><span class="p">...</span>
+<span class="w">                                               </span><span class="n">init_lens_MyLens</span><span class="w"> </span><span class="p">};</span>
+
+<span class="kt">void</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="n">free_func_lenses</span><span class="p">[</span><span class="n">N_lenses</span><span class="p">])(</span><span class="n">pNamedLens</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">free_pLens_SIS</span><span class="p">,</span>
+<span class="w">                                                     </span><span class="p">...</span>
+<span class="w">                                                     </span><span class="n">free_pLens_MyLens</span><span class="w"> </span><span class="p">};</span>
+</pre></div>
+</div>
+<p>Next, we have to define the function that will initialize the parameters of the lens. If we don’t need any special allocation, it will look like this</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="c1">// lenses.c</span>
+<span class="n">pNamedLens</span><span class="o">*</span><span class="w"> </span><span class="nf">create_pLens_MyLens</span><span class="p">(</span><span class="kt">double</span><span class="w"> </span><span class="n">psi0</span><span class="p">,</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="n">p1</span><span class="p">,</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="n">p2</span><span class="p">,</span><span class="w"> </span><span class="p">...)</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="n">pNamedLens</span><span class="w"> </span><span class="o">*</span><span class="n">pNLens</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">pNamedLens</span><span class="o">*</span><span class="p">)</span><span class="n">malloc</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="n">pNamedLens</span><span class="p">));</span>
+<span class="w">    </span><span class="n">pLens_MyLens</span><span class="w"> </span><span class="o">*</span><span class="n">pLens</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">pLens_MyLens</span><span class="o">*</span><span class="p">)</span><span class="n">malloc</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="n">pLens_MyLens</span><span class="p">));</span>
+
+<span class="w">    </span><span class="n">pLens</span><span class="o">-&gt;</span><span class="n">psi0</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">psi0</span><span class="p">;</span>
+<span class="w">    </span><span class="n">pLens</span><span class="o">-&gt;</span><span class="n">p1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">p1</span><span class="p">;</span>
+<span class="w">    </span><span class="n">pLens</span><span class="o">-&gt;</span><span class="n">p2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">p2</span><span class="p">;</span>
+<span class="w">    </span><span class="p">...</span>
+
+<span class="w">    </span><span class="n">pNLens</span><span class="o">-&gt;</span><span class="n">lens_type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i_MyLens</span><span class="p">;</span>
+<span class="w">    </span><span class="n">pNLens</span><span class="o">-&gt;</span><span class="n">pLens</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pLens</span><span class="p">;</span>
+
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">pNLens</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>If we didn’t allocate anything else in the previous step, the next two functions don’t need to be modified</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="c1">// lenses.c</span>
+<span class="kt">void</span><span class="w"> </span><span class="nf">free_pLens_MyLens</span><span class="p">(</span><span class="n">pNamedLens</span><span class="w"> </span><span class="o">*</span><span class="n">pNLens</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="n">free</span><span class="p">(</span><span class="n">pNLens</span><span class="o">-&gt;</span><span class="n">pLens</span><span class="p">);</span>
+<span class="w">    </span><span class="n">free</span><span class="p">(</span><span class="n">pNLens</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="n">Lens</span><span class="w"> </span><span class="nf">init_lens_MyLens</span><span class="p">(</span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">pLens</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="n">Lens</span><span class="w"> </span><span class="n">Psi</span><span class="p">;</span>
+
+<span class="w">    </span><span class="n">Psi</span><span class="p">.</span><span class="n">psi</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">psi_MyLens</span><span class="p">;</span>
+<span class="w">    </span><span class="n">Psi</span><span class="p">.</span><span class="n">psi_1stDerivs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">psi_1stDerivs_MyLens</span><span class="p">;</span>
+<span class="w">    </span><span class="n">Psi</span><span class="p">.</span><span class="n">psi_2ndDerivs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">psi_2ndDerivs_MyLens</span><span class="p">;</span>
+<span class="w">    </span><span class="n">Psi</span><span class="p">.</span><span class="n">pLens</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pLens</span><span class="p">;</span>
+
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">Psi</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Finally we have to define the lensing potential, with its first and second derivatives. The function <code class="docutils literal notranslate"><span class="pre">psi</span></code> will compute the lensing potential, <code class="docutils literal notranslate"><span class="pre">psi_1stDerivs</span></code> both the lensing potential and the first derivatives and <code class="docutils literal notranslate"><span class="pre">psi_2ndDerivs</span></code> all the preceding plus the second derivatives. Unfortunately the code must be copied and pasted.</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="c1">// lenses.c</span>
+<span class="kt">double</span><span class="w"> </span><span class="nf">psi_MyLens</span><span class="p">(</span><span class="kt">double</span><span class="w"> </span><span class="n">x1</span><span class="p">,</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="n">x2</span><span class="p">,</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">pLens</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="kt">double</span><span class="w"> </span><span class="n">psi</span><span class="p">;</span>
+<span class="w">    </span><span class="p">...</span>
+<span class="w">    </span><span class="n">pLens_MyLens</span><span class="w"> </span><span class="o">*</span><span class="n">p</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">pLens_MyLens</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="n">pLens</span><span class="p">;</span>
+
+<span class="w">    </span><span class="n">psi</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">p</span><span class="o">-&gt;</span><span class="n">psi0</span><span class="o">*</span><span class="p">...</span>
+
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">psi</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">int</span><span class="w"> </span><span class="nf">psi_1stDerivs_MyLens</span><span class="p">(</span><span class="kt">double</span><span class="w"> </span><span class="o">*</span><span class="n">psi_derivs</span><span class="p">,</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="n">x1</span><span class="p">,</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="n">x2</span><span class="p">,</span>
+<span class="w">                         </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">pLens</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="kt">double</span><span class="w"> </span><span class="n">psi</span><span class="p">,</span><span class="w"> </span><span class="n">d1</span><span class="p">,</span><span class="w"> </span><span class="n">d2</span><span class="p">;</span>
+<span class="w">    </span><span class="p">...</span>
+<span class="w">    </span><span class="n">pLens_MyLens</span><span class="w"> </span><span class="o">*</span><span class="n">p</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">pLens_MyLens</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="n">pLens</span><span class="p">;</span>
+
+<span class="w">    </span><span class="n">psi</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">p</span><span class="o">-&gt;</span><span class="n">psi0</span><span class="o">*</span><span class="p">...</span>
+<span class="w">    </span><span class="n">d1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">...</span><span class="w">           </span><span class="c1">// dpsi/dx1</span>
+<span class="w">    </span><span class="n">d2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">...</span><span class="w">           </span><span class="c1">// dpsi/dx2</span>
+
+<span class="w">    </span><span class="n">psi_derivs</span><span class="p">[</span><span class="n">i_0</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">psi</span><span class="p">;</span>
+<span class="w">    </span><span class="n">psi_derivs</span><span class="p">[</span><span class="n">i_dx1</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">d1</span><span class="p">;</span>
+<span class="w">    </span><span class="n">psi_derivs</span><span class="p">[</span><span class="n">i_dx2</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">d2</span><span class="p">;</span>
+
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">int</span><span class="w"> </span><span class="nf">psi_2ndDerivs_MyLens</span><span class="p">(</span><span class="kt">double</span><span class="w"> </span><span class="o">*</span><span class="n">psi_derivs</span><span class="p">,</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="n">x1</span><span class="p">,</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="n">x2</span><span class="p">,</span>
+<span class="w">                         </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">pLens</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="kt">double</span><span class="w"> </span><span class="n">psi</span><span class="p">,</span><span class="w"> </span><span class="n">d1</span><span class="p">,</span><span class="w"> </span><span class="n">d2</span><span class="p">,</span><span class="w"> </span><span class="n">d11</span><span class="p">,</span><span class="w"> </span><span class="n">d22</span><span class="p">,</span><span class="w"> </span><span class="n">d12</span><span class="p">;</span>
+<span class="w">    </span><span class="p">...</span>
+<span class="w">    </span><span class="n">pLens_MyLens</span><span class="w"> </span><span class="o">*</span><span class="n">p</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">pLens_MyLens</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="n">pLens</span><span class="p">;</span>
+
+<span class="w">    </span><span class="n">psi</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">p</span><span class="o">-&gt;</span><span class="n">psi0</span><span class="o">*</span><span class="p">...</span>
+<span class="w">    </span><span class="n">d1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">...</span>
+<span class="w">    </span><span class="n">d2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">...</span>
+<span class="w">    </span><span class="n">d11</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">...</span><span class="w">      </span><span class="c1">// ddpsi/dx1dx1</span>
+<span class="w">    </span><span class="n">d22</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">...</span><span class="w">      </span><span class="c1">// ddpsi/dx2dx2</span>
+<span class="w">    </span><span class="n">d12</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">...</span><span class="w">      </span><span class="c1">// ddpsi/dx1dx2</span>
+
+<span class="w">    </span><span class="n">psi_derivs</span><span class="p">[</span><span class="n">i_0</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">psi</span><span class="p">;</span>
+<span class="w">    </span><span class="n">psi_derivs</span><span class="p">[</span><span class="n">i_dx1</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">d1</span><span class="p">;</span>
+<span class="w">    </span><span class="n">psi_derivs</span><span class="p">[</span><span class="n">i_dx2</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">d2</span><span class="p">;</span>
+<span class="w">    </span><span class="n">psi_derivs</span><span class="p">[</span><span class="n">i_dx1dx1</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">d11</span><span class="p">;</span>
+<span class="w">    </span><span class="n">psi_derivs</span><span class="p">[</span><span class="n">i_dx2dx2</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">d22</span><span class="p">;</span>
+<span class="w">    </span><span class="n">psi_derivs</span><span class="p">[</span><span class="n">i_dx1dx2</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">d12</span><span class="p">;</span>
+
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p><em>Check for cusps/singularities (Optional)</em>. If the lens that we are implementing has any known problematic points (singularities or cusps) we can add this information to improve the computation. For axisymmetric lenses we can skip this step, in those cases the origin (and only the origin) will always be checked.</p>
+<blockquote>
+<div><div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="c1">// lenses.c</span>
+<span class="kt">double</span><span class="w"> </span><span class="o">*</span><span class="nf">get_cusp_sing</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="o">*</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">pNamedLens</span><span class="w"> </span><span class="o">*</span><span class="n">pNLens</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="p">...</span>
+<span class="w">    </span><span class="k">if</span><span class="p">(</span><span class="n">lens_type</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">i_offcenterSIS</span><span class="p">)</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="n">x1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">((</span><span class="n">pLens_offcenterSIS</span><span class="w"> </span><span class="o">*</span><span class="p">)(</span><span class="n">pNLens</span><span class="o">-&gt;</span><span class="n">pLens</span><span class="p">))</span><span class="o">-&gt;</span><span class="n">xc1</span><span class="p">;</span>
+<span class="w">        </span><span class="n">x2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">((</span><span class="n">pLens_offcenterSIS</span><span class="w"> </span><span class="o">*</span><span class="p">)(</span><span class="n">pNLens</span><span class="o">-&gt;</span><span class="n">pLens</span><span class="p">))</span><span class="o">-&gt;</span><span class="n">xc2</span><span class="p">;</span>
+<span class="w">        </span><span class="n">xvec</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">add_cusp_sing</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">xvec</span><span class="p">,</span><span class="w"> </span><span class="n">x1</span><span class="p">,</span><span class="w"> </span><span class="n">x2</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="p">(</span><span class="n">lens_type</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">i_MyLens</span><span class="p">)</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="n">x1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">((</span><span class="n">pLens_MyLens</span><span class="w"> </span><span class="o">*</span><span class="p">)(</span><span class="n">pNLens</span><span class="o">-&gt;</span><span class="n">pLens</span><span class="p">))</span><span class="o">-&gt;</span><span class="n">xc1</span><span class="p">;</span>
+<span class="w">        </span><span class="n">x2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">((</span><span class="n">pLens_MyLens</span><span class="w"> </span><span class="o">*</span><span class="p">)(</span><span class="n">pNLens</span><span class="o">-&gt;</span><span class="n">pLens</span><span class="p">))</span><span class="o">-&gt;</span><span class="n">xc2</span><span class="p">;</span>
+<span class="w">        </span><span class="n">xvec</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">add_cusp_sing</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">xvec</span><span class="p">,</span><span class="w"> </span><span class="n">x1</span><span class="p">,</span><span class="w"> </span><span class="n">x2</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="p">...</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p><em>Create the wrapper.</em> The lens is ready to be used in C, but to be able to call it from Python we must create a wrapper. First, we go to <code class="docutils literal notranslate"><span class="pre">wrapper/src/clenses.pxd</span></code> and add the declaration of one of our previously defined C functions</p>
+<blockquote>
+<div><div class="highlight-cython notranslate"><div class="highlight"><pre><span></span><span class="c"># clenses.pxd</span>
+<span class="k">cdef</span> <span class="kr">extern</span> <span class="k">from</span> <span class="s">&quot;lenses_lib.h&quot;</span><span class="p">:</span>
+    <span class="o">...</span>
+    <span class="n">pNamedLens</span><span class="o">*</span> <span class="n">create_pLens_MyLens</span><span class="p">(</span><span class="n">double</span> <span class="n">psi0</span><span class="p">,</span> <span class="n">double</span> <span class="n">p1</span><span class="p">,</span> <span class="n">double</span> <span class="n">p2</span><span class="p">,</span> <span class="o">...</span><span class="p">)</span>
+    <span class="o">...</span>
+</pre></div>
+</div>
+<p>Next, in <code class="docutils literal notranslate"><span class="pre">clenses.pyx</span></code> we must define a function that translates the parameters stored in Python to the ones that we will use in C</p>
+<div class="highlight-cython notranslate"><div class="highlight"><pre><span></span><span class="c"># clenses.pyx</span>
+<span class="k">cdef</span> <span class="kt">pNamedLens</span>* <span class="nf">convert_pphys_to_pLens_MyLens</span><span class="p">(</span><span class="n">p_phys</span><span class="p">):</span>
+    <span class="k">cdef</span> <span class="kt">double</span> <span class="nf">psi0</span> <span class="o">=</span> <span class="n">p_phys</span><span class="p">[</span><span class="s">&#39;psi0&#39;</span><span class="p">]</span>
+    <span class="k">cdef</span> <span class="kt">double</span> <span class="nf">p1</span> <span class="o">=</span> <span class="n">p_phys</span><span class="p">[</span><span class="s">&#39;p1&#39;</span><span class="p">]</span>
+    <span class="k">cdef</span> <span class="kt">double</span> <span class="nf">p2</span> <span class="o">=</span> <span class="n">p_phys</span><span class="p">[</span><span class="s">&#39;p2&#39;</span><span class="p">]</span>
+    <span class="o">...</span>
+
+    <span class="k">return</span> <span class="n">clenses</span><span class="o">.</span><span class="n">create_pLens_MyLens</span><span class="p">(</span><span class="n">psi0</span><span class="p">,</span> <span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">,</span> <span class="o">...</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Add the name of the new lens to the list of implemented lenses <em>with the same name</em> stored in <code class="docutils literal notranslate"><span class="pre">p_phys['name']</span></code> in the Python implementation.</p>
+<div class="highlight-cython notranslate"><div class="highlight"><pre><span></span><span class="c"># clenses.pyx</span>
+<span class="n">implemented_lenses</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;SIS&#39;</span><span class="p">,</span><span class="w">\</span>
+                      <span class="o">...</span>
+                      <span class="s">&#39;my lens&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Finally, add an entry in</p>
+<div class="highlight-cython notranslate"><div class="highlight"><pre><span></span><span class="c"># clenses.pyx</span>
+<span class="k">cdef</span> <span class="kt">pNamedLens</span>* <span class="nf">convert_pphys_to_pLens</span><span class="p">(</span><span class="n">p_phys</span><span class="p">):</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">p_phys</span><span class="p">[</span><span class="s">&#39;name&#39;</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s">&#39;SIS&#39;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">convert_pphys_to_pLens_SIS</span><span class="p">(</span><span class="n">p_phys</span><span class="p">)</span>
+    <span class="o">...</span>
+    <span class="k">elif</span> <span class="n">name</span> <span class="o">==</span> <span class="s">&#39;my lens&#39;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">convert_pphys_to_pLens_MyLens</span><span class="p">(</span><span class="n">p_phys</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">message</span> <span class="o">=</span> <span class="s">&quot;WRAPPER ERROR: Unknown lens &#39;</span><span class="si">%s</span><span class="s">&#39;&quot;</span> <span class="o">%</span> <span class="n">name</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+</ol>
+</section>
+<section id="testing">
+<h2>Testing<a class="headerlink" href="#testing" title="Link to this heading"></a></h2>
+<section id="manual-testing">
+<h3>Manual testing<a class="headerlink" href="#manual-testing" title="Link to this heading"></a></h3>
+<p>There are two ways to manually test our implementation. First, to test
+directly our implementation in C, we first go to <code class="docutils literal notranslate"><span class="pre">wrapper/glow_lib</span></code>.
+The Makefile in this folder will only compile the C code and running it as
+<code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">all</span></code> will also compile some test files in the <code class="docutils literal notranslate"><span class="pre">tests</span></code> folder. We can
+then for instance modify and run <code class="docutils literal notranslate"><span class="pre">tests/test_lenses</span></code> to quickly check our
+implementation during the early development stage.</p>
+<p>Once the lens is fully implemented, i.e. Python frontend + Cython wrapper,
+we can also test the C implementation directly from Python. We just need
+to “decorate” the Python lens as</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">glow</span> <span class="kn">import</span> <span class="n">lenses</span>
+<span class="kn">from</span> <span class="nn">glow.wrapper</span> <span class="kn">import</span> <span class="n">LensWrapper</span>
+
+<span class="n">Psi_py</span> <span class="o">=</span> <span class="n">lenses</span><span class="o">.</span><span class="n">Psi_SIS</span><span class="p">()</span>
+<span class="n">Psi_c</span>  <span class="o">=</span> <span class="n">LensWrapper</span><span class="p">(</span><span class="n">Psi_py</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>and <code class="docutils literal notranslate"><span class="pre">Psi_c</span></code> will behave (almost) like a Python lens (it will lack some methods and arguments).</p>
+<p>However, keep in mind that you may need to run <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">clean</span></code> and then
+<code class="docutils literal notranslate"><span class="pre">make</span></code> if you modify the C code and want to properly recompile the
+wrapper (which takes some time, so the first method should be preferred during
+early development).</p>
+</section>
+<section id="automatic-testing">
+<h3>Automatic testing<a class="headerlink" href="#automatic-testing" title="Link to this heading"></a></h3>
+<p>There is a rudimentary script for automatic testing of lenses in
+<code class="docutils literal notranslate"><span class="pre">tests/test_lenses.py</span></code> (in the main directory). At the bottom of the
+file, new lenses can be added:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># test_lenses.py</span>
+<span class="o">...</span>
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="o">...</span>
+    <span class="n">lenses</span> <span class="o">=</span> <span class="p">[</span><span class="n">lenses</span><span class="o">.</span><span class="n">Psi_SIS</span><span class="p">(),</span>
+              <span class="o">...</span><span class="p">,</span>
+              <span class="n">lenses</span><span class="o">.</span><span class="n">Psi_MyLens</span><span class="p">()]</span>
+</pre></div>
+</div>
+<p>This will compute the numerical derivatives of the lens potential in a grid
+of points and compare it to the exact result, both for the Python and C
+implementations (if they are implemented, otherwise it will skip the test). It will
+also compare both implementations and the internal consistency of the C code
+(i.e. we check that the copy-pasting in <code class="docutils literal notranslate"><span class="pre">psi_1stDerivs</span></code> and
+<code class="docutils literal notranslate"><span class="pre">psi_2ndDerivs</span></code> didn’t go wrong).</p>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../usage.html" class="btn btn-neutral float-left" title="Usage" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="new_module.html" class="btn btn-neutral float-right" title="Implementing a new C module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, GLoW team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

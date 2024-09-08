@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Python version - Methods &mdash; GLoW 0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
+      <link rel="stylesheet" href="../_static/css/functions.css" type="text/css" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=2709fde1"></script>
+        <script src="../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="C version - Base object" href="c_base.html" />
+    <link rel="prev" title="Python version - Base object" href="py_base.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            GLoW
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../usage.html">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../lenses/main.html">Lenses</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../time_domain/main.html">Time domain</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="main.html">Frequency domain</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="main.html#introduction">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="main.html#regularization">Regularization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="main.html#analytic-point-lens">Analytic point lens</a></li>
+<li class="toctree-l2"><a class="reference internal" href="main.html#semi-analytic-sis">Semi-analytic SIS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="main.html#direct-fourier-transform">Direct Fourier Transform</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="main.html#module-information">Module information</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="py_base.html">Python version - Base object</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Python version - Methods</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#glow.freq_domain.Fw_FFT_OldReg"><code class="docutils literal notranslate"><span class="pre">Fw_FFT_OldReg</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#glow.freq_domain.Fw_SemiAnalyticSIS"><code class="docutils literal notranslate"><span class="pre">Fw_SemiAnalyticSIS</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#glow.freq_domain.Fw_AnalyticPointLens"><code class="docutils literal notranslate"><span class="pre">Fw_AnalyticPointLens</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="c_base.html">C version - Base object</a></li>
+<li class="toctree-l3"><a class="reference internal" href="c_version.html">C version - Methods</a></li>
+<li class="toctree-l3"><a class="reference internal" href="default.html">Default parameters</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks.html">Notebooks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api.html">API</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">GLoW</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="main.html">Frequency domain</a></li>
+      <li class="breadcrumb-item active">Python version - Methods</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/freq_domain/py_version.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="python-version-methods">
+<h1>Python version - Methods<a class="headerlink" href="#python-version-methods" title="Link to this heading"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="glow.freq_domain.Fw_FFT_OldReg">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">glow.freq_domain.</span></span><span class="sig-name descname"><span class="pre">Fw_FFT_OldReg</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">It</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p_prec</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#glow.freq_domain.Fw_FFT_OldReg" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="py_base.html#glow.freq_domain.FwGeneral" title="glow.freq_domain.FwGeneral"><code class="xref py py-class docutils literal notranslate"><span class="pre">FwGeneral</span></code></a></p>
+<p>Computation of the amplification factor as the FFT of <span class="math notranslate nohighlight">\(I(\tau)\)</span>.</p>
+<p>This class uses the information about the images stored in <code class="docutils literal notranslate"><span class="pre">p_crits</span></code> to regularize the
+time-domain integral:</p>
+<div class="math notranslate nohighlight">
+\[I_\text{reg}(\tau) \equiv I(\tau) - I_\text{sing}(\tau)\]</div>
+<p>where <span class="math notranslate nohighlight">\(I_\text{sing}(\tau)\)</span> is analytical and depends on the images. This regular part
+is then Fourier transformed (with a FFT) to obtain <span class="math notranslate nohighlight">\(F_\text{reg}(w)\)</span>. Finally, we add back the
+(analytical) Fourier transform of the singular part, <span class="math notranslate nohighlight">\(F_\text{sing}(w)\)</span>, to get the
+amplification factor:</p>
+<div class="math notranslate nohighlight">
+\[F(w) = F_\text{reg}(w) + F_\text{sing}(w)\]</div>
+<p>Additional information: <a class="reference internal" href="main.html#regularization-theory"><span class="std std-ref">theory</span></a>, <a class="reference internal" href="default.html#pyfw-fft-default"><span class="std std-ref">default parameters</span></a>.</p>
+<p>(Only new parameters and attributes are documented. See <a class="reference internal" href="py_base.html#glow.freq_domain.FwGeneral" title="glow.freq_domain.FwGeneral"><code class="xref py py-class docutils literal notranslate"><span class="pre">FwGeneral</span></code></a>
+for the internal information of the parent class)</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl>
+<dt><strong>p_prec</strong><span class="classifier">dict, optional</span></dt><dd><p>Precision parameters. New keys:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">wmin</span></code>, <code class="docutils literal notranslate"><span class="pre">wmax</span></code> (<em>float</em>) – Minimum and maximum frequencies to be computed.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">window_transition</span></code> (<em>float</em>) – Width of the Tukey window function.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">smallest_tau_max</span></code> (<em>float</em>) – Ensure that <span class="math notranslate nohighlight">\(I(\tau)\)</span> is always computed, at least,            up to this value.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">eval_mode</span></code> (<em>str</em>) – Behaviour of <code class="xref py py-func docutils literal notranslate"><span class="pre">eval_Fw()</span></code>, to compute            <span class="math notranslate nohighlight">\(F(w)=F_\text{reg}(w)+F_\text{sing}(w)\)</span>. In both cases, <span class="math notranslate nohighlight">\(F_\text{reg}\)</span> is            computed with a FFT on a grid and then evaluated using an interpolation function. The two            options control how <span class="math notranslate nohighlight">\(F_\text{sing}\)</span> is computed.</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">'interpolate'</span></code>: <span class="math notranslate nohighlight">\(F_\text{sing}(w)\)</span> is precomputed on the same grid as                <span class="math notranslate nohighlight">\(F_\text{reg}\)</span>, and then evaluated using an interpolation function.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">'exact'</span></code>: <span class="math notranslate nohighlight">\(F_\text{sing}(w)\)</span> is evaluated analytically for each <span class="math notranslate nohighlight">\(w\)</span>.</p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">FFT</span> <span class="pre">type</span></code> (<em>str</em>) – Choose the FFT solver. The options are Numpy (<code class="docutils literal notranslate"><span class="pre">'numpy'</span></code>) and            Scipy (<code class="docutils literal notranslate"><span class="pre">'scipy'</span></code>). The differences are minimal.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">FFT</span> <span class="pre">method</span></code> (<em>str</em>) – The options are:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">'standard'</span></code>: Perform a single FFT. When the frequency range is very large, this method can                become very time-consuming and noisy.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">'multigrid'</span></code>, <code class="docutils literal notranslate"><span class="pre">'multigrid_stack'</span></code>: Perform independent FFTs, with varying time resolution,                and patch them together.</p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">N_above_discard</span></code>, <code class="docutils literal notranslate"><span class="pre">N_below_discard</span></code>, <code class="docutils literal notranslate"><span class="pre">N_keep</span></code> (<em>int</em>) – Parameters used with            the <code class="docutils literal notranslate"><span class="pre">'multigrid'</span></code> option. In this mode, the frequency range is divided into            <span class="math notranslate nohighlight">\(n = \frac{1}{N_\text{keep}}\log(w_\text{max}/w_\text{min})\)</span> intervals of frequency,            logarithmically spaced. We then perform <span class="math notranslate nohighlight">\(n\)</span> independent FFTs in these intervals. To reduce            the errors at high and low frequencies we actually perform the FFT in each interval starting from            higher and lower frequencies (that are later discarded). The actual size of each of the            FFTs is <span class="math notranslate nohighlight">\(\log_2(N_{FFT}) = N_\text{below} + N_\text{keep} + N_\text{above}\)</span>.</p></li>
+</ul>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Attributes<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>w_grid</strong><span class="classifier">array</span></dt><dd><p>Grid of frequencies where the FFT has been computed.</p>
+</dd>
+<dt><strong>Fw_reg_grid</strong><span class="classifier">array</span></dt><dd><p>FFT of the regular part of the time-domain integral, i.e. <span class="math notranslate nohighlight">\(F_\text{reg}(w)\)</span>.</p>
+</dd>
+<dt><strong>Fw_grid</strong><span class="classifier">array</span></dt><dd><p>If we are working in the inteporlation mode, <code class="docutils literal notranslate"><span class="pre">Fw_grid</span></code> stores the grid of values
+that will be used for interpolation. Otherwise it contains zeroes.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Methods</p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#glow.freq_domain.Fw_FFT_OldReg.compute" title="glow.freq_domain.Fw_FFT_OldReg.compute"><code class="xref py py-obj docutils literal notranslate"><span class="pre">compute</span></code></a>(eval_It)</p></td>
+<td><p>Computation of <span class="math notranslate nohighlight">\(F(w)\)</span>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#glow.freq_domain.Fw_FFT_OldReg.compute_FFT" title="glow.freq_domain.Fw_FFT_OldReg.compute_FFT"><code class="xref py py-obj docutils literal notranslate"><span class="pre">compute_FFT</span></code></a>(Is)</p></td>
+<td><p>Compute the FFT of an array.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#glow.freq_domain.Fw_FFT_OldReg.compute_FFT_freq" title="glow.freq_domain.Fw_FFT_OldReg.compute_FFT_freq"><code class="xref py py-obj docutils literal notranslate"><span class="pre">compute_FFT_freq</span></code></a>(N_fft, dtau[, imin, imax])</p></td>
+<td><p>Compute the FFT of a quantity</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#glow.freq_domain.Fw_FFT_OldReg.compute_It_FFT" title="glow.freq_domain.Fw_FFT_OldReg.compute_It_FFT"><code class="xref py py-obj docutils literal notranslate"><span class="pre">compute_It_FFT</span></code></a>(fmin, fmax, eval_It)</p></td>
+<td><p>Compute the (windowed) FFT of a function in a frequency range.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#glow.freq_domain.Fw_FFT_OldReg.compute_multigrid" title="glow.freq_domain.Fw_FFT_OldReg.compute_multigrid"><code class="xref py py-obj docutils literal notranslate"><span class="pre">compute_multigrid</span></code></a>(wmin, wmax, eval_It)</p></td>
+<td><p>Computation of <span class="math notranslate nohighlight">\(F(w)\)</span> patching together several FFTs.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#glow.freq_domain.Fw_FFT_OldReg.compute_multigrid_stack" title="glow.freq_domain.Fw_FFT_OldReg.compute_multigrid_stack"><code class="xref py py-obj docutils literal notranslate"><span class="pre">compute_multigrid_stack</span></code></a>(wmin, wmax, eval_It)</p></td>
+<td><p>Computation of <span class="math notranslate nohighlight">\(F(w)\)</span> patching together several FFTs.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#glow.freq_domain.Fw_FFT_OldReg.compute_standard" title="glow.freq_domain.Fw_FFT_OldReg.compute_standard"><code class="xref py py-obj docutils literal notranslate"><span class="pre">compute_standard</span></code></a>(wmin, wmax, eval_It)</p></td>
+<td><p>Computation of <span class="math notranslate nohighlight">\(F(w)\)</span> with a single FFT, between a maximum and minimum frequency.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#glow.freq_domain.Fw_FFT_OldReg.default_params" title="glow.freq_domain.Fw_FFT_OldReg.default_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">default_params</span></code></a>()</p></td>
+<td><p>(<em>subclass defined</em>) Initialize the default parameters.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#glow.freq_domain.Fw_FFT_OldReg.get_freq_multigrid" title="glow.freq_domain.Fw_FFT_OldReg.get_freq_multigrid"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_freq_multigrid</span></code></a>(wmin, wmax)</p></td>
+<td><p>Compute the frequency ranges for the FFTs with the multigrid method.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#glow.freq_domain.Fw_FFT_OldReg.get_window" title="glow.freq_domain.Fw_FFT_OldReg.get_window"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_window</span></code></a>(N_fft)</p></td>
+<td><p>Compute the Tukey window function.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#glow.freq_domain.Fw_FFT_OldReg.tau_range" title="glow.freq_domain.Fw_FFT_OldReg.tau_range"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tau_range</span></code></a>(fmin, fmax)</p></td>
+<td><p>Compute the time array for the FFT.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#glow.freq_domain.Fw_FFT_OldReg.transform_Fw" title="glow.freq_domain.Fw_FFT_OldReg.transform_Fw"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform_Fw</span></code></a>(tau_min, dtau, f_fft, It_fft)</p></td>
+<td><p>Final transformations of the FFT of <span class="math notranslate nohighlight">\(I(\tau)\)</span> to get <span class="math notranslate nohighlight">\(F(w)\)</span>.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py method">
+<dt class="sig sig-object py" id="glow.freq_domain.Fw_FFT_OldReg.default_params">
+<span class="sig-name descname"><span class="pre">default_params</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#glow.freq_domain.Fw_FFT_OldReg.default_params" title="Link to this definition"></a></dt>
+<dd><p>(<em>subclass defined</em>) Initialize the default parameters.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="glow.freq_domain.Fw_FFT_OldReg.tau_range">
+<span class="sig-name descname"><span class="pre">tau_range</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fmin</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fmax</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#glow.freq_domain.Fw_FFT_OldReg.tau_range" title="Link to this definition"></a></dt>
+<dd><p>Compute the time array for the FFT.</p>
+<p>Given a frequency range, we compute the times where we need to evaluate
+our function to perform the FFT. We include some corrections for the
+window size and the requirements set by <code class="docutils literal notranslate"><span class="pre">smallest_tau_max</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>fmin, fmax</strong><span class="classifier">float</span></dt><dd><p>Minimum and maximum frequencies for the FFT.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>tau_min, tau_max</strong><span class="classifier">float</span></dt><dd><p>Minimum and maximum times of the time array (which will be equally spaced).</p>
+</dd>
+<dt><strong>N_fft</strong><span class="classifier">int</span></dt><dd><p>Size of the array, i.e. size of the FFT.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="glow.freq_domain.Fw_FFT_OldReg.get_window">
+<span class="sig-name descname"><span class="pre">get_window</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">N_fft</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#glow.freq_domain.Fw_FFT_OldReg.get_window" title="Link to this definition"></a></dt>
+<dd><p>Compute the Tukey window function.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>window</strong><span class="classifier">array</span></dt><dd><p>Tukey window function.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="glow.freq_domain.Fw_FFT_OldReg.compute_FFT">
+<span class="sig-name descname"><span class="pre">compute_FFT</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Is</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#glow.freq_domain.Fw_FFT_OldReg.compute_FFT" title="Link to this definition"></a></dt>
+<dd><p>Compute the FFT of an array.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>I_fft</strong><span class="classifier">array</span></dt><dd><p>Real FFT of the input.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="glow.freq_domain.Fw_FFT_OldReg.compute_FFT_freq">
+<span class="sig-name descname"><span class="pre">compute_FFT_freq</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">N_fft</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtau</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">imin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">imax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#glow.freq_domain.Fw_FFT_OldReg.compute_FFT_freq" title="Link to this definition"></a></dt>
+<dd><p>Compute the FFT of a quantity</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="glow.freq_domain.Fw_FFT_OldReg.compute_It_FFT">
+<span class="sig-name descname"><span class="pre">compute_It_FFT</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fmin</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fmax</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eval_It</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#glow.freq_domain.Fw_FFT_OldReg.compute_It_FFT" title="Link to this definition"></a></dt>
+<dd><p>Compute the (windowed) FFT of a function in a frequency range.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>fmin, fmax</strong><span class="classifier">float</span></dt><dd><p>Frequency range.</p>
+</dd>
+<dt><strong>eval_It</strong><span class="classifier">func(float or array) -&gt; float or array</span></dt><dd><p>Function to be transformed.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>tau_min</strong><span class="classifier">float</span></dt><dd><p>Minimum time sampled.</p>
+</dd>
+<dt><strong>dtau</strong><span class="classifier">float</span></dt><dd><p>Spacing of the time array, i.e. temporal resolution.</p>
+</dd>
+<dt><strong>f_fft</strong><span class="classifier">array</span></dt><dd><p>Frequencies.</p>
+</dd>
+<dt><strong>It_fft</strong><span class="classifier">array</span></dt><dd><p>FFT of the input function in the frequency range.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="glow.freq_domain.Fw_FFT_OldReg.transform_Fw">
+<span class="sig-name descname"><span class="pre">transform_Fw</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tau_min</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtau</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">f_fft</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">It_fft</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#glow.freq_domain.Fw_FFT_OldReg.transform_Fw" title="Link to this definition"></a></dt>
+<dd><p>Final transformations of the FFT of <span class="math notranslate nohighlight">\(I(\tau)\)</span> to get <span class="math notranslate nohighlight">\(F(w)\)</span>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>tau_min</strong><span class="classifier">float</span></dt><dd><p>Minimum time in the grid.</p>
+</dd>
+<dt><strong>dtau</strong><span class="classifier">float</span></dt><dd><p>Time spacing.</p>
+</dd>
+<dt><strong>f_fft, It_fft</strong><span class="classifier">array</span></dt><dd><p>Frequency grid and FFT.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>w</strong><span class="classifier">array</span></dt><dd><p>Angular frequency, <span class="math notranslate nohighlight">\(w=2\pi f\)</span>.</p>
+</dd>
+<dt><strong>Fw</strong><span class="classifier">array</span></dt><dd><p>Amplification factor.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="glow.freq_domain.Fw_FFT_OldReg.compute_standard">
+<span class="sig-name descname"><span class="pre">compute_standard</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">wmin</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wmax</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eval_It</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#glow.freq_domain.Fw_FFT_OldReg.compute_standard" title="Link to this definition"></a></dt>
+<dd><p>Computation of <span class="math notranslate nohighlight">\(F(w)\)</span> with a single FFT, between a maximum and minimum frequency.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>wmin, wmax: float</strong></dt><dd><p>Minimum and maximum frequencies <span class="math notranslate nohighlight">\(w\)</span>.</p>
+</dd>
+<dt><strong>eval_It</strong><span class="classifier">func(float or array) -&gt; float or array</span></dt><dd><p><span class="math notranslate nohighlight">\(I(\tau)\)</span>.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>w_grid, Fw_grid</strong><span class="classifier">array</span></dt><dd><p>Grids with the frequencies and <span class="math notranslate nohighlight">\(F(w)\)</span>.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="glow.freq_domain.Fw_FFT_OldReg.get_freq_multigrid">
+<span class="sig-name descname"><span class="pre">get_freq_multigrid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">wmin</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wmax</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#glow.freq_domain.Fw_FFT_OldReg.get_freq_multigrid" title="Link to this definition"></a></dt>
+<dd><p>Compute the frequency ranges for the FFTs with the multigrid method.</p>
+<p>The length of the output corresponds to the number of different FFTs that will be computed.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>wmin, wmax</strong><span class="classifier">float</span></dt><dd><p>Minimum and maximum angular frequencies, <span class="math notranslate nohighlight">\(w=2\pi f\)</span>.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>fmin_batch, fmax_batch</strong><span class="classifier">array</span></dt><dd><p>Minimum and maximum frequencies that will be kept for each FFT.</p>
+</dd>
+<dt><strong>fmin_real, fmax_real</strong><span class="classifier">array</span></dt><dd><p>Minimum and maximum frequencies that will be actually computed for each FFT.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="glow.freq_domain.Fw_FFT_OldReg.compute_multigrid">
+<span class="sig-name descname"><span class="pre">compute_multigrid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">wmin</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wmax</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eval_It</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#glow.freq_domain.Fw_FFT_OldReg.compute_multigrid" title="Link to this definition"></a></dt>
+<dd><p>Computation of <span class="math notranslate nohighlight">\(F(w)\)</span> patching together several FFTs.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>wmin, wmax: float</strong></dt><dd><p>Minimum and maximum frequencies <span class="math notranslate nohighlight">\(w\)</span>.</p>
+</dd>
+<dt><strong>eval_It</strong><span class="classifier">func(float or array) -&gt; float or array</span></dt><dd><p><span class="math notranslate nohighlight">\(I(\tau)\)</span>.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>w_grid, Fw_grid</strong><span class="classifier">array</span></dt><dd><p>Grids with the frequencies and <span class="math notranslate nohighlight">\(F(w)\)</span>.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="glow.freq_domain.Fw_FFT_OldReg.compute_multigrid_stack">
+<span class="sig-name descname"><span class="pre">compute_multigrid_stack</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">wmin</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wmax</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eval_It</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#glow.freq_domain.Fw_FFT_OldReg.compute_multigrid_stack" title="Link to this definition"></a></dt>
+<dd><p>Computation of <span class="math notranslate nohighlight">\(F(w)\)</span> patching together several FFTs.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>wmin, wmax: float</strong></dt><dd><p>Minimum and maximum frequencies <span class="math notranslate nohighlight">\(w\)</span>.</p>
+</dd>
+<dt><strong>eval_It</strong><span class="classifier">func(float or array) -&gt; float or array</span></dt><dd><p><span class="math notranslate nohighlight">\(I(\tau)\)</span>.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>w_grid, Fw_grid</strong><span class="classifier">array</span></dt><dd><p>Grids with the frequencies and <span class="math notranslate nohighlight">\(F(w)\)</span>.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="glow.freq_domain.Fw_FFT_OldReg.compute">
+<span class="sig-name descname"><span class="pre">compute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">eval_It</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#glow.freq_domain.Fw_FFT_OldReg.compute" title="Link to this definition"></a></dt>
+<dd><p>Computation of <span class="math notranslate nohighlight">\(F(w)\)</span>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>eval_It</strong><span class="classifier">func(float or array) -&gt; float or array</span></dt><dd><p><span class="math notranslate nohighlight">\(I(\tau)\)</span>.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>w_grid, Fw_grid</strong><span class="classifier">array</span></dt><dd><p>Grids with the frequencies and <span class="math notranslate nohighlight">\(F(w)\)</span>.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="glow.freq_domain.Fw_SemiAnalyticSIS">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">glow.freq_domain.</span></span><span class="sig-name descname"><span class="pre">Fw_SemiAnalyticSIS</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p_prec</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">psi0</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#glow.freq_domain.Fw_SemiAnalyticSIS" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="py_base.html#glow.freq_domain.FwGeneral" title="glow.freq_domain.FwGeneral"><code class="xref py py-class docutils literal notranslate"><span class="pre">FwGeneral</span></code></a></p>
+<p>Semi-analytic computation of the amplification factor for the SIS.</p>
+<p>To arrive at this result, the radial integral is first solved analitically
+and then the angular integral is performed numerically.</p>
+<p>Additional information: <a class="reference internal" href="main.html#semianalyticsis-theory"><span class="std std-ref">theory</span></a>, <a class="reference internal" href="default.html#pyfw-semianalyticsis-default"><span class="std std-ref">default parameters</span></a>.</p>
+<p>(Only new parameters and attributes are documented. See <a class="reference internal" href="py_base.html#glow.freq_domain.FwGeneral" title="glow.freq_domain.FwGeneral"><code class="xref py py-class docutils literal notranslate"><span class="pre">FwGeneral</span></code></a>
+for the internal information of the parent class)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>y</strong><span class="classifier">float</span></dt><dd><p>Impact parameter.</p>
+</dd>
+<dt><strong>psi0</strong><span class="classifier">float</span></dt><dd><p>Normalization of the SIS lensing potential, <span class="math notranslate nohighlight">\(\psi(x)=\psi_0 x\)</span>.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Methods</p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#glow.freq_domain.Fw_SemiAnalyticSIS.compute" title="glow.freq_domain.Fw_SemiAnalyticSIS.compute"><code class="xref py py-obj docutils literal notranslate"><span class="pre">compute</span></code></a>(w)</p></td>
+<td><p>Computation of <span class="math notranslate nohighlight">\(F(w)\)</span>.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>This implementation only allows for not very large frequencies (around <span class="math notranslate nohighlight">\(w\)</span> &lt; 100)
+and it is pretty slow. Try <a class="reference internal" href="c_version.html#glow.freq_domain_c.Fw_SemiAnalyticSIS_C" title="glow.freq_domain_c.Fw_SemiAnalyticSIS_C"><code class="xref py py-class docutils literal notranslate"><span class="pre">Fw_SemiAnalyticSIS_C</span></code></a> for a faster version.</p>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="glow.freq_domain.Fw_SemiAnalyticSIS.compute">
+<span class="sig-name descname"><span class="pre">compute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">w</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#glow.freq_domain.Fw_SemiAnalyticSIS.compute" title="Link to this definition"></a></dt>
+<dd><p>Computation of <span class="math notranslate nohighlight">\(F(w)\)</span>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>w</strong><span class="classifier">float or array</span></dt><dd><p>Dimensionless frequency <span class="math notranslate nohighlight">\(w\)</span>.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>Fw</strong><span class="classifier">complex or array</span></dt><dd><p><span class="math notranslate nohighlight">\(F(w)\)</span>.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="glow.freq_domain.Fw_AnalyticPointLens">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">glow.freq_domain.</span></span><span class="sig-name descname"><span class="pre">Fw_AnalyticPointLens</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p_prec</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#glow.freq_domain.Fw_AnalyticPointLens" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="py_base.html#glow.freq_domain.FwGeneral" title="glow.freq_domain.FwGeneral"><code class="xref py py-class docutils literal notranslate"><span class="pre">FwGeneral</span></code></a></p>
+<p>Analytic computation of the amplification factor for the point lens.</p>
+<p>Additional information: <a class="reference internal" href="main.html#analyticpointlens-theory"><span class="std std-ref">theory</span></a>, <a class="reference internal" href="default.html#pyfw-analyticpointlens-default"><span class="std std-ref">default parameters</span></a>.</p>
+<p>(Only new parameters and attributes are documented. See <a class="reference internal" href="py_base.html#glow.freq_domain.FwGeneral" title="glow.freq_domain.FwGeneral"><code class="xref py py-class docutils literal notranslate"><span class="pre">FwGeneral</span></code></a>
+for the internal information of the parent class)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>y</strong><span class="classifier">float</span></dt><dd><p>Impact parameter.</p>
+</dd>
+<dt><strong>p_prec</strong><span class="classifier">dict, optional</span></dt><dd><p>Precision parameters. New keys:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">dps</span></code> (<em>int</em>) – Number of decimal places used by mpmath.</p></li>
+</ul>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Methods</p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#glow.freq_domain.Fw_AnalyticPointLens.compute" title="glow.freq_domain.Fw_AnalyticPointLens.compute"><code class="xref py py-obj docutils literal notranslate"><span class="pre">compute</span></code></a>(w)</p></td>
+<td><p>Computation of <span class="math notranslate nohighlight">\(F(w)\)</span>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#glow.freq_domain.Fw_AnalyticPointLens.default_params" title="glow.freq_domain.Fw_AnalyticPointLens.default_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">default_params</span></code></a>()</p></td>
+<td><p>(<em>subclass defined</em>) Initialize the default parameters.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Very slow. It requires the <cite>mpmath</cite> module since the hypergeometric function in Scipy does
+not allow for complex parameters (only argument). The alternative implementation
+<a class="reference internal" href="c_version.html#glow.freq_domain_c.Fw_AnalyticPointLens_C" title="glow.freq_domain_c.Fw_AnalyticPointLens_C"><code class="xref py py-class docutils literal notranslate"><span class="pre">Fw_AnalyticPointLens_C</span></code></a> is several orders of magnitude faster. It uses
+several analytical approximations calibrated to achieve approximately single precision.</p>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="glow.freq_domain.Fw_AnalyticPointLens.default_params">
+<span class="sig-name descname"><span class="pre">default_params</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#glow.freq_domain.Fw_AnalyticPointLens.default_params" title="Link to this definition"></a></dt>
+<dd><p>(<em>subclass defined</em>) Initialize the default parameters.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="glow.freq_domain.Fw_AnalyticPointLens.compute">
+<span class="sig-name descname"><span class="pre">compute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">w</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#glow.freq_domain.Fw_AnalyticPointLens.compute" title="Link to this definition"></a></dt>
+<dd><p>Computation of <span class="math notranslate nohighlight">\(F(w)\)</span>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>w</strong><span class="classifier">float or array</span></dt><dd><p>Dimensionless frequency <span class="math notranslate nohighlight">\(w\)</span>.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>Fw</strong><span class="classifier">complex or array</span></dt><dd><p><span class="math notranslate nohighlight">\(F(w)\)</span>.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="py_base.html" class="btn btn-neutral float-left" title="Python version - Base object" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="c_base.html" class="btn btn-neutral float-right" title="C version - Base object" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, GLoW team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

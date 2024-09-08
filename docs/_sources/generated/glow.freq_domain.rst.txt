@@ -1,0 +1,22 @@
+﻿glow.freq\_domain
+=================
+
+.. automodule:: glow.freq_domain
+
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+   
+      FwGeneral
+      Fw_AnalyticPointLens
+      Fw_FFT_OldReg
+      Fw_SemiAnalyticSIS
+   
+   .. rubric:: Exceptions
+
+   .. autosummary::
+   
+      FreqDomainException
+      FreqDomainWarning
+   
