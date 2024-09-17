@@ -1,8 +1,9 @@
 # GLoW: Gravitational Lensing of Waves
 
-(To appear, cite 2409.xxxxx)
+If you find this code useful in your research, please cite the main GLoW paper
+[Villarrubia-Rojo+ 24](https://inspirehep.net/literature/2826315).
 
-Used in
+GLoW has also been used in:
 * [Savastano+ 23](https://inspirehep.net/literature/2667175)
 * [Zumalacarregui 24](https://inspirehep.net/literature/2781293)
 * [Brando+ 24](https://inspirehep.net/literature/2804868)
