@@ -248,6 +248,7 @@ class FwGeneral_C():
         reg_sch['slope']   = None
         reg_sch['amp']     = [None, None]
         reg_sch['index']   = [None, None]
+        reg_sch['det']     = 1
 
         A = self.It.lens.asymp_amplitude
         index = self.It.lens.asymp_index
@@ -256,6 +257,19 @@ class FwGeneral_C():
             reg_sch['amp'][0]   = A
             reg_sch['index'][0] = index
             reg_sch['stage'] = 2
+
+        if self.lens.p_phys['name'] == 'combined lens':
+            kp = 0
+            g1 = 0
+            g2 = 0
+
+            for l in self.lens.p_phys['lenses']:
+                if l.p_phys['name'] == 'ext':
+                    kp += l.p_phys['kappa']
+                    g1 += l.p_phys['gamma1']
+                    g2 += l.p_phys['gamma2']
+
+            reg_sch['det'] = np.sqrt((1-kp)**2 - g1**2 - g2**2)
 
         return reg_sch
 

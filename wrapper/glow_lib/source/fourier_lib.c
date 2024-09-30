@@ -119,15 +119,15 @@ double It_sing_common(double tau, int n_points, CritPoint *ps, double *Cmax, dou
     return It;
 }
 
-double It_sing_asymp(double tau, int n_points, CritPoint *ps, double asymp_A, double asymp_index)
+double It_sing_asymp(double tau, int n_points, CritPoint *ps, double det, double asymp_A, double asymp_index)
 {
     double It, Cmax, Cmin;
 
     if(tau < 0)
         return 0;
 
-    It = It_sing_common(tau, n_points, ps, &Cmax, &Cmin);
-    It += R0_reg(tau, sqrt(ps[0].mag)-1-Cmax+Cmin, asymp_A, asymp_index);
+    It = It_sing_common(tau, n_points, ps, &Cmax, &Cmin) - 1 + 1./det;
+    It += R0_reg(tau, sqrt(ps[0].mag)-1./det-Cmax+Cmin, asymp_A, asymp_index);
 
     return M_2PI*It;
 }
@@ -140,7 +140,7 @@ double It_sing_no_asymp(double tau, int n_points, CritPoint *ps)
         return 0;
 
     It = It_sing_common(tau, n_points, ps, &Cmax, &Cmin);
-    It += sqrt(ps[0].mag) - 1 - Cmax - Cmin;
+    It += sqrt(ps[0].mag) - 1 - Cmax + Cmin;
 
     return M_2PI*It;
 }
@@ -289,13 +289,13 @@ double complex Fw_sing_common(double w, int n_points, CritPoint *ps, double *Cma
     return Fw;
 }
 
-double complex Fw_sing_asymp(double w, int n_points, CritPoint *ps, double asymp_A, double asymp_index)
+double complex Fw_sing_asymp(double w, int n_points, CritPoint *ps, double det, double asymp_A, double asymp_index)
 {
     double Cmax, Cmin;
     double complex Fw;
 
-    Fw = Fw_sing_common(w, n_points, ps, &Cmax, &Cmin);
-    Fw += R0_reg_FT(w, sqrt(ps[0].mag)-1-Cmax+Cmin, asymp_A, asymp_index);
+    Fw = Fw_sing_common(w, n_points, ps, &Cmax, &Cmin) - 1 + 1./det;
+    Fw += R0_reg_FT(w, sqrt(ps[0].mag)-1/det-Cmax+Cmin, asymp_A, asymp_index);
 
     return Fw;
 }
@@ -306,7 +306,6 @@ double complex Fw_sing_no_asymp(double w, int n_points, CritPoint *ps)
     double complex Fw;
 
     Fw = Fw_sing_common(w, n_points, ps, &Cmax, &Cmin);
-
     Fw += sqrt(ps[0].mag) - 1 - Cmax + Cmin;
 
     return Fw;
@@ -504,10 +503,10 @@ double eval_It_sing(double tau, int stage, RegScheme *sch)
     else if(stage == 1)
         It_sing = It_sing_no_asymp(tau, sch->n_ps, sch->ps);
     else if(stage == 2)
-        It_sing = It_sing_asymp(tau, sch->n_ps, sch->ps, sch->amp[0], sch->index[0]);
+        It_sing = It_sing_asymp(tau, sch->n_ps, sch->ps, sch->det, sch->amp[0], sch->index[0]);
     else if(stage == 3)
     {
-        It_sing = It_sing_asymp(tau, sch->n_ps, sch->ps, sch->amp[0], sch->index[0]);
+        It_sing = It_sing_asymp(tau, sch->n_ps, sch->ps, sch->det, sch->amp[0], sch->index[0]);
         It_sing += R1_reg(tau, sch->slope, sch->amp[1], sch->index[1]);
     }
 
@@ -534,10 +533,10 @@ double complex eval_Fw_sing(double w, int stage, RegScheme *sch)
     else if(stage == 1)
         Fw_sing = Fw_sing_no_asymp(w, sch->n_ps, sch->ps);
     else if(stage == 2)
-        Fw_sing = Fw_sing_asymp(w, sch->n_ps, sch->ps, sch->amp[0], sch->index[0]);
+        Fw_sing = Fw_sing_asymp(w, sch->n_ps, sch->ps, sch->det, sch->amp[0], sch->index[0]);
     else if(stage == 3)
     {
-        Fw_sing = Fw_sing_asymp(w, sch->n_ps, sch->ps, sch->amp[0], sch->index[0]);
+        Fw_sing = Fw_sing_asymp(w, sch->n_ps, sch->ps, sch->det, sch->amp[0], sch->index[0]);
         Fw_sing += R1_reg_FT(w, sch->slope, sch->amp[1], sch->index[1])/M_2PI;
     }
 
@@ -578,7 +577,7 @@ void fill_It_reg(int n_tau, double *tau, double *It, double *It_reg, int stage, 
         #endif
         for(i=0;i<n_tau;i++)
         {
-            It_sing = It_sing_asymp(tau[i], sch->n_ps, sch->ps, sch->amp[0], sch->index[0]);
+            It_sing = It_sing_asymp(tau[i], sch->n_ps, sch->ps, sch->det, sch->amp[0], sch->index[0]);
             It_reg[i] = It[i] - It_sing;
         }
     else if(stage == 3)
@@ -587,7 +586,7 @@ void fill_It_reg(int n_tau, double *tau, double *It, double *It_reg, int stage, 
         #endif
         for(i=0;i<n_tau;i++)
         {
-            It_sing = It_sing_asymp(tau[i], sch->n_ps, sch->ps, sch->amp[0], sch->index[0]);
+            It_sing = It_sing_asymp(tau[i], sch->n_ps, sch->ps, sch->det, sch->amp[0], sch->index[0]);
             It_reg[i] = It[i] - It_sing - R1_reg(tau[i], sch->slope, sch->amp[1], sch->index[1]);
         }
 }
@@ -621,14 +620,14 @@ void fill_It_sing(int n_tau, double *tau, double *It_sing, int stage, RegScheme 
             #pragma omp parallel for num_threads(nthreads) if(nthreads > 1)
         #endif
         for(i=0;i<n_tau;i++)
-            It_sing[i] = It_sing_asymp(tau[i], sch->n_ps, sch->ps, sch->amp[0], sch->index[0]);
+            It_sing[i] = It_sing_asymp(tau[i], sch->n_ps, sch->ps, sch->det, sch->amp[0], sch->index[0]);
     else if(stage == 3)
         #ifdef _OPENMP
             #pragma omp parallel for num_threads(nthreads) if(nthreads > 1)
         #endif
         for(i=0;i<n_tau;i++)
         {
-            It_sing[i] = It_sing_asymp(tau[i], sch->n_ps, sch->ps, sch->amp[0], sch->index[0]);
+            It_sing[i] = It_sing_asymp(tau[i], sch->n_ps, sch->ps, sch->det, sch->amp[0], sch->index[0]);
             It_sing[i] += R1_reg(tau[i], sch->slope, sch->amp[1], sch->index[1]);
         }
 }
@@ -654,14 +653,14 @@ void fill_Fw_sing(int n_w, double *w, double complex *Fw_sing, int stage, RegSch
             #pragma omp parallel for num_threads(nthreads) if(nthreads > 1)
         #endif
         for(i=0;i<n_w;i++)
-            Fw_sing[i] = Fw_sing_asymp(w[i], sch->n_ps, sch->ps, sch->amp[0], sch->index[0]);
+            Fw_sing[i] = Fw_sing_asymp(w[i], sch->n_ps, sch->ps, sch->det, sch->amp[0], sch->index[0]);
     else if(stage == 3)
         #ifdef _OPENMP
             #pragma omp parallel for num_threads(nthreads) if(nthreads > 1)
         #endif
         for(i=0;i<n_w;i++)
         {
-            Fw_sing[i] = Fw_sing_asymp(w[i], sch->n_ps, sch->ps, sch->amp[0], sch->index[0]);
+            Fw_sing[i] = Fw_sing_asymp(w[i], sch->n_ps, sch->ps, sch->det, sch->amp[0], sch->index[0]);
             Fw_sing[i] += R1_reg_FT(w[i], sch->slope, sch->amp[1], sch->index[1])/M_2PI;
         }
 }
@@ -795,7 +794,7 @@ int update_RegScheme(double *It_grid, int stage, RegScheme *sch)
         {
             // fit for stage 2
             for(i=0;i<sch->n_grid;i++)
-                sch->It_reg_grid[i] = It_grid[i]/M_2PI - 1;
+                sch->It_reg_grid[i] = It_grid[i]/M_2PI - 1/sch->det;
 
             fit_tail(sch->n_grid, sch->tau_grid, sch->It_reg_grid, nmax_tail, It_min, sch->amp, sch->index);
             sch->stage = 2;
