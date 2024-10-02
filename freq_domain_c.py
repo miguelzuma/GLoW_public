@@ -89,6 +89,7 @@ class FwGeneral_C():
         * ``stage`` (*int*) -- Regularization stage computed. The regularization stage that will be\
             actually used is the value set in ``p_prec['reg_stage']``.
         * ``p_crits`` (*dict*) -- Critical points. Content of ``It.p_crits``.
+        * ``det`` (*float*) -- Determinant of the Hessian of the Fermat potential.
         * ``slope`` (*float*) -- Slope at :math:`\\tau=0`.
         * ``amp`` (*list*) -- Asymptotic amplitudes :math:`A_2` and :math:`A_3`.
         * ``index`` (*list*) -- Asymptotic indices :math:`\\sigma_2` and :math:`\\sigma_3`.
@@ -248,6 +249,7 @@ class FwGeneral_C():
         reg_sch['slope']   = None
         reg_sch['amp']     = [None, None]
         reg_sch['index']   = [None, None]
+        reg_sch['det']     = 1
 
         A = self.It.lens.asymp_amplitude
         index = self.It.lens.asymp_index
@@ -256,6 +258,19 @@ class FwGeneral_C():
             reg_sch['amp'][0]   = A
             reg_sch['index'][0] = index
             reg_sch['stage'] = 2
+
+        if self.lens.p_phys['name'] == 'combined lens':
+            kp = 0
+            g1 = 0
+            g2 = 0
+
+            for l in self.lens.p_phys['lenses']:
+                if l.p_phys['name'] == 'ext':
+                    kp += l.p_phys['kappa']
+                    g1 += l.p_phys['gamma1']
+                    g2 += l.p_phys['gamma2']
+
+            reg_sch['det'] = np.sqrt((1-kp)**2 - g1**2 - g2**2)
 
         return reg_sch
 
@@ -306,6 +321,9 @@ class FwGeneral_C():
         It : float or array
             :math:`I_\text{sing}(\tau)`.
         """
+        if stage is None:
+            stage = self.p_prec['reg_stage']
+
         return wrapper.pyIt_sing(tau, self.reg_sch, stage, parallel)
 
     def eval_Fw_sing(self, w, stage=None, parallel=False):
@@ -323,6 +341,9 @@ class FwGeneral_C():
         Fw : float or array
             :math:`F_\text{sing}(w)`.
         """
+        if stage is None:
+            stage = self.p_prec['reg_stage']
+
         return wrapper.pyFw_sing(w, self.reg_sch, stage, parallel)
 
     # ***** to be overriden by the subclass *****
@@ -480,6 +501,7 @@ class Fw_FFT_C(FwGeneral_C):
             Grids with the frequencies, :math:`F(w)` and its regular part.
         """
         method = self.p_prec['FFT method']
+        self.reg_sch['stage'] = self.p_prec['reg_stage']
 
         args = (self.t_grid,
                 self.It_reg_grid,
@@ -707,6 +729,8 @@ class Fw_DirectFT_C(FwGeneral_C):
         Fw, Fw_reg : float or array
             :math:`F(w)` and its regular part.
         """
+        self.reg_sch['stage'] = self.p_prec['reg_stage']
+
         Fw, Fw_reg = wrapper.pyCompute_Fw_directFT(w, \
                                                    self.It.t_grid, \
                                                    self.It_reg_grid, \

@@ -26,6 +26,7 @@
 typedef struct {
     int stage;
     int n_ps;
+    double det;
     double slope;
     double amp[2];
     double index[2];
@@ -64,7 +65,7 @@ double RL_reg(double tau, double alpha, double beta);
 double S_reg(double tau, double A, double B);
 double Sfull_reg(double tau, double A, double B);
 double It_sing_common(double tau, int n_points, CritPoint *ps, double *Cmax, double *Cmin);
-double It_sing_asymp(double tau, int n_points, CritPoint *ps, double asymp_A, double asymp_index);
+double It_sing_asymp(double tau, int n_points, CritPoint *ps, double det, double asymp_A, double asymp_index);
 double It_sing_no_asymp(double tau, int n_points, CritPoint *ps);
 
 // ======  Frequency domain regularization
@@ -75,7 +76,7 @@ double complex RL_reg_FT(double w, double alpha, double beta);
 double complex S_reg_FT(double w, double A, double B);
 double complex Sfull_reg_FT(double w, double A, double B);
 double complex Fw_sing_common(double w, int n_points, CritPoint *ps, double *Cmax, double *Cmin);
-double complex Fw_sing_asymp(double w, int n_points, CritPoint *ps, double asymp_A, double asymp_index);
+double complex Fw_sing_asymp(double w, int n_points, CritPoint *ps, double det, double asymp_A, double asymp_index);
 double complex Fw_sing_no_asymp(double w, int n_points, CritPoint *ps);
 
 // ======  Fitting routines

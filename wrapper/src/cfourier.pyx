@@ -291,6 +291,8 @@ cdef RegScheme* pyInit_RegScheme(tau_grid, It_reg_grid, reg_sch, parallel=False)
 
     sch.slope = reg_sch['slope'] if reg_sch['slope'] is not None else 0.
 
+    sch.det = reg_sch['det']
+
     for i, (amp, index) in enumerate(zip(reg_sch['amp'], reg_sch['index'])):
         sch.amp[i]   = amp   if amp   is not None else 0.
         sch.index[i] = index if index is not None else 0.
