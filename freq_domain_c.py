@@ -89,6 +89,7 @@ class FwGeneral_C():
         * ``stage`` (*int*) -- Regularization stage computed. The regularization stage that will be\
             actually used is the value set in ``p_prec['reg_stage']``.
         * ``p_crits`` (*dict*) -- Critical points. Content of ``It.p_crits``.
+        * ``det`` (*float*) -- Determinant of the Hessian of the Fermat potential.
         * ``slope`` (*float*) -- Slope at :math:`\\tau=0`.
         * ``amp`` (*list*) -- Asymptotic amplitudes :math:`A_2` and :math:`A_3`.
         * ``index`` (*list*) -- Asymptotic indices :math:`\\sigma_2` and :math:`\\sigma_3`.
@@ -320,6 +321,9 @@ class FwGeneral_C():
         It : float or array
             :math:`I_\text{sing}(\tau)`.
         """
+        if stage is None:
+            stage = self.p_prec['reg_stage']
+
         return wrapper.pyIt_sing(tau, self.reg_sch, stage, parallel)
 
     def eval_Fw_sing(self, w, stage=None, parallel=False):
@@ -337,6 +341,9 @@ class FwGeneral_C():
         Fw : float or array
             :math:`F_\text{sing}(w)`.
         """
+        if stage is None:
+            stage = self.p_prec['reg_stage']
+
         return wrapper.pyFw_sing(w, self.reg_sch, stage, parallel)
 
     # ***** to be overriden by the subclass *****
@@ -494,6 +501,7 @@ class Fw_FFT_C(FwGeneral_C):
             Grids with the frequencies, :math:`F(w)` and its regular part.
         """
         method = self.p_prec['FFT method']
+        self.reg_sch['stage'] = self.p_prec['reg_stage']
 
         args = (self.t_grid,
                 self.It_reg_grid,
@@ -721,6 +729,8 @@ class Fw_DirectFT_C(FwGeneral_C):
         Fw, Fw_reg : float or array
             :math:`F(w)` and its regular part.
         """
+        self.reg_sch['stage'] = self.p_prec['reg_stage']
+
         Fw, Fw_reg = wrapper.pyCompute_Fw_directFT(w, \
                                                    self.It.t_grid, \
                                                    self.It_reg_grid, \
