@@ -572,8 +572,7 @@ double dTmin_R(double R, void *ptarget)
     deriv = p->dT_func_dR(R, ptarget);
 
     // finite difference approx
-    // dR = pprec.ro_TminR_dR
-    // deriv = (Tmin_R(R+dR, ptarget)-T)/dR;
+    // deriv = (Tmin_R(R+pprec.ro_TminR_dR, ptarget)-Tmin_R(R, ptarget))/pprec.ro_TminR_dR;
 
     return deriv;
 }
@@ -628,8 +627,7 @@ int Tmin(pTarget *ptarget)
         x = gsl_root_fdfsolver_root(s);
         status = gsl_root_test_delta(x, x0, epsabs, epsrel);
 
-        //~ if(status == GSL_SUCCESS)
-            //~ printf ("Converged\n");
+        //~ printf("iter=%d  R=%g\n", iter, x);
     }
     while (status == GSL_CONTINUE && iter < max_iter);
 
@@ -1180,11 +1178,18 @@ CritPoint *add_singcusp(int *n_cpoints, CritPoint *ps, double y, Lens *Psi, pNam
 
 int find_first_CritPoints_2D(double y, CritPoint *p1, CritPoint *p2, Lens *Psi)
 {
+    int i;
     int n_points = 0;
+    int n_extra_points = 20;
     double R_in, R_out;
+    double R, th, x1guess, x2guess;
     double x_vec[N_dims];
     pImage pim;
     pTarget pt;
+    CritPoint p_extra;
+
+    const gsl_rng_type * T;
+    gsl_rng * r;
 
     R_in = pprec.ro_findfirstCP2D_Rin;
     R_out = pprec.ro_findfirstCP2D_Rout + y;
@@ -1238,6 +1243,55 @@ int find_first_CritPoints_2D(double y, CritPoint *p1, CritPoint *p2, Lens *Psi)
         n_points = 1;
     else
         n_points = 2;
+
+    // even if both critical points coincide, still try to find a few
+    // inside the outermost circle
+    if(n_points == 1)
+    {
+        gsl_rng_env_setup();
+        T = gsl_rng_default;
+        r = gsl_rng_alloc(T);
+
+        R_out = sqrt(p2->x1*p2->x1 + p2->x2*p2->x2);
+        R_in = R_out;
+
+        for(i=0;i<n_extra_points;i++)
+        {
+            R = (pprec.ro_findfirstCP2D_Rout + y)*sqrt(gsl_rng_uniform(r));
+            th = 2*M_PI*gsl_rng_uniform(r);
+
+            x1guess = R*cos(th);
+            x2guess = R*sin(th);
+
+            pim.point = &p_extra;
+            find_CritPoint_root_2D(x1guess, x2guess, &pim);
+            R = sqrt(p_extra.x1*p_extra.x1 + p_extra.x2*p_extra.x2);
+
+            // if the new point is the innermost one, keep it
+            if(R < R_in)
+                if(is_same_CritPoint(&p_extra, p1) == _FALSE_)
+                {
+                    R_in = R;
+                    copy_CritPoint(p1, &p_extra);
+                }
+
+            // also keep it if it is the actual outermost
+            if(R > R_out)
+                if(is_same_CritPoint(&p_extra, p2) == _FALSE_)
+                {
+                    R_out = R;
+                    copy_CritPoint(p2, &p_extra);
+                }
+
+            // HVR_DEBUG
+            //~ display_CritPoint(p1);
+        }
+
+        if(is_same_CritPoint(p1, p2) == _FALSE_)
+            n_points = 2;
+
+        gsl_rng_free(r);
+    }
 
     // HVR -> come back to this for single contour
     // keep only converged points (not for now)

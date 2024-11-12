@@ -17,7 +17,8 @@ test_cases = test_lenses \
 			 test_area \
 			 test_special \
 		  	 test_fourier \
-			 test_contour
+			 test_contour \
+			 test_debug
 
 #############################################################
 
@@ -69,7 +70,7 @@ test: $(TESTS)
 
 .PHONY: valgrind
 valgrind: $(TEST_DIR)/test_contour
-	valgrind --leak-check=yes --show-reachable=yes --track-origins=yes $(TEST_DIR)/test_fourier > /dev/null
+	valgrind --leak-check=yes --show-reachable=yes --track-origins=yes $(TEST_DIR)/test_debug > /dev/null
 
 .PHONY: clean
 clean:
