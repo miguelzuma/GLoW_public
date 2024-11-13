@@ -15,7 +15,7 @@
 int main(int argc, char *argv[])
 {
     int i, n_points;
-    double psi0, y, xc;
+    double psi0, y, xc1, xc2;
     pNamedLens *p;
 
     Lens Psi;
@@ -29,18 +29,21 @@ int main(int argc, char *argv[])
     psi0 = 1.;
 
     // point lens + shear
-    //~ xc = 0.9183673469387754;
-    xc = -2.7551020408163263;
-    //~ xc = 9.;
+    //~ xc1 = 0.9183673469387754;
+    //~ xc1 = -2.7551020408163263;
+    xc1 = 7.428571428571429;
+    //~ xc1 = 9.;
+    xc2 = -0.1;
 
     pprec.ro_findallCP2D_force_search = _TRUE_;
     //~ pprec.ro_findfirstCP2D_Rout = 100;
     //~ pprec.ro_initcusp_n = 2000;
     //~ pprec.ro_initcusp_R = 1e-4;
-    //~ pprec.ro_findnearCritPoint_scale = 1.5;
+    pprec.ro_findnearCritPoint_scale = 1.5;
+    pprec.ro_findallCP2D_npoints = 2000;
 
     p = create_pLens_CombinedLens(2);
-    add_lens_CombinedLens(create_pLens_offcenterPointLens(psi0, 1e-10, xc, 1), p);
+    add_lens_CombinedLens(create_pLens_offcenterPointLens(psi0, 1e-10, xc1, xc2), p);
     add_lens_CombinedLens(create_pLens_Ext(0, 0.9, 0), p);
 
     Psi = init_lens(p);

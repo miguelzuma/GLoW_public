@@ -157,7 +157,7 @@ Prec_General pprec =
     .ro_initcusp_n = 100,
 
     .ro_findnearCritPoint_max_iter = 100,
-    .ro_findnearCritPoint_scale = 2.,
+    .ro_findnearCritPoint_scale = 1.5,
 
     .ro_findlocMin2D.id         = id_fdfMultimin_conjugate_fr,
     .ro_findlocMin2D.max_iter   = 100,
