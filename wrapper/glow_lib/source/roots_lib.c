@@ -1083,7 +1083,7 @@ CritPoint *init_singcusp(int *n_singcusp, double y, Lens *Psi, pNamedLens *pNLen
     char is_center;
     int i, j, n_angles, n_vec, n_points, n_sc;
     double x1, x2, x10, x20, Dx1, Dx2;
-    double alpha, R, dphi_R, dphi_R_old;
+    double alpha, R, dphi_R, dphi_R_old=0;
     double phi_derivs[N_derivs];
     double *xvec;
     CritPoint *points;
@@ -1101,7 +1101,7 @@ CritPoint *init_singcusp(int *n_singcusp, double y, Lens *Psi, pNamedLens *pNLen
     // we will look for the first crit point near so we allocate
     // twice as many points
     n_points = n_vec/2;
-    points = (CritPoint *)malloc(2*n_points*sizeof(CritPoint));
+    points = (CritPoint *)malloc(n_vec*sizeof(CritPoint));
 
     for(i=0;i<n_points;i++)
     {
@@ -1118,10 +1118,11 @@ CritPoint *init_singcusp(int *n_singcusp, double y, Lens *Psi, pNamedLens *pNLen
             x2 = x20 + Dx2;
 
             phiFermat_1stDeriv(phi_derivs, y, x1, x2, Psi);
-            dphi_R = (Dx1*phi_derivs[i_dx1] + Dx2*phi_derivs[i_dx2])/R;
+            dphi_R = Dx1*phi_derivs[i_dx1] + Dx2*phi_derivs[i_dx2];
 
             //~ printf("i=%d  j=%d   dphi_R=%e   dphi_old=%e\n", i, j, dphi_R, dphi_R_old);
 
+            // initialize in the first step
             if( (SIGN(dphi_R) != SIGN(dphi_R_old)) && (j>0) )
             {
                 is_center = _FALSE_;
