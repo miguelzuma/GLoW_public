@@ -106,6 +106,10 @@ int phi_hess(const gsl_vector *x, void *params, gsl_matrix *J);
 int phi_grad_hess(const gsl_vector *x, void *params, gsl_vector *f, gsl_matrix *J);
 int find_CritPoint_root_2D(double x1guess, double x2guess, pImage *p);
 
+// === Generic function to work with lists of CritPoint*
+CritPoint *filter_CritPoint(int *n, CritPoint *p);
+CritPoint *merge_CritPoint(int n1, CritPoint *p1, int n2, CritPoint *p2, int *n_points);
+
 // === Find cusps and singularities
 CritPoint *init_singcusp(int *n_singcusp, double y, Lens *Psi, pNamedLens *pNLens);
 void fill_CritPoint_near_singcusp(CritPoint *p_root, CritPoint *p_singcusp, double y, Lens *Psi);

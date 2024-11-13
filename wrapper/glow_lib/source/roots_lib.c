@@ -979,6 +979,103 @@ int find_CritPoint_root_2D(double x1guess, double x2guess, pImage *p)
 }
 
 
+// === Generic function to work with lists of CritPoint*
+
+CritPoint *filter_CritPoint(int *n, CritPoint *p)
+{
+    // keep only different and converged points in p
+    char is_repeated;
+    int i, j, n_new, n_old;
+    CritPoint *p_new;
+
+    n_old = *n;
+    n_new = 0;
+
+    p_new = (CritPoint *)malloc(n_old*sizeof(CritPoint));
+
+    for(i=0;i<n_old;i++)
+    {
+        if((p+i)->type == type_non_converged)
+            continue;
+
+        is_repeated = _FALSE_;
+        for(j=0;j<n_new;j++)
+        {
+            if(is_same_CritPoint(p+i, p_new+j) == _TRUE_)
+            {
+                is_repeated = _TRUE_;
+                break;
+            }
+        }
+
+        // if p+i is different to all p_new, add it
+        if(is_repeated == _FALSE_)
+        {
+            copy_CritPoint(p_new+n_new, p+i);
+            n_new++;
+        }
+    }
+
+    // realloc to the actual number of points
+    *n = n_new;
+    p_new = realloc(p_new, n_new*sizeof(CritPoint));
+
+    sort_t_CritPoint(n_new, p_new);
+
+    free(p);
+
+    return p_new;
+}
+
+CritPoint *merge_CritPoint(int n1, CritPoint *p1, int n2, CritPoint *p2, int *n_points)
+{
+    // combine p1 and p2 into a single list, keeping only different points
+    // allocate a new *p and free *p1 and *p2
+    char is_repeated;
+    int i, j, n;
+    CritPoint *p;
+
+    n = n1+n2;
+    p = (CritPoint *)malloc(n*sizeof(CritPoint));
+
+    // first copy p1 into p
+    for(i=0;i<n1;i++)
+        copy_CritPoint(p+i, p1+i);
+
+    // now add p2
+    n = n1;
+    for(i=0;i<n2;i++)
+    {
+        is_repeated = _FALSE_;
+        for(j=0;j<n1;j++)
+        {
+            if(is_same_CritPoint(p2+i, p1+j) == _TRUE_)
+            {
+                is_repeated = _TRUE_;
+                break;
+            }
+        }
+
+        // if p2+i is different to all p1, add it
+        if(is_repeated == _FALSE_)
+        {
+            copy_CritPoint(p+n, p2+i);
+            n++;
+        }
+    }
+
+    // realloc to the actual number of points
+    *n_points = n;
+    p = realloc(p, n*sizeof(CritPoint));
+
+    sort_t_CritPoint(n, p);
+
+    free(p1);
+    free(p2);
+
+    return p;
+}
+
 // === Find cusps and singularities
 
 CritPoint *init_singcusp(int *n_singcusp, double y, Lens *Psi, pNamedLens *pNLens)
