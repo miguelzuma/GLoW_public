@@ -5,110 +5,75 @@
 #include "common.h"
 #include "lenses_lib.h"
 #include "roots_lib.h"
+#include "ode_tools.h"
+#include "contour_lib.h"
 
 #define N_points 100
 
 // =================================================================
 
-// DEBUGGING SHEAR
+// DEBUGGING SADDLE INTEGRATION
 
 int main(int argc, char *argv[])
 {
-    int i, n_points;
-    double psi0, y, xc1, xc2;
+    int i;
+    int n_points, n_centers;
+    double y, xc1, xc2;
     pNamedLens *p;
-
-    Lens Psi;
-    CritPoint point1;
     CritPoint *points;
+    Center *centers;
 
     handle_GSL_errors();
 
     y = 0;
-    psi0 = 1.;
 
-    // point lens + shear
-    //~ xc1 = 0.9183673469387754;
-    //~ xc1 = -2.7551020408163263;
-    xc1 = 7.428571428571429;
-    //~ xc1 = 9.;
+    // default pprec
+    // pprec.mc_fillSaddleCenter_nsigma = 100;
+    // pprec.mc_fillSaddleCenter_dR     = 5e-2;
+    // pprec.mc_fillSaddleCenter_sigmaf = 1000;
+
+    // new pprec
+    pprec.mc_fillSaddleCenter_nsigma = 100;
+    pprec.mc_fillSaddleCenter_dR     = 5e-2;
+    pprec.mc_fillSaddleCenter_sigmaf = 100;
+
+    //==== Create lens
+    //=========================================
+    xc1 = 8.714285714285715;
     xc2 = -0.1;
 
-    //~ pprec.ro_findallCP2D_force_search = _TRUE_;
-    //~ pprec.ro_findfirstCP2D_Rout = 100;
-    //~ pprec.ro_initcusp_n = 2000;
-    //~ pprec.ro_initcusp_R = 1e-4;
-    //~ pprec.ro_findnearCritPoint_scale = 1.5;
-
-    pprec.ro_findallCP2D_npoints = 500;
-    pprec.ro_findCP2D_root.id = id_fdfMultiroot_hybridsj;
-
     p = create_pLens_CombinedLens(2);
-    add_lens_CombinedLens(create_pLens_offcenterPointLens(psi0, 1e-10, xc1, xc2), p);
+    add_lens_CombinedLens(create_pLens_offcenterPointLens(1, 1e-10, xc1, xc2), p);
     add_lens_CombinedLens(create_pLens_Ext(0, 0.9, 0), p);
 
-    Psi = init_lens(p);
+    //~ Psi = init_lens(p);
 
-    // -----------------------------
-    // ----- MINIMIZATION
-    // -----------------------------
-    printf("\nFinding first roots in 2D:\n");
-
-    points = find_first_CritPoints_2D(&n_points, y, &Psi);
-
-    printf("\nn_points = %d\n", n_points);
-    for(i=1;i<n_points;i++)
-        display_CritPoint(points+i);
-    free(points);
-
-    // -----------------------------
-    // ----- CRIT POINTS
-    // -----------------------------
+    //==== Find roots
+    //=========================================
     printf("\n----------------------------------\n");
-    i = check_only_min_CritPoint_2D(&point1, y, p);
-    if(i==1)
-    {
-        printf("\nMinimum found:\n");
-        display_CritPoint(&point1);
-    }
-
-    // -----------------------------
-    // ----- GENERAL IMAGES
-    // -----------------------------
-    printf("\n----------------------------------\n");
-    printf("General 2D image finder:\n");
-
-    printf("\n  - Multidim minimization:\n");
-    points = find_all_CritPoints_min_2D(&n_points, 0, 10, y, &Psi);
-    points = filter_CritPoint(&n_points, points);
-    for(i=0;i<n_points;i++)
-    {
-        printf("i = %d   ", i);
-        display_CritPoint(points+i);
-    }
-    free(points);
-
-    printf("\n  - Multidim root finding:\n");
-    points = find_all_CritPoints_root_2D(&n_points, 0, 10, y, &Psi);
-    points = filter_CritPoint(&n_points, points);
-    for(i=0;i<n_points;i++)
-    {
-        printf("i = %d   ", i);
-        display_CritPoint(points+i);
-    }
-    free(points);
-
-    printf("\n  - Driver 2D:\n");
+    printf("Finding images:\n");
     points = driver_all_CritPoints_2D(&n_points, y, p);
     for(i=0;i<n_points;i++)
-    {
-        printf("i = %d   ", i);
         display_CritPoint(points+i);
+
+    //==== Compute the saddles
+    //=========================================
+    printf("\n----------------------------------\n");
+    printf("Finding centers:\n");
+    n_centers = n_points;
+    centers = init_all_Center(&n_centers, points, y, p);
+    for(i=0;i<n_centers;i++)
+    {
+        //~ display_Center(centers+i);
+        //~ printf("\n");
     }
-    free(points);
+
+    // HVR: start debugging fill_saddle_Center
 
     // ------------------------------------------------------
 
+    free_all_Center(centers);
+    free(points);
     free_pLens(p);
 
     return 0;
