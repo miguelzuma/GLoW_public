@@ -69,7 +69,7 @@ test: $(TESTS)
 #############################################################
 
 .PHONY: valgrind
-valgrind: $(TEST_DIR)/test_contour
+valgrind: all
 	valgrind --leak-check=yes --show-reachable=yes --track-origins=yes $(TEST_DIR)/test_debug > /dev/null
 
 .PHONY: clean

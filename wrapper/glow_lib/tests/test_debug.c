@@ -19,12 +19,8 @@ int main(int argc, char *argv[])
     pNamedLens *p;
 
     Lens Psi;
-    pImage pimage;
-    CritPoint point1, point2;
+    CritPoint point1;
     CritPoint *points;
-
-    int n1, n2;
-    CritPoint *p1, *p2;
 
     handle_GSL_errors();
 
@@ -54,14 +50,14 @@ int main(int argc, char *argv[])
     // -----------------------------
     // ----- MINIMIZATION
     // -----------------------------
-    printf("\nFinding first two roots in 2D:\n");
+    printf("\nFinding first roots in 2D:\n");
 
-    n_points = find_first_CritPoints_2D(y, &point1, &point2, &Psi);
+    points = find_first_CritPoints_2D(&n_points, y, &Psi);
 
     printf("\nn_points = %d\n", n_points);
-    display_CritPoint(&point1);
-    if(n_points > 1)
-        display_CritPoint(&point2);
+    for(i=1;i<n_points;i++)
+        display_CritPoint(points+i);
+    free(points);
 
     // -----------------------------
     // ----- CRIT POINTS
@@ -81,7 +77,8 @@ int main(int argc, char *argv[])
     printf("General 2D image finder:\n");
 
     printf("\n  - Multidim minimization:\n");
-    points = find_all_CritPoints_min_2D(&n_points, y, &Psi);
+    points = find_all_CritPoints_min_2D(&n_points, 0, 10, y, &Psi);
+    points = filter_CritPoint(&n_points, points);
     for(i=0;i<n_points;i++)
     {
         printf("i = %d   ", i);
@@ -90,7 +87,8 @@ int main(int argc, char *argv[])
     free(points);
 
     printf("\n  - Multidim root finding:\n");
-    points = find_all_CritPoints_root_2D(&n_points, y, &Psi);
+    points = find_all_CritPoints_root_2D(&n_points, 0, 10, y, &Psi);
+    points = filter_CritPoint(&n_points, points);
     for(i=0;i<n_points;i++)
     {
         printf("i = %d   ", i);
@@ -107,50 +105,7 @@ int main(int argc, char *argv[])
     }
     free(points);
 
-    // -----------------------------
-    // ----- DEBUG COMBINE IMAGES
-    // -----------------------------
-    printf("\n  - Combine CritPoint:\n");
-    p1 = driver_all_CritPoints_2D(&n1, y, p);
-    p2 = find_all_CritPoints_min_2D(&n2, y, &Psi);
-    points = merge_CritPoint(n1, p1, n2, p2, &n_points);
-    for(i=0;i<n_points;i++)
-    {
-        printf("i = %d   ", i);
-        display_CritPoint(points+i);
-    }
-    free(points);
-
-    printf("\n  - Filter CritPoint:\n");
-    p1 = driver_all_CritPoints_2D(&n1, y, p);
-    p2 = find_all_CritPoints_min_2D(&n2, y, &Psi);
-
-    n_points = n1+n2;
-    points = (CritPoint *)malloc(n_points*sizeof(CritPoint));
-    for(i=0;i<n1;i++)
-        copy_CritPoint(points+i, p1+i);
-    for(i=0;i<n2;i++)
-        copy_CritPoint(points+n1+i, p2+i);
-    points[0].type = type_non_converged;
-
-    printf("    -- Old list:\n");
-    for(i=0;i<n_points;i++)
-    {
-        printf("i = %d   ", i);
-        display_CritPoint(points+i);
-    }
-
-    printf("    -- Filtered list:\n");
-    points = filter_CritPoint(&n_points, points);
-    for(i=0;i<n_points;i++)
-    {
-        printf("i = %d   ", i);
-        display_CritPoint(points+i);
-    }
-
-    free(p1);
-    free(p2);
-    free(points);
+    // ------------------------------------------------------
 
     free_pLens(p);
 

@@ -106,27 +106,28 @@ int phi_hess(const gsl_vector *x, void *params, gsl_matrix *J);
 int phi_grad_hess(const gsl_vector *x, void *params, gsl_vector *f, gsl_matrix *J);
 int find_CritPoint_root_2D(double x1guess, double x2guess, pImage *p);
 
-// === Generic function to work with lists of CritPoint*
+// === Generic functions to work with lists of CritPoint
+void add_CritPoint(CritPoint *p_single, int *n_list, CritPoint *p_list);
 CritPoint *filter_CritPoint(int *n, CritPoint *p);
 CritPoint *merge_CritPoint(int n1, CritPoint *p1, int n2, CritPoint *p2, int *n_points);
 
 // === Find cusps and singularities
-CritPoint *init_singcusp(int *n_singcusp, double y, Lens *Psi, pNamedLens *pNLens);
 void fill_CritPoint_near_singcusp(CritPoint *p_root, CritPoint *p_singcusp, double y, Lens *Psi);
+CritPoint *find_singcusp(int *n_singcusp, double y, Lens *Psi, pNamedLens *pNLens);
 CritPoint *add_singcusp(int *n_cpoints, CritPoint *ps, double y, Lens *Psi, pNamedLens *pNLens);
 
 // === High level functions to find critical points
 
 // start with initial conditions R=0 and R=Large and look for crit points using Tmin
-int find_first_CritPoints_2D(double y, CritPoint *p1, CritPoint *p2, Lens *Psi);
+CritPoint *find_first_CritPoints_2D(int *n_points, double y, Lens *Psi);
 
 // easy access for the wrapper
 int check_only_min_CritPoint_2D(CritPoint *p, double y, pNamedLens *pNLens);
 
-CritPoint *find_all_CritPoints_2D(int *n_cpoints, double y, Lens *Psi,
+CritPoint *find_all_CritPoints_2D(int *n_cpoints, double Rmin, double Rmax, double y, Lens *Psi,
                                   int (*find_CritPoint)(double x1, double x2, pImage *p));
-CritPoint *find_all_CritPoints_min_2D(int *n_cpoints, double y, Lens *Psi);
-CritPoint *find_all_CritPoints_root_2D(int *n_cpoints, double y, Lens *Psi);
+CritPoint *find_all_CritPoints_min_2D(int *n_cpoints, double Rmin, double Rmax, double y, Lens *Psi);
+CritPoint *find_all_CritPoints_root_2D(int *n_cpoints, double Rmin, double Rmax, double y, Lens *Psi);
 CritPoint *driver_all_CritPoints_2D(int *n_cpoints, double y, pNamedLens *pNLens);
 
 

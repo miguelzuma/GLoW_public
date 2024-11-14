@@ -30,7 +30,7 @@
 
 #define _TRUE_ 1
 #define _FALSE_ 0
-#define M_2PI (2*M_PI)
+#define M_2PI 6.2831853071795864769252867665590057684
 #define MOD_2PI(x) ((x) - M_2PI*floor((x)/M_2PI))
 #define ABS(x) (((x) >= 0) ? (x) : -(x))
 #define SIGN(x) (((x) >= 0) ? (1) : (-1))
