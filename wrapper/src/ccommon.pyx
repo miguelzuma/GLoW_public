@@ -317,8 +317,9 @@ cdef manual_update_pprec(d, Prec_General *pr):
     pr.ro_findCP2D_root.epsabs   = d['ro_findCP2D_root']['epsabs']
     pr.ro_findCP2D_root.epsrel   = d['ro_findCP2D_root']['epsrel']
 
-    pr.ro_findfirstCP2D_Rin  = d['ro_findfirstCP2D_Rin']
-    pr.ro_findfirstCP2D_Rout = d['ro_findfirstCP2D_Rout']
+    pr.ro_findfirstCP2D_nextra = d['ro_findfirstCP2D_nextra']
+    pr.ro_findfirstCP2D_Rin    = d['ro_findfirstCP2D_Rin']
+    pr.ro_findfirstCP2D_Rout   = d['ro_findfirstCP2D_Rout']
 
     pr.ro_findallCP2D_npoints      = d['ro_findallCP2D_npoints']
     pr.ro_findallCP2D_force_search = d['ro_findallCP2D_force_search']

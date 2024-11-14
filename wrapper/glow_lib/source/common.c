@@ -153,8 +153,9 @@ Prec_General pprec =
     .ro_findCP2D_root.epsabs   = 1e-8,
     .ro_findCP2D_root.epsrel   = 0,
 
-    .ro_findfirstCP2D_Rin  = 1e-3,
-    .ro_findfirstCP2D_Rout = 10,
+    .ro_findfirstCP2D_nextra = 20,
+    .ro_findfirstCP2D_Rin    = 1e-3,
+    .ro_findfirstCP2D_Rout   = 10,
 
     .ro_findallCP2D_npoints      = 500,
     .ro_findallCP2D_force_search = _FALSE_,

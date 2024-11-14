@@ -63,6 +63,7 @@ cdef extern from "common.h" nogil:
         Prec_Base ro_Tmin
         Prec_Multimin ro_findCP2D_min
         Prec_Base ro_findCP2D_root
+        int ro_findfirstCP2D_nextra
         double ro_findfirstCP2D_Rin
         double ro_findfirstCP2D_Rout
         int ro_findallCP2D_npoints

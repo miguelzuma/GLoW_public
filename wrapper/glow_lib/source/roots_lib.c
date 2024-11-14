@@ -1222,9 +1222,9 @@ CritPoint *find_first_CritPoints_2D(int *n_points, double y, Lens *Psi)
     pTarget pt;
     CritPoint *p;
 
-    R_in = pprec.ro_findfirstCP2D_Rin;
+    R_in  = pprec.ro_findfirstCP2D_Rin;
     R_out = pprec.ro_findfirstCP2D_Rout + y;
-    n_extra_points = 20;
+    n_extra_points = pprec.ro_findfirstCP2D_nextra;
 
     *n_points = 2 + n_extra_points;
     p = (CritPoint *)malloc((*n_points)*sizeof(CritPoint));
