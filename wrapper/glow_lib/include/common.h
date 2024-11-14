@@ -224,6 +224,9 @@ const gsl_multimin_fdfminimizer_type *get_fdfMultimin(int id);
 
 
 enum id_fdfMultiroot {id_fdfMultiroot_newton,
+                      id_fdfMultiroot_hybridsj,
+                      id_fdfMultiroot_hybridj,
+                      id_fdfMultiroot_gnewton,
                       N_id_fdfMultiroot};
 extern char *names_fdfMultiroot[];
 const gsl_multiroot_fdfsolver_type *get_fdfMultiroot(int id);

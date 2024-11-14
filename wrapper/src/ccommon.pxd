@@ -156,6 +156,9 @@ cdef extern from "common.h" nogil:
                                   N_id_fdfMultimin
 
     ctypedef enum id_fdfMultiroot: id_fdfMultimin_newton, \
+                                   id_fdfMultiroot_hybridsj, \
+                                   id_fdfMultiroot_hybridj, \
+                                   id_fdfMultiroot_gnewton, \
                                    N_id_fdfMultiroot
 
     ctypedef enum id_stepODE: id_stepODE_rkf45, \

@@ -74,10 +74,16 @@ const gsl_multimin_fdfminimizer_type *get_fdfMultimin(int id)
     return T[id];
 }
 
-char *names_fdfMultiroot[] = {"newton"};
+char *names_fdfMultiroot[] = {"newton",
+                              "hybridsj",
+                              "hybridj",
+                              "gnewton"};
 const gsl_multiroot_fdfsolver_type *get_fdfMultiroot(int id)
 {
-    const gsl_multiroot_fdfsolver_type *T[] = {gsl_multiroot_fdfsolver_newton};
+    const gsl_multiroot_fdfsolver_type *T[] = {gsl_multiroot_fdfsolver_newton,
+                                               gsl_multiroot_fdfsolver_hybridsj,
+                                               gsl_multiroot_fdfsolver_hybridj,
+                                               gsl_multiroot_fdfsolver_gnewton};
 
     return T[id];
 }

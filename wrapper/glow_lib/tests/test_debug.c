@@ -34,12 +34,14 @@ int main(int argc, char *argv[])
     //~ xc1 = 9.;
     xc2 = -0.1;
 
-    pprec.ro_findallCP2D_force_search = _TRUE_;
+    //~ pprec.ro_findallCP2D_force_search = _TRUE_;
     //~ pprec.ro_findfirstCP2D_Rout = 100;
     //~ pprec.ro_initcusp_n = 2000;
     //~ pprec.ro_initcusp_R = 1e-4;
-    pprec.ro_findnearCritPoint_scale = 1.5;
+    //~ pprec.ro_findnearCritPoint_scale = 1.5;
+
     pprec.ro_findallCP2D_npoints = 500;
+    pprec.ro_findCP2D_root.id = id_fdfMultiroot_hybridsj;
 
     p = create_pLens_CombinedLens(2);
     add_lens_CombinedLens(create_pLens_offcenterPointLens(psi0, 1e-10, xc1, xc2), p);
