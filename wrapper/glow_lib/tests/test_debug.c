@@ -32,10 +32,15 @@ int main(int argc, char *argv[])
     // pprec.mc_fillSaddleCenter_dR     = 5e-2;
     // pprec.mc_fillSaddleCenter_sigmaf = 1000;
 
+    // pprec.mc_intContourSaddle.epsabs = 1e-3;
+    // pprec.mc_intContourSaddle.h = 1e-2;
+
+    // pprec.mc_updCondODE_tol_brack = 1e-2;
+
     // new pprec
-    pprec.mc_fillSaddleCenter_nsigma = 100;
-    pprec.mc_fillSaddleCenter_dR     = 5e-2;
-    pprec.mc_fillSaddleCenter_sigmaf = 100;
+    // pprec.mc_fillSaddleCenter_nsigma = 100;
+    // pprec.mc_fillSaddleCenter_dR     = 5e-2;
+    // pprec.mc_fillSaddleCenter_sigmaf = 100;
 
     //==== Create lens
     //=========================================
