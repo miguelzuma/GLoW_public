@@ -139,7 +139,7 @@ void display_Center(Center *ctr)
     char *ctr_type_names[] = {"min", "max", "saddle 8 maxmax", "saddle 8 minmin",
                                             "saddle O max",    "saddle O min"};
 
-    printf(" * Center (%s)\n", ctr_type_names[(int)ctr->type]);
+    printf(" Center (%s)\n", ctr_type_names[(int)ctr->type]);
     printf(" ** x0 = (%g, %g)\n", ctr->x0[i_x1], ctr->x0[i_x2]);
     printf(" ** tau0 = %g\n", ctr->tau0);
     printf(" ** alpha_out/pi = %g\n", ctr->alpha_out/M_PI);
@@ -694,6 +694,9 @@ void fill_saddle_Center(Center *ctr, pIntegral2d *p2d)
     double u[4][N_eqs2d];
     pCondODE *pc;
 
+    // HVR_DEBUG
+    // display_Center(ctr);
+
     // ---------------------------------------------
     // Initialize parameters
     pc = init_pCondODE();
@@ -739,7 +742,7 @@ void fill_saddle_Center(Center *ctr, pIntegral2d *p2d)
         sigmaf = sigma0 + dsigma;
 
         // HVR_DEBUG
-        //~ printf("i=%d/%d   sigma0=%f     sigmaf=%f\n", i, n_sigma, sigma0, sigmaf);
+        // printf("i=%d/%d   sigma0=%f     sigmaf=%f\n", i, n_sigma, sigma0, sigmaf);
 
         for(j=0;j<4;j++)
         {
@@ -748,6 +751,10 @@ void fill_saddle_Center(Center *ctr, pIntegral2d *p2d)
 
             p2d->alpha_ini = alphas[j];
             pc->cond_met = _FALSE_;
+
+            // avoid errors when restarting integration with contours in 
+            // different directions (expecting different sign for this)
+            pc->cond_old = reach_2pi_contour2d(u[j], u[j], pc);
 
             status = integrate_contour2d_saddle(sigmaf, &sigma, u[j], p2d);
 
@@ -758,7 +765,7 @@ void fill_saddle_Center(Center *ctr, pIntegral2d *p2d)
                 i_out = j;
 
                 // HVR_DEBUG
-                //~ printf("n_out=%d   alpha[%d]/pi=%f  sigmaf=%f\n", n_out, j, alphas[j]/M_PI, sigma);
+                // printf("n_out=%d   alpha[%d]/pi=%f  sigmaf=%f\n", n_out, j, alphas[j]/M_PI, sigma);
             }
         }
 
@@ -787,7 +794,7 @@ void fill_saddle_Center(Center *ctr, pIntegral2d *p2d)
                     u[j][j_I] = 0;
 
                     // HVR_DEBUG
-                    //~ printf("i=%d   sigma0=%f     sigmaf=%f\n", i, sigma, sigmaf);
+                    // printf("i=%d   sigma0=%f     sigmaf=%f\n", i, sigma, sigmaf);
 
                     p2d->alpha_ini = alphas[j];
                     pc->cond_met = _FALSE_;
@@ -799,7 +806,7 @@ void fill_saddle_Center(Center *ctr, pIntegral2d *p2d)
                         n_out++;
 
                         // HVR_DEBUG
-                        //~ printf("n_out=%d   alpha[%d]/pi=%f  sigmaf=%f\n", n_out, j, alphas[j]/M_PI, sigma);
+                        // printf("n_out=%d   alpha[%d]/pi=%f  sigmaf=%f\n", n_out, j, alphas[j]/M_PI, sigma);
 
                         break;
                     }

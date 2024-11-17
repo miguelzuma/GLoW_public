@@ -17,7 +17,8 @@ test_cases = test_lenses \
 			 test_area \
 			 test_special \
 		  	 test_fourier \
-			 test_contour
+			 test_contour \
+			 test_debug
 
 #############################################################
 
@@ -27,11 +28,11 @@ LIB_DIR = lib
 TEST_DIR = tests
 
 CC = gcc
-CFLAGS = -fPIC -fopenmp -Ofast
-LDFLAGS = -fopenmp -lglow -lgsl -lgslcblas -lm
+#CFLAGS = -fPIC -fopenmp -Ofast
+#LDFLAGS = -fopenmp -lglow -lgsl -lgslcblas -lm
 
-#CFLAGS = -fPIC -g -Wall
-#LDFLAGS = -lglow -lgsl -lgslcblas -lm
+CFLAGS = -fPIC -g -Wall
+LDFLAGS = -lglow -lgsl -lgslcblas -lm
 
 #############################################################
 
@@ -68,8 +69,8 @@ test: $(TESTS)
 #############################################################
 
 .PHONY: valgrind
-valgrind: $(TEST_DIR)/test_contour
-	valgrind --leak-check=yes --show-reachable=yes --track-origins=yes $(TEST_DIR)/test_fourier > /dev/null
+valgrind: all
+	valgrind --leak-check=yes --show-reachable=yes --track-origins=yes $(TEST_DIR)/test_debug > /dev/null
 
 .PHONY: clean
 clean:

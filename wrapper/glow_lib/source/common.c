@@ -74,10 +74,16 @@ const gsl_multimin_fdfminimizer_type *get_fdfMultimin(int id)
     return T[id];
 }
 
-char *names_fdfMultiroot[] = {"newton"};
+char *names_fdfMultiroot[] = {"newton",
+                              "hybridsj",
+                              "hybridj",
+                              "gnewton"};
 const gsl_multiroot_fdfsolver_type *get_fdfMultiroot(int id)
 {
-    const gsl_multiroot_fdfsolver_type *T[] = {gsl_multiroot_fdfsolver_newton};
+    const gsl_multiroot_fdfsolver_type *T[] = {gsl_multiroot_fdfsolver_newton,
+                                               gsl_multiroot_fdfsolver_hybridsj,
+                                               gsl_multiroot_fdfsolver_hybridj,
+                                               gsl_multiroot_fdfsolver_gnewton};
 
     return T[id];
 }
@@ -147,8 +153,9 @@ Prec_General pprec =
     .ro_findCP2D_root.epsabs   = 1e-8,
     .ro_findCP2D_root.epsrel   = 0,
 
-    .ro_findfirstCP2D_Rin  = 1e-3,
-    .ro_findfirstCP2D_Rout = 10,
+    .ro_findfirstCP2D_nextra = 20,
+    .ro_findfirstCP2D_Rin    = 1e-3,
+    .ro_findfirstCP2D_Rout   = 10,
 
     .ro_findallCP2D_npoints      = 500,
     .ro_findallCP2D_force_search = _FALSE_,
@@ -157,7 +164,7 @@ Prec_General pprec =
     .ro_initcusp_n = 100,
 
     .ro_findnearCritPoint_max_iter = 100,
-    .ro_findnearCritPoint_scale = 2.,
+    .ro_findnearCritPoint_scale = 1.2,
 
     .ro_findlocMin2D.id         = id_fdfMultimin_conjugate_fr,
     .ro_findlocMin2D.max_iter   = 100,

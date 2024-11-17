@@ -19,7 +19,7 @@ int main(int argc, char *argv[])
 
     Lens Psi;
     pImage pimage;
-    CritPoint point1, point2;
+    CritPoint point1;
     CritPoint *points;
 
     //~ handle_GSL_errors();
@@ -35,10 +35,10 @@ int main(int argc, char *argv[])
     psi0 = 1.;
 
     // Different lenses only appear here
-    //~ p = create_pLens_SIS(psi0);
+    p = create_pLens_SIS(psi0);
     //~ p = create_pLens_CIS(psi0, 0.1);
     //~ p = create_pLens_offcenterCIS(psi0, 0.1, 0, 0);
-    p = create_pLens_NFW(psi0, 10.);
+    //~ p = create_pLens_NFW(psi0, 10.);
     //~ p = create_pLens_PointLens(psi0);
 
     //~ rc = 0.05;
@@ -64,14 +64,15 @@ int main(int argc, char *argv[])
     // -----------------------------
     // ----- MINIMIZATION
     // -----------------------------
-    printf("\nFinding first two roots in 2D:\n");
+    printf("\nFinding first roots in 2D:\n");
 
-    n_points = find_first_CritPoints_2D(y, &point1, &point2, &Psi);
+    points = find_first_CritPoints_2D(&n_points, y, &Psi);
+    points = filter_CritPoint(&n_points, points);
 
     printf("\nn_points = %d\n", n_points);
-    display_CritPoint(&point1);
-    if(n_points > 1)
-        display_CritPoint(&point2);
+    for(i=0;i<n_points;i++)
+        display_CritPoint(points+i);
+    free(points);
 
     // -----------------------------
     // ----- CRIT POINTS
@@ -128,7 +129,8 @@ int main(int argc, char *argv[])
     printf("General 2D image finder:\n");
 
     printf("\n  - Multidim minimization:\n");
-    points = find_all_CritPoints_min_2D(&n_points, y, &Psi);
+    points = find_all_CritPoints_min_2D(&n_points, 0, 10, y, &Psi);
+    points = filter_CritPoint(&n_points, points);
     for(i=0;i<n_points;i++)
     {
         printf("i = %d   ", i);
@@ -137,7 +139,8 @@ int main(int argc, char *argv[])
     free(points);
 
     printf("\n  - Multidim root finding:\n");
-    points = find_all_CritPoints_root_2D(&n_points, y, &Psi);
+    points = find_all_CritPoints_root_2D(&n_points, 0, 10, y, &Psi);
+    points = filter_CritPoint(&n_points, points);
     for(i=0;i<n_points;i++)
     {
         printf("i = %d   ", i);
@@ -155,8 +158,6 @@ int main(int argc, char *argv[])
     free(points);
 
     free_pLens(p);
-
-    PWARNING("last i=%d  i=%d", i, i)
 
     return 0;
 }

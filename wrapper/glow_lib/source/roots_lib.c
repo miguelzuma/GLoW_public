@@ -572,8 +572,7 @@ double dTmin_R(double R, void *ptarget)
     deriv = p->dT_func_dR(R, ptarget);
 
     // finite difference approx
-    // dR = pprec.ro_TminR_dR
-    // deriv = (Tmin_R(R+dR, ptarget)-T)/dR;
+    // deriv = (Tmin_R(R+pprec.ro_TminR_dR, ptarget)-Tmin_R(R, ptarget))/pprec.ro_TminR_dR;
 
     return deriv;
 }
@@ -628,8 +627,7 @@ int Tmin(pTarget *ptarget)
         x = gsl_root_fdfsolver_root(s);
         status = gsl_root_test_delta(x, x0, epsabs, epsrel);
 
-        //~ if(status == GSL_SUCCESS)
-            //~ printf ("Converged\n");
+        //~ printf("iter=%d  R=%g\n", iter, x);
     }
     while (status == GSL_CONTINUE && iter < max_iter);
 
@@ -981,87 +979,90 @@ int find_CritPoint_root_2D(double x1guess, double x2guess, pImage *p)
 }
 
 
-// === Find cusps and singularities
+// === Generic functions to work with lists of CritPoint
 
-CritPoint *init_singcusp(int *n_singcusp, double y, Lens *Psi, pNamedLens *pNLens)
+void add_CritPoint(CritPoint *p_single, int *n_list, CritPoint *p_list)
 {
-    char is_center;
-    int i, j, n_angles, n_vec, n_points, n_sc;
-    double x1, x2, x10, x20, Dx1, Dx2;
-    double alpha, R, dphi_R, dphi_R_old;
-    double phi_derivs[N_derivs];
-    double *xvec;
-    CritPoint *points;
+    // add p_single in p_list at the position n_list if different
+    // and converged and then increase n_list
+    char is_repeated;
+    int i;
+    int n_points = *n_list;
 
-    R = pprec.ro_initcusp_R;
-    n_angles = pprec.ro_initcusp_n;
-
-    // find number of tentative candidates (center of the lens
-    // plus center of sublenses if we have a composite lens)
-    n_sc = 0;
-    n_vec = 0;
-    xvec = get_cusp_sing(&n_vec, pNLens);
-
-    // actual number of possible sing_cusps = n_vec/2
-    // we will look for the first crit point near so we allocate
-    // twice as many points
-    n_points = n_vec/2;
-    points = (CritPoint *)malloc(2*n_points*sizeof(CritPoint));
-
-    for(i=0;i<n_points;i++)
+    if(p_single->type != type_non_converged)
     {
-        x10 = xvec[2*i];
-        x20 = xvec[2*i+1];
-
-        is_center = _TRUE_;
-        for(j=0;j<n_angles;j++)
+        is_repeated = _FALSE_;
+        for(i=0;i<n_points;i++)
         {
-            alpha = j*M_2PI/n_angles;
-            Dx1 = R*cos(alpha);
-            Dx2 = R*sin(alpha);
-            x1 = x10 + Dx1;
-            x2 = x20 + Dx2;
-
-            phiFermat_1stDeriv(phi_derivs, y, x1, x2, Psi);
-            dphi_R = (Dx1*phi_derivs[i_dx1] + Dx2*phi_derivs[i_dx2])/R;
-
-            //~ printf("i=%d  j=%d   dphi_R=%e   dphi_old=%e\n", i, j, dphi_R, dphi_R_old);
-
-            if( (SIGN(dphi_R) != SIGN(dphi_R_old)) && (j>0) )
+            if(is_same_CritPoint(p_list+i, p_single) == _TRUE_)
             {
-                is_center = _FALSE_;
+                is_repeated = _TRUE_;
                 break;
             }
-            else
-                dphi_R_old = dphi_R;
         }
-        //~ printf("i=%d  flag=%d\n", i, is_center);
 
-        if(is_center == _TRUE_)
+        if(is_repeated == _FALSE_)
         {
-            if(SIGN(dphi_R) == -1)
-                points[n_sc].type = type_singcusp_max;
-            if(SIGN(dphi_R) == 1)
-                points[n_sc].type = type_singcusp_min;
-
-            //~ printf("x10=%e  x20=%e\n", x10, x20);
-
-            points[n_sc].t   = phiFermat(y, x10, x20, Psi);
-            points[n_sc].mag = magnification(x10, x20, Psi);
-            points[n_sc].x1  = x10;
-            points[n_sc].x2  = x20;
-
-            // finally try to find a crit point near the sing/cusp
-            fill_CritPoint_near_singcusp(points+n_sc+1, points+n_sc, y, Psi);
-            n_sc += 2;
+            copy_CritPoint(p_list+n_points, p_single);
+            *n_list = n_points+1;
         }
     }
-    free(xvec);
-
-    *n_singcusp = n_sc;
-
-    return points;
 }
+
+CritPoint *filter_CritPoint(int *n, CritPoint *p)
+{
+    // keep only different and converged points in p
+    int i, n_new, n_old;
+    CritPoint *p_new;
+
+    n_old = *n;
+    n_new = 0;
+
+    p_new = (CritPoint *)malloc(n_old*sizeof(CritPoint));
+
+    for(i=0;i<n_old;i++)
+        add_CritPoint(p+i, &n_new, p_new);
+
+    // realloc to the actual number of points
+    *n = n_new;
+    p_new = realloc(p_new, n_new*sizeof(CritPoint));
+
+    sort_t_CritPoint(n_new, p_new);
+
+    free(p);
+
+    return p_new;
+}
+
+CritPoint *merge_CritPoint(int n1, CritPoint *p1, int n2, CritPoint *p2, int *n_points)
+{
+    // combine p1 and p2 into a single list, keeping only different points
+    // allocate a new *p and free *p1 and *p2
+    int i;
+    CritPoint *p;
+
+    *n_points = 0;
+    p = (CritPoint *)malloc((n1+n2)*sizeof(CritPoint));
+
+    for(i=0;i<n1;i++)
+        add_CritPoint(p1+i, n_points, p);
+
+    for(i=0;i<n2;i++)
+        add_CritPoint(p2+i, n_points, p);
+
+    // realloc to the actual number of points
+    p = realloc(p, (*n_points)*sizeof(CritPoint));
+
+    sort_t_CritPoint(*n_points, p);
+
+    free(p1);
+    free(p2);
+
+    return p;
+}
+
+
+// === Find cusps and singularities
 
 void fill_CritPoint_near_singcusp(CritPoint *p_root, CritPoint *p_singcusp, double y, Lens *Psi)
 {
@@ -1127,67 +1128,106 @@ void fill_CritPoint_near_singcusp(CritPoint *p_root, CritPoint *p_singcusp, doub
     //~ display_CritPoint(p_root);
 }
 
-CritPoint *add_singcusp(int *n_cpoints, CritPoint *ps, double y, Lens *Psi, pNamedLens *pNLens)
+CritPoint *find_singcusp(int *n_singcusp, double y, Lens *Psi, pNamedLens *pNLens)
 {
-    char compare_flag;
-    int i, j, k, n_points, n_singcusp;
-    CritPoint *ps_singcusp;
+    char is_center;
+    int i, j, n_angles, n_vec, n_points, n_sc;
+    double x1, x2, x10, x20, Dx1, Dx2;
+    double alpha, R, dphi_R, dphi_R_old=0;
+    double phi_derivs[N_derivs];
+    double *xvec;
+    CritPoint *points;
 
-    // try to find cusps and singularities
-    n_singcusp = 0;
-    ps_singcusp = init_singcusp(&n_singcusp, y, Psi, pNLens);
+    R = pprec.ro_initcusp_R;
+    n_angles = pprec.ro_initcusp_n;
 
-    if(n_singcusp > 0)
+    // find number of tentative candidates (center of the lens
+    // plus center of sublenses if we have a composite lens)
+    n_sc = 0;
+    n_vec = 0;
+    xvec = get_cusp_sing(&n_vec, pNLens);
+
+    // actual number of possible sing_cusps = n_vec/2
+    // we will look for the first crit point near so we allocate
+    // twice as many points
+    n_points = n_vec/2;
+    points = (CritPoint *)malloc(n_vec*sizeof(CritPoint));
+
+    for(i=0;i<n_points;i++)
     {
-        n_points = *n_cpoints;
-        ps = (CritPoint *)realloc(ps, (n_points+n_singcusp)*sizeof(CritPoint));
+        x10 = xvec[2*i];
+        x20 = xvec[2*i+1];
 
-        // include only converged and different points in the list
-        k = 0;
-        compare_flag = _FALSE_;
-        for(i=0;i<n_singcusp;i++)
+        is_center = _TRUE_;
+        for(j=0;j<n_angles;j++)
         {
-            if(ps_singcusp[i].type == type_non_converged)
-                continue;
+            alpha = j*M_2PI/n_angles;
+            Dx1 = R*cos(alpha);
+            Dx2 = R*sin(alpha);
+            x1 = x10 + Dx1;
+            x2 = x20 + Dx2;
 
-            for(j=0;j<n_points;j++)
+            phiFermat_1stDeriv(phi_derivs, y, x1, x2, Psi);
+            dphi_R = Dx1*phi_derivs[i_dx1] + Dx2*phi_derivs[i_dx2];
+
+            //~ printf("i=%d  j=%d   dphi_R=%e   dphi_old=%e\n", i, j, dphi_R, dphi_R_old);
+
+            // initialize in the first step
+            if( (SIGN(dphi_R) != SIGN(dphi_R_old)) && (j>0) )
             {
-                if( is_same_CritPoint(ps_singcusp+i, ps+j) == _TRUE_ )
-                {
-                    compare_flag = _TRUE_;
-                    continue;
-                }
+                is_center = _FALSE_;
+                break;
             }
-            if(compare_flag == _FALSE_)
-            {
-                copy_CritPoint(ps+n_points+k, ps_singcusp+i);
-                k++;
-            }
-            compare_flag = _FALSE_;
+            else
+                dphi_R_old = dphi_R;
         }
+        //~ printf("i=%d  flag=%d\n", i, is_center);
 
-        *n_cpoints += k;
-        sort_t_CritPoint(*n_cpoints, ps);
+        if(is_center == _TRUE_)
+        {
+            if(SIGN(dphi_R) == -1)
+                points[n_sc].type = type_singcusp_max;
+            if(SIGN(dphi_R) == 1)
+                points[n_sc].type = type_singcusp_min;
+
+            //~ printf("x10=%e  x20=%e\n", x10, x20);
+
+            points[n_sc].t   = phiFermat(y, x10, x20, Psi);
+            points[n_sc].mag = magnification(x10, x20, Psi);
+            points[n_sc].x1  = x10;
+            points[n_sc].x2  = x20;
+
+            // finally try to find a crit point near the sing/cusp
+            fill_CritPoint_near_singcusp(points+n_sc+1, points+n_sc, y, Psi);
+            n_sc += 2;
+        }
     }
+    free(xvec);
 
-    free(ps_singcusp);
+    *n_singcusp = n_sc;
 
-    return ps;
+    return points;
 }
 
 
 // === High level functions to find crit points
 
-int find_first_CritPoints_2D(double y, CritPoint *p1, CritPoint *p2, Lens *Psi)
+CritPoint *find_first_CritPoints_2D(int *n_points, double y, Lens *Psi)
 {
-    int n_points = 0;
+    int i, n_extra_points;
     double R_in, R_out;
+    double R, th, x1guess, x2guess;
     double x_vec[N_dims];
     pImage pim;
     pTarget pt;
+    CritPoint *p;
 
-    R_in = pprec.ro_findfirstCP2D_Rin;
+    R_in  = pprec.ro_findfirstCP2D_Rin;
     R_out = pprec.ro_findfirstCP2D_Rout + y;
+    n_extra_points = pprec.ro_findfirstCP2D_nextra;
+
+    *n_points = 2 + n_extra_points;
+    p = (CritPoint *)malloc((*n_points)*sizeof(CritPoint));
 
     pt.y = y;
     pt.alpha = 0;
@@ -1203,213 +1243,164 @@ int find_first_CritPoints_2D(double y, CritPoint *p1, CritPoint *p2, Lens *Psi)
     Tmin(&pt);
 
     x1x2_def(x_vec, pt.R, pt.alpha, pt.x0_vec);
-    p1->x1 = x_vec[i_x1];
-    p1->x2 = x_vec[i_x2];
-    classify_CritPoint(p1, y, Psi);
+    p[0].x1 = x_vec[i_x1];
+    p[0].x2 = x_vec[i_x2];
+    classify_CritPoint(p, y, Psi);
 
     // find and initialize the exterior point
     pt.R = R_out;
     Tmin(&pt);
 
     x1x2_def(x_vec, pt.R, pt.alpha, pt.x0_vec);
-    p2->x1 = x_vec[i_x1];
-    p2->x2 = x_vec[i_x2];
-    classify_CritPoint(p2, y, Psi);
+    p[1].x1 = x_vec[i_x1];
+    p[1].x2 = x_vec[i_x2];
+    classify_CritPoint(p+1, y, Psi);
 
     // for better precision, readjust the crit points found
     pim.y = y;
     pim.Psi = Psi;
 
-    // HVR_DEBUG
-    //~ display_CritPoint(p1);
-    //~ display_CritPoint(p2);
-
-    pim.point = p1;
+    pim.point = p;
     find_CritPoint_root_2D(pim.point->x1, pim.point->x2, &pim);
 
-    pim.point = p2;
+    pim.point = p+1;
     find_CritPoint_root_2D(pim.point->x1, pim.point->x2, &pim);
 
+    // try to find a few more points using a standard 2d (min) root finder
+    for(i=0;i<n_extra_points;i++)
+    {
+        R = R_out;
+        th = M_2PI*i/(n_extra_points-1);
+
+        x1guess = R*cos(th);
+        x2guess = R*sin(th);
+
+        pim.point = p+i+2;
+        find_CritPoint_min_2D(x1guess, x2guess, &pim);
+
+        x1guess = pim.point->x1;
+        x2guess = pim.point->x2;
+        find_CritPoint_root_2D(x1guess, x2guess, &pim);
+    }
+
     // HVR_DEBUG
-    //~ display_CritPoint(p1);
-    //~ display_CritPoint(p2);
-
-    if(is_same_CritPoint(p1, p2) == _TRUE_)
-        n_points = 1;
-    else
-        n_points = 2;
-
-    // HVR -> come back to this for single contour
-    // keep only converged points (not for now)
-    //~ if(n_points == 2)
+    //~ for(i=0;i<*n_points;i++)
     //~ {
-        //~ if(p1->type == type_non_converged)
-        //~ {
-            //~ copy_CritPoint(p1, p2);
-            //~ n_points = 1;
-        //~ }
-        //~ if(p2->type == type_non_converged)
-        //~ {
-            //~ copy_CritPoint(p2, p1);
-            //~ n_points = 1;
-        //~ }
+        //~ printf("R=%g,  ", sqrt((p+i)->x1*(p+i)->x1 + (p+i)->x2*(p+i)->x2));
+        //~ display_CritPoint(p+i);
     //~ }
 
-    return n_points;
+    return p;
 }
 
 int check_only_min_CritPoint_2D(CritPoint *p, double y, pNamedLens *pNLens)
 {
-    int n_points, n_singcusp;
-    CritPoint p1, p2;
-    CritPoint *ps;
+    int n1, n2, n_points;
+    CritPoint *p1, *p2;
     Lens Psi = init_lens(pNLens);
 
-    n_points = find_first_CritPoints_2D(y, &p1, &p2, &Psi);
-    if( (n_points == 1) && (p1.type == type_min) )
-        copy_CritPoint(p, &p1);
+    // find first points and check for sing/cusps
+    p1 = find_first_CritPoints_2D(&n1, y, &Psi);
+    p2 = find_singcusp(&n2, y, &Psi, pNLens);
 
-    // check for sing/cusps
-    ps = init_singcusp(&n_singcusp, y, &Psi, pNLens);
-    n_points += n_singcusp;
-    free(ps);
+    // keep only different, converged and sort them by t
+    p1 = merge_CritPoint(n1, p1, n2, p2, &n_points);
 
-    // HVR: alternative to test
-    //~ ps = find_all_CritPoints_2D(&n_points, y, &Psi, find_CritPoint_root_2D);
-    //~ copy_CritPoint(p, ps);
-    //~ free(ps);
+    // copy minimum t stored at p1[0]
+    copy_CritPoint(p, p1);
+
+    free(p1);
 
     return n_points;
 }
 
-CritPoint *find_all_CritPoints_2D(int *n_cpoints, double y, Lens *Psi,
+CritPoint *find_all_CritPoints_2D(int *n_cpoints, double Rmin, double Rmax, double y, Lens *Psi,
                                   int (*find_CritPoint)(double x1, double x2, pImage *p))
 {
-    char compare_flag;
-    int i, j;
-    int n_points, n_guesses;
-    double Rmin, Rmax, R, th;
-    double x1guess, x2guess;
-    CritPoint p1, p2;
+    // find critical points throwing n_guesses between Rmin and Rmax
+    int i, n_guesses;
+    double R, th, x1guess, x2guess;
     CritPoint *ps;
     pImage p;
 
     const gsl_rng_type * T;
     gsl_rng * r;
 
-    // alloc maximum number of images
-    n_guesses = pprec.ro_findallCP2D_npoints;
-    ps = (CritPoint *)malloc(n_guesses*sizeof(CritPoint));
-
     gsl_rng_env_setup();
     T = gsl_rng_default;
     r = gsl_rng_alloc(T);
 
-    find_first_CritPoints_2D(y, &p1, &p2, Psi);
+    // alloc maximum number of images
+    n_guesses = pprec.ro_findallCP2D_npoints;
+    *n_cpoints = n_guesses;
+    ps = (CritPoint *)malloc(n_guesses*sizeof(CritPoint));
 
-    if( (is_same_CritPoint(&p1, &p2) == _TRUE_) &&
-        (pprec.ro_findallCP2D_force_search == _FALSE_))
+    if(pprec.ro_findallCP2D_force_search == _TRUE_)
+        Rmin = 0.;
+
+    p.y = y;
+    p.Psi = Psi;
+
+    // throw random guesses between the two circles
+    for(i=0;i<n_guesses;i++)
     {
-        copy_CritPoint(ps, &p1);
-        n_points = 1;
+        R = (Rmax-Rmin)*sqrt(gsl_rng_uniform(r)) + Rmin;
+        th = M_2PI*gsl_rng_uniform(r);
+
+        x1guess = R*cos(th);
+        x2guess = R*sin(th);
+
+        p.point = ps + i;
+        find_CritPoint(x1guess, x2guess, &p);
     }
-    else
-    {
-        Rmin = sqrt(p1.x1*p1.x1 + p1.x2*p1.x2);
-        Rmax = sqrt(p2.x1*p2.x1 + p2.x2*p2.x2);
-
-        if(pprec.ro_findallCP2D_force_search == _TRUE_)
-            Rmin = 0.;
-
-        p.y = y;
-        p.Psi = Psi;
-
-        copy_CritPoint(ps, &p1);
-        copy_CritPoint(ps+1, &p2);
-
-        // throw random guesses between the two circles
-        for(i=2;i<n_guesses;i++)
-        {
-            R = (Rmax-Rmin)*sqrt(gsl_rng_uniform(r)) + Rmin;
-            th = 2*M_PI*gsl_rng_uniform(r);
-
-            x1guess = R*cos(th);
-            x2guess = R*sin(th);
-
-            p.point = ps + i;
-            find_CritPoint(x1guess, x2guess, &p);
-        }
-
-        // in case the first one is not converged, don't include it in the list
-        if(ps[0].type == type_non_converged)
-        {
-            for(i=1;i<n_guesses;i++)
-            {
-                if(ps[i].type != type_non_converged)
-                {
-                    swap_CritPoint(ps, ps+i);
-                    break;
-                }
-            }
-        }
-
-        // include only converged and different points in the list
-        n_points = 1;
-        compare_flag = _FALSE_;
-        for(i=1;i<n_guesses;i++)
-        {
-            if(ps[i].type == type_non_converged)
-                continue;
-
-            for(j=0;j<n_points;j++)
-            {
-                if( is_same_CritPoint(&ps[i], &ps[j]) == _TRUE_ )
-                {
-                    compare_flag = _TRUE_;
-                    continue;
-                }
-            }
-            if(compare_flag == _FALSE_)
-            {
-                swap_CritPoint(&ps[n_points], &ps[i]);
-                n_points++;
-            }
-            compare_flag = _FALSE_;
-        }
-    }
-
-    // realloc to actual number of points
-    ps = realloc(ps, n_points*sizeof(CritPoint));
-    *n_cpoints = n_points;
-
-    // sort them
-    sort_t_CritPoint(n_points, ps);
 
     gsl_rng_free(r);
 
     return ps;
 }
 
-CritPoint *find_all_CritPoints_min_2D(int *n_cpoints, double y, Lens *Psi)
+CritPoint *find_all_CritPoints_min_2D(int *n_cpoints, double Rmin, double Rmax, double y, Lens *Psi)
 {
-    return find_all_CritPoints_2D(n_cpoints, y, Psi, find_CritPoint_min_2D);
+    return find_all_CritPoints_2D(n_cpoints, Rmin, Rmax, y, Psi, find_CritPoint_min_2D);
 }
 
-CritPoint *find_all_CritPoints_root_2D(int *n_cpoints, double y, Lens *Psi)
+CritPoint *find_all_CritPoints_root_2D(int *n_cpoints, double Rmin, double Rmax, double y, Lens *Psi)
 {
-    return find_all_CritPoints_2D(n_cpoints, y, Psi, find_CritPoint_root_2D);
+    return find_all_CritPoints_2D(n_cpoints, Rmin, Rmax, y, Psi, find_CritPoint_root_2D);
 }
 
 CritPoint *driver_all_CritPoints_2D(int *n_cpoints, double y, pNamedLens *pNLens)
 {
-    CritPoint *ps;
+    int i, n, n_tmp;
+    double R, Rmin, Rmax;
+    CritPoint *ps, *ps_tmp;
     Lens Psi;
 
     Psi = init_lens(pNLens);
-    ps = find_all_CritPoints_root_2D(n_cpoints, y, &Psi);
 
-    // try to find sing/cusps and points close to them
-    ps = add_singcusp(n_cpoints, ps, y, &Psi, pNLens);
+    // find first points and check for sing/cusps
+    // keep only different, converged and sort them by t
+    ps = find_first_CritPoints_2D(&n, y, &Psi);
+    ps_tmp = find_singcusp(&n_tmp, y, &Psi, pNLens);
+    ps = merge_CritPoint(n, ps, n_tmp, ps_tmp, &n);
+
+    // find innermost and outermost points and throw guesses inside
+    R = sqrt(ps[0].x1*ps[0].x1 + ps[0].x2*ps[0].x2);
+    Rmin = R;
+    Rmax = R;
+    for(i=1;i<n;i++)
+    {
+        R = sqrt(ps[i].x1*ps[i].x1 + ps[i].x2*ps[i].x2);
+
+        if(R < Rmin)
+            Rmin = R;
+
+        if(R > Rmax)
+            Rmax = R;
+    }
+
+    ps_tmp = find_all_CritPoints_root_2D(&n_tmp, Rmin, Rmax, y, &Psi);
+    ps = merge_CritPoint(n, ps, n_tmp, ps_tmp, n_cpoints);
 
     return ps;
 }
@@ -1534,10 +1525,10 @@ int find_local_Minimum_2D(double x1guess, double x2guess, pImage *p)
 int find_global_Minimum_2D(pImage *p)
 {
     int i, n_points, n_guesses;
-    double R, alpha;
-    double R1, R2, Rmax, Rmin;
+    double R, alpha, Rmax, Rmin;
     double x1guess, x2guess;
-    CritPoint p1, p2, pmin;
+    CritPoint pmin;
+    CritPoint *ps;
 
     const gsl_rng_type * T;
     gsl_rng * r;
@@ -1546,28 +1537,32 @@ int find_global_Minimum_2D(pImage *p)
     T = gsl_rng_default;
     r = gsl_rng_alloc(T);
 
-    // we use the first two critical points as a guide to restrict the search
-    n_points = find_first_CritPoints_2D(p->y, &p1, &p2, p->Psi);
-
     n_guesses = pprec.ro_findglobMin2D_nguesses;
 
-    // if there is only a minimum, skip the rest
-    if( (n_points == 1) && (p1.type == type_min) )
-    {
-        copy_CritPoint(p->point, &p1);
-    }
-    else
-    {
-        R1 = p1.x1*p1.x1 + p1.x2*p1.x2;
-        R2 = p2.x1*p2.x1 + p2.x2*p2.x2;
-        Rmax = MAX(R1, R2);
-        Rmin = MIN(R1, R2);
+    // we use the first critical points as a guide to restrict the search
+    ps = find_first_CritPoints_2D(&n_points, p->y, p->Psi);
+    ps = filter_CritPoint(&n_points, ps);
 
-        // first guess for the minimum
-        if(p1.t < p2.t)
-            copy_CritPoint(&pmin, &p1);
-        else
-            copy_CritPoint(&pmin, &p2);
+    // first guess is the minimum ps[0] from the critical points
+    copy_CritPoint(&pmin, ps);
+
+    // if there is only a minimum, skip the rest
+    if( (n_points != 1) || (ps[0].type != type_min) )
+    {
+        // find innermost and outermost points and throw guesses inside
+        R = sqrt(ps[0].x1*ps[0].x1 + ps[0].x2*ps[0].x2);
+        Rmin = R;
+        Rmax = R;
+        for(i=1;i<n_points;i++)
+        {
+            R = sqrt(ps[i].x1*ps[i].x1 + ps[i].x2*ps[i].x2);
+
+            if(R < Rmin)
+                Rmin = R;
+
+            if(R > Rmax)
+                Rmax = R;
+        }
 
         // throw random points and try to improve the initial tmin
         for(i=0;i<n_guesses;i++)
@@ -1584,12 +1579,13 @@ int find_global_Minimum_2D(pImage *p)
             if(p->point->t < pmin.t)
                 copy_CritPoint(&pmin, p->point);
         }
-        copy_CritPoint(p->point, &pmin);
     }
 
+    copy_CritPoint(p->point, &pmin);
     classify_CritPoint(p->point, p->y, p->Psi);
 
     gsl_rng_free(r);
+    free(ps);
 
     return 0;
 }

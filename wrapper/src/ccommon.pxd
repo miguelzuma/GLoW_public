@@ -63,6 +63,7 @@ cdef extern from "common.h" nogil:
         Prec_Base ro_Tmin
         Prec_Multimin ro_findCP2D_min
         Prec_Base ro_findCP2D_root
+        int ro_findfirstCP2D_nextra
         double ro_findfirstCP2D_Rin
         double ro_findfirstCP2D_Rout
         int ro_findallCP2D_npoints
@@ -156,6 +157,9 @@ cdef extern from "common.h" nogil:
                                   N_id_fdfMultimin
 
     ctypedef enum id_fdfMultiroot: id_fdfMultimin_newton, \
+                                   id_fdfMultiroot_hybridsj, \
+                                   id_fdfMultiroot_hybridj, \
+                                   id_fdfMultiroot_gnewton, \
                                    N_id_fdfMultiroot
 
     ctypedef enum id_stepODE: id_stepODE_rkf45, \
