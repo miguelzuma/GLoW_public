@@ -83,6 +83,17 @@ double Sfull_reg(double tau, double A, double B)
     return S_reg(tau, A, B) - RL_reg(tau, A, A*B*B);
 }
 
+double R0_step_reg(double tau, double tau_scale, double I_asymp, double alpha, double sigma)
+{
+    double beta, step, R0s;
+
+    beta = pow(tau_scale, sigma);
+    step = (tau > 0) ? 1 : 0;
+    R0s  = R0_reg(tau, alpha, beta, sigma);
+
+    return (I_asymp - 1)*(step - R0s/alpha);
+}
+
 double It_sing_common(double tau, int n_points, CritPoint *ps, double *Cmax, double *Cmin)
 {
     int i;
@@ -248,6 +259,17 @@ double complex Sfull_reg_FT(double w, double A, double B)
     Sfull -= Rl;
 
     return Sfull;
+}
+
+double complex R0_step_reg_FT(double w, double tau_scale, double I_asymp, double alpha, double sigma)
+{
+    double beta;
+    double complex R0s;
+
+    beta = pow(tau_scale, sigma);
+    R0s  = R0_reg_FT(w, alpha, beta, sigma);
+
+    return (I_asymp - 1)*(1 - R0s/alpha);
 }
 
 double complex Fw_sing_common(double w, int n_points, CritPoint *ps, double *Cmax, double *Cmin)

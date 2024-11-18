@@ -102,6 +102,23 @@ def pySfull_reg(tau, double A, double B, parallel=True):
 
     return pyR
 
+def pyR0_step_reg(tau, double tau_scale, double I_asymp, double alpha=1., double sigma=3.2, bint parallel=True):
+    cdef int i
+    cdef double[:] ts = np.ascontiguousarray(tau, dtype=np.double)
+    cdef int n_ts = ts.shape[0]
+    cdef int nthreads = max_num_threads if parallel else 1
+
+    pyR = np.empty(n_ts, dtype=np.double)
+    cdef double[:] R = pyR
+
+    for i in prange(n_ts, nogil=True, num_threads=nthreads, schedule='static'):
+        R[i] = cfourier.R0_step_reg(ts[i], tau_scale, I_asymp, alpha, sigma)
+
+    if np.isscalar(tau):
+        pyR = pyR.item()
+
+    return pyR
+
 ## --- Frequency domain
 ## ------------------------------------------------------------------------
 def pyR0_reg_FT(w, double alpha, double beta, double sigma, bint parallel=True):
@@ -149,6 +166,23 @@ def pySfull_reg_FT(w, double A, double B, bint parallel=True):
 
     for i in prange(n_ws, nogil=True, num_threads=nthreads, schedule='static'):
         R[i] = cfourier.Sfull_reg_FT(ws[i], A, B)
+
+    if np.isscalar(w):
+        pyR = pyR.item()
+
+    return pyR
+
+def pyR0_step_reg_FT(w, double tau_scale, double I_asymp, double alpha=1., double sigma=3.2, bint parallel=True):
+    cdef int i
+    cdef double[:] ws = np.ascontiguousarray(w, dtype=np.double)
+    cdef int n_ws = ws.shape[0]
+    cdef int nthreads = max_num_threads if parallel else 1
+
+    pyR = np.empty(n_ws, dtype=np.cdouble)
+    cdef double complex[:] R = pyR
+
+    for i in prange(n_ws, nogil=True, num_threads=nthreads, schedule='static'):
+        R[i] = cfourier.R0_step_reg_FT(ws[i], tau_scale, I_asymp, alpha, sigma)
 
     if np.isscalar(w):
         pyR = pyR.item()
