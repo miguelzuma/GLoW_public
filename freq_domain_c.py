@@ -252,7 +252,7 @@ class FwGeneral_C():
         reg_sch['amp']       = [None, None]
         reg_sch['index']     = [None, None]
         reg_sch['has_shear'] = False
-        reg_sch['I_shear_asymp'] = 1
+        reg_sch['I_shear_asymp']   = 1
         reg_sch['tau_shear_scale'] = 1
 
         A = self.It.lens.asymp_amplitude

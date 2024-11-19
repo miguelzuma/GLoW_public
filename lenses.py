@@ -1848,6 +1848,21 @@ class CombinedLens(PsiAxisym):
         asymp_indices = np.array(asymp_indices)
         asymp_amplitudes = np.array(asymp_amplitudes)
 
+        ## GLoW cannot handle external saddle or maximum yet
+        if self.has_shear:
+            detA = (1 - self.kappa)**2 - self.gamma1**2 - self.gamma2**2
+            trA  = 2*(1 - self.kappa)
+
+            if detA < 0:
+                message = "external field produces a saddle point that GLoW cannot "\
+                          "handle. Proceed with caution."
+                warnings.warn(message, LensWarning)
+
+            if trA < 0:
+                message = "external field produces a maximum that GLoW cannot "\
+                          "handle. Proceed with caution."
+                warnings.warn(message, LensWarning)
+
         try:
             # only strictly true if all the lenses are equal, still
             # should improve the computation in most cases
