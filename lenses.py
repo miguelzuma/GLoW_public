@@ -1806,6 +1806,10 @@ class CombinedLens(PsiAxisym):
 
     Attributes
     ----------
+    has_shear : bool
+        True if the composite lens contains an external shear field.
+    kappa, gamma1, gamma2 : float
+        Convergence and shear of the external field.
     asymp_index, asymp_amplitude : float
         If the attributes :attr:`asymp_index`, :attr:`asymp_amplitude` are
         defined for all the lenses, we assign to the composite lens the
@@ -1820,6 +1824,11 @@ class CombinedLens(PsiAxisym):
 
         self.lenses = self.p_phys['lenses']
 
+        self.has_shear = False
+        self.kappa = 0
+        self.gamma1 = 0
+        self.gamma2 = 0
+
         asymp_indices = []
         asymp_amplitudes = []
 
@@ -1830,8 +1839,29 @@ class CombinedLens(PsiAxisym):
             # the composite lens is axisym if all lenses are
             self.isAxisym = self.isAxisym and l.isAxisym
 
+            if l.p_phys['name'] == 'ext':
+                self.has_shear = True
+                self.kappa  += l.p_phys['kappa']
+                self.gamma1 += l.p_phys['gamma1']
+                self.gamma2 += l.p_phys['gamma2']
+
         asymp_indices = np.array(asymp_indices)
         asymp_amplitudes = np.array(asymp_amplitudes)
+
+        ## GLoW cannot handle external saddle or maximum yet
+        if self.has_shear:
+            detA = (1 - self.kappa)**2 - self.gamma1**2 - self.gamma2**2
+            trA  = 2*(1 - self.kappa)
+
+            if detA < 0:
+                message = "external field produces a saddle point that GLoW cannot "\
+                          "handle. Proceed with caution."
+                warnings.warn(message, LensWarning)
+
+            if trA < 0:
+                message = "external field produces a maximum that GLoW cannot "\
+                          "handle. Proceed with caution."
+                warnings.warn(message, LensWarning)
 
         try:
             # only strictly true if all the lenses are equal, still

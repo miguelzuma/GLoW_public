@@ -83,6 +83,17 @@ double Sfull_reg(double tau, double A, double B)
     return S_reg(tau, A, B) - RL_reg(tau, A, A*B*B);
 }
 
+double R0_step_reg(double tau, double tau_scale, double I_asymp, double alpha, double sigma)
+{
+    double beta, step, R0s;
+
+    beta = pow(tau_scale, sigma);
+    step = (tau > 0) ? 1 : 0;
+    R0s  = R0_reg(tau, alpha, beta, sigma);
+
+    return (I_asymp - 1)*(step - R0s/alpha);
+}
+
 double It_sing_common(double tau, int n_points, CritPoint *ps, double *Cmax, double *Cmin)
 {
     int i;
@@ -119,28 +130,32 @@ double It_sing_common(double tau, int n_points, CritPoint *ps, double *Cmax, dou
     return It;
 }
 
-double It_sing_asymp(double tau, int n_points, CritPoint *ps, double det, double asymp_A, double asymp_index)
+double It_sing_asymp(double tau, RegScheme *sch)
 {
+    double asymp_A, asymp_index;
     double It, Cmax, Cmin;
 
     if(tau < 0)
         return 0;
 
-    It = It_sing_common(tau, n_points, ps, &Cmax, &Cmin) - 1 + 1./det;
-    It += R0_reg(tau, sqrt(ps[0].mag)-1./det-Cmax+Cmin, asymp_A, asymp_index);
+    asymp_A = sch->amp[0];
+    asymp_index = sch->index[0];
+
+    It = It_sing_common(tau, sch->n_ps, sch->ps, &Cmax, &Cmin);
+    It += R0_reg(tau, sqrt(sch->ps[0].mag)-1-Cmax+Cmin, asymp_A, asymp_index);
 
     return M_2PI*It;
 }
 
-double It_sing_no_asymp(double tau, int n_points, CritPoint *ps)
+double It_sing_no_asymp(double tau, RegScheme *sch)
 {
     double It, Cmax, Cmin;
 
     if(tau < 0)
         return 0;
 
-    It = It_sing_common(tau, n_points, ps, &Cmax, &Cmin);
-    It += sqrt(ps[0].mag) - 1 - Cmax + Cmin;
+    It = It_sing_common(tau, sch->n_ps, sch->ps, &Cmax, &Cmin);
+    It += sqrt(sch->ps[0].mag) - 1 - Cmax + Cmin;
 
     return M_2PI*It;
 }
@@ -250,6 +265,17 @@ double complex Sfull_reg_FT(double w, double A, double B)
     return Sfull;
 }
 
+double complex R0_step_reg_FT(double w, double tau_scale, double I_asymp, double alpha, double sigma)
+{
+    double beta;
+    double complex R0s;
+
+    beta = pow(tau_scale, sigma);
+    R0s  = R0_reg_FT(w, alpha, beta, sigma);
+
+    return (I_asymp - 1)*(1 - R0s/alpha);
+}
+
 double complex Fw_sing_common(double w, int n_points, CritPoint *ps, double *Cmax, double *Cmin)
 {
     int i;
@@ -289,24 +315,28 @@ double complex Fw_sing_common(double w, int n_points, CritPoint *ps, double *Cma
     return Fw;
 }
 
-double complex Fw_sing_asymp(double w, int n_points, CritPoint *ps, double det, double asymp_A, double asymp_index)
+double complex Fw_sing_asymp(double w, RegScheme *sch)
 {
+    double asymp_A, asymp_index;
     double Cmax, Cmin;
     double complex Fw;
 
-    Fw = Fw_sing_common(w, n_points, ps, &Cmax, &Cmin) - 1 + 1./det;
-    Fw += R0_reg_FT(w, sqrt(ps[0].mag)-1/det-Cmax+Cmin, asymp_A, asymp_index);
+    asymp_A = sch->amp[0];
+    asymp_index = sch->index[0];
+
+    Fw = Fw_sing_common(w, sch->n_ps, sch->ps, &Cmax, &Cmin);
+    Fw += R0_reg_FT(w, sqrt(sch->ps[0].mag)-1-Cmax+Cmin, asymp_A, asymp_index);
 
     return Fw;
 }
 
-double complex Fw_sing_no_asymp(double w, int n_points, CritPoint *ps)
+double complex Fw_sing_no_asymp(double w, RegScheme *sch)
 {
     double Cmax, Cmin;
     double complex Fw;
 
-    Fw = Fw_sing_common(w, n_points, ps, &Cmax, &Cmin);
-    Fw += sqrt(ps[0].mag) - 1 - Cmax + Cmin;
+    Fw = Fw_sing_common(w, sch->n_ps, sch->ps, &Cmax, &Cmin);
+    Fw += sqrt(sch->ps[0].mag) - 1 - Cmax + Cmin;
 
     return Fw;
 }
@@ -501,14 +531,19 @@ double eval_It_sing(double tau, int stage, RegScheme *sch)
     if(stage == 0)
         It_sing = 0;
     else if(stage == 1)
-        It_sing = It_sing_no_asymp(tau, sch->n_ps, sch->ps);
+        It_sing = It_sing_no_asymp(tau, sch);
     else if(stage == 2)
-        It_sing = It_sing_asymp(tau, sch->n_ps, sch->ps, sch->det, sch->amp[0], sch->index[0]);
+        It_sing = It_sing_asymp(tau, sch);
     else if(stage == 3)
     {
-        It_sing = It_sing_asymp(tau, sch->n_ps, sch->ps, sch->det, sch->amp[0], sch->index[0]);
-        It_sing += R1_reg(tau, sch->slope, sch->amp[1], sch->index[1]);
+        It_sing = It_sing_asymp(tau, sch);
+        It_sing += M_2PI*R1_reg(tau, sch->slope, sch->amp[1], sch->index[1]);
     }
+
+    // if we have external shear add the extra step that makes the
+    // asymptotic value different from 1
+    if( (sch->has_shear == _TRUE_) && (stage >= 2) )
+        It_sing += M_2PI*R0_step_reg(sch->tau_grid[0], sch->tau_shear_scale, sch->I_shear_asymp, 1, 3.2);
 
     return It_sing;
 }
@@ -531,14 +566,18 @@ double complex eval_Fw_sing(double w, int stage, RegScheme *sch)
     if(stage == 0)
         Fw_sing = 0;
     else if(stage == 1)
-        Fw_sing = Fw_sing_no_asymp(w, sch->n_ps, sch->ps);
+        Fw_sing = Fw_sing_no_asymp(w, sch);
     else if(stage == 2)
-        Fw_sing = Fw_sing_asymp(w, sch->n_ps, sch->ps, sch->det, sch->amp[0], sch->index[0]);
+        Fw_sing = Fw_sing_asymp(w, sch);
     else if(stage == 3)
     {
-        Fw_sing = Fw_sing_asymp(w, sch->n_ps, sch->ps, sch->det, sch->amp[0], sch->index[0]);
+        Fw_sing = Fw_sing_asymp(w, sch);
         Fw_sing += R1_reg_FT(w, sch->slope, sch->amp[1], sch->index[1])/M_2PI;
     }
+
+    // if we have external shear add the extra step
+    if( (sch->has_shear == _TRUE_) && (stage >= 2) )
+        Fw_sing += R0_step_reg_FT(w, sch->tau_shear_scale, sch->I_shear_asymp, 1, 3.2);
 
     return Fw_sing;
 }
@@ -568,7 +607,7 @@ void fill_It_reg(int n_tau, double *tau, double *It, double *It_reg, int stage, 
         #endif
         for(i=0;i<n_tau;i++)
         {
-            It_sing = It_sing_no_asymp(tau[i], sch->n_ps, sch->ps);
+            It_sing = It_sing_no_asymp(tau[i], sch);
             It_reg[i] = It[i] - It_sing;
         }
     else if(stage == 2)
@@ -577,7 +616,7 @@ void fill_It_reg(int n_tau, double *tau, double *It, double *It_reg, int stage, 
         #endif
         for(i=0;i<n_tau;i++)
         {
-            It_sing = It_sing_asymp(tau[i], sch->n_ps, sch->ps, sch->det, sch->amp[0], sch->index[0]);
+            It_sing = It_sing_asymp(tau[i], sch);
             It_reg[i] = It[i] - It_sing;
         }
     else if(stage == 3)
@@ -586,9 +625,20 @@ void fill_It_reg(int n_tau, double *tau, double *It, double *It_reg, int stage, 
         #endif
         for(i=0;i<n_tau;i++)
         {
-            It_sing = It_sing_asymp(tau[i], sch->n_ps, sch->ps, sch->det, sch->amp[0], sch->index[0]);
-            It_reg[i] = It[i] - It_sing - R1_reg(tau[i], sch->slope, sch->amp[1], sch->index[1]);
+            It_sing = It_sing_asymp(tau[i], sch);
+            It_reg[i] = It[i] - It_sing - M_2PI*R1_reg(tau[i], sch->slope, sch->amp[1], sch->index[1]);
         }
+
+    // HVR -> we are actually computing the step below twice, the first one
+    //        when fitting. Fix this mess
+    if( (sch->has_shear == _TRUE_) && (stage >= 2) )
+    {
+        #ifdef _OPENMP
+            #pragma omp parallel for num_threads(nthreads) if(nthreads > 1)
+        #endif
+        for(i=0;i<n_tau;i++)
+            It_reg[i] -= M_2PI*R0_step_reg(tau[i], sch->tau_shear_scale, sch->I_shear_asymp, 1, 3.2);
+    }
 }
 
 void fill_It_sing(int n_tau, double *tau, double *It_sing, int stage, RegScheme *sch, int nthreads)
@@ -614,22 +664,33 @@ void fill_It_sing(int n_tau, double *tau, double *It_sing, int stage, RegScheme 
             #pragma omp parallel for num_threads(nthreads) if(nthreads > 1)
         #endif
         for(i=0;i<n_tau;i++)
-            It_sing[i] = It_sing_no_asymp(tau[i], sch->n_ps, sch->ps);
+            It_sing[i] = It_sing_no_asymp(tau[i], sch);
     else if(stage == 2)
         #ifdef _OPENMP
             #pragma omp parallel for num_threads(nthreads) if(nthreads > 1)
         #endif
         for(i=0;i<n_tau;i++)
-            It_sing[i] = It_sing_asymp(tau[i], sch->n_ps, sch->ps, sch->det, sch->amp[0], sch->index[0]);
+            It_sing[i] = It_sing_asymp(tau[i], sch);
     else if(stage == 3)
         #ifdef _OPENMP
             #pragma omp parallel for num_threads(nthreads) if(nthreads > 1)
         #endif
         for(i=0;i<n_tau;i++)
         {
-            It_sing[i] = It_sing_asymp(tau[i], sch->n_ps, sch->ps, sch->det, sch->amp[0], sch->index[0]);
-            It_sing[i] += R1_reg(tau[i], sch->slope, sch->amp[1], sch->index[1]);
+            It_sing[i] = It_sing_asymp(tau[i], sch);
+            It_sing[i] += M_2PI*R1_reg(tau[i], sch->slope, sch->amp[1], sch->index[1]);
         }
+
+    // if we have external shear add the extra step that makes the
+    // asymptotic value different from 1
+    if( (sch->has_shear == _TRUE_) && (stage >= 2) )
+    {
+        #ifdef _OPENMP
+            #pragma omp parallel for num_threads(nthreads) if(nthreads > 1)
+        #endif
+        for(i=0;i<n_tau;i++)
+            It_sing[i] += M_2PI*R0_step_reg(tau[i], sch->tau_shear_scale, sch->I_shear_asymp, 1, 3.2);
+    }
 }
 
 void fill_Fw_sing(int n_w, double *w, double complex *Fw_sing, int stage, RegScheme *sch, int nthreads)
@@ -647,22 +708,33 @@ void fill_Fw_sing(int n_w, double *w, double complex *Fw_sing, int stage, RegSch
             #pragma omp parallel for num_threads(nthreads) if(nthreads > 1)
         #endif
         for(i=0;i<n_w;i++)
-            Fw_sing[i] = Fw_sing_no_asymp(w[i], sch->n_ps, sch->ps);
+            Fw_sing[i] = Fw_sing_no_asymp(w[i], sch);
     else if(stage == 2)
         #ifdef _OPENMP
             #pragma omp parallel for num_threads(nthreads) if(nthreads > 1)
         #endif
         for(i=0;i<n_w;i++)
-            Fw_sing[i] = Fw_sing_asymp(w[i], sch->n_ps, sch->ps, sch->det, sch->amp[0], sch->index[0]);
+            Fw_sing[i] = Fw_sing_asymp(w[i], sch);
     else if(stage == 3)
         #ifdef _OPENMP
             #pragma omp parallel for num_threads(nthreads) if(nthreads > 1)
         #endif
         for(i=0;i<n_w;i++)
         {
-            Fw_sing[i] = Fw_sing_asymp(w[i], sch->n_ps, sch->ps, sch->det, sch->amp[0], sch->index[0]);
+            Fw_sing[i] = Fw_sing_asymp(w[i], sch);
             Fw_sing[i] += R1_reg_FT(w[i], sch->slope, sch->amp[1], sch->index[1])/M_2PI;
         }
+
+    // if we have external shear add the extra step that makes the
+    // asymptotic value different from 1
+    if( (sch->has_shear == _TRUE_) && (stage >= 2) )
+    {
+        #ifdef _OPENMP
+            #pragma omp parallel for num_threads(nthreads) if(nthreads > 1)
+        #endif
+        for(i=0;i<n_w;i++)
+            Fw_sing[i] += R0_step_reg_FT(w[i], sch->tau_shear_scale, sch->I_shear_asymp, 1, 3.2);
+    }
 }
 
 
@@ -752,7 +824,7 @@ FreqTable *init_FreqTable(double wmin, double wmax, RegScheme *sch,
 int update_RegScheme(double *It_grid, int stage, RegScheme *sch)
 {
     int i, nmax_slope, nmax_tail;
-    double It_min;
+    double It_min, step, It_max;
 
     nmax_slope = pprec.fo_updRegSch_nmax_slope;
     nmax_tail = pprec.fo_updRegSch_nmax_tail;
@@ -794,7 +866,30 @@ int update_RegScheme(double *It_grid, int stage, RegScheme *sch)
         {
             // fit for stage 2
             for(i=0;i<sch->n_grid;i++)
-                sch->It_reg_grid[i] = It_grid[i]/M_2PI - 1/sch->det;
+                sch->It_reg_grid[i] = It_grid[i]/M_2PI - 1;
+
+            // if we have external shear remove the extra step that makes the
+            // asymptotic value different from 1
+            if(sch->has_shear == _TRUE_)
+            {
+                // find the scale as the maximum
+                sch->tau_shear_scale = sch->tau_grid[0];
+                It_max = sch->It_reg_grid[0];
+                for(i=1;i<sch->n_grid;i++)
+                {
+                    if(sch->It_reg_grid[i] > It_max)
+                    {
+                        It_max = sch->It_reg_grid[i];
+                        sch->tau_shear_scale = sch->tau_grid[i];
+                    }
+                }
+
+                for(i=0;i<sch->n_grid;i++)
+                {
+                    step = R0_step_reg(sch->tau_grid[i], sch->tau_shear_scale, sch->I_shear_asymp, 1, 3.2);
+                    sch->It_reg_grid[i] -= step;
+                }
+            }
 
             fit_tail(sch->n_grid, sch->tau_grid, sch->It_reg_grid, nmax_tail, It_min, sch->amp, sch->index);
             sch->stage = 2;
@@ -802,6 +897,7 @@ int update_RegScheme(double *It_grid, int stage, RegScheme *sch)
 
         fill_It_reg(sch->n_grid, sch->tau_grid, It_grid, sch->It_reg_grid, sch->stage, sch, sch->nthreads);
 
+        // HVR -> not used, but double check that this is correct
         // we have ensured that It_reg has been computed up to stage 2
         // one more fit if we need stage 3
         if(stage == 3)
@@ -814,7 +910,7 @@ int update_RegScheme(double *It_grid, int stage, RegScheme *sch)
                 #pragma omp parallel for num_threads(sch->nthreads) if(sch->nthreads > 1)
             #endif
             for(i=0;i<sch->n_grid;i++)
-                sch->It_reg_grid[i] -= R1_reg(sch->tau_grid[i], sch->slope, sch->amp[1], sch->index[1]);
+                sch->It_reg_grid[i] -= M_2PI*R1_reg(sch->tau_grid[i], sch->slope, sch->amp[1], sch->index[1]);
         }
     }
 

@@ -243,6 +243,7 @@ Prec_General pprec =
 
     .mc_brackRtau_large_maxiter = 100,
     .mc_brackRtau_large_Rini    = 1e-3,
+    .mc_brackRtau_large_scale   = 2.,
 
     .mc_updCondODE_tol_brack = 1e-4,
     .mc_updCondODE_tol_add   = 1e-1,
@@ -351,5 +352,5 @@ Prec_General pprec =
     ////////////////////////////////////////////
     .fo_updRegSch_nmax_slope = 20,
     .fo_updRegSch_nmax_tail = 20,
-    .fo_updRegSch_Itmin_tail = 1e-6
+    .fo_updRegSch_Itmin_tail = 5e-3
 };

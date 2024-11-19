@@ -409,6 +409,7 @@ cdef manual_update_pprec(d, Prec_General *pr):
 
     pr.mc_brackRtau_large_maxiter = d['mc_brackRtau_large_maxiter']
     pr.mc_brackRtau_large_Rini    = d['mc_brackRtau_large_Rini']
+    pr.mc_brackRtau_large_scale    = d['mc_brackRtau_large_scale']
 
     pr.mc_updCondODE_tol_brack = d['mc_updCondODE_tol_brack']
     pr.mc_updCondODE_tol_add   = d['mc_updCondODE_tol_add']

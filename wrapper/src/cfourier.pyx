@@ -102,6 +102,23 @@ def pySfull_reg(tau, double A, double B, parallel=True):
 
     return pyR
 
+def pyR0_step_reg(tau, double tau_scale, double I_asymp, double alpha=1., double sigma=3.2, bint parallel=True):
+    cdef int i
+    cdef double[:] ts = np.ascontiguousarray(tau, dtype=np.double)
+    cdef int n_ts = ts.shape[0]
+    cdef int nthreads = max_num_threads if parallel else 1
+
+    pyR = np.empty(n_ts, dtype=np.double)
+    cdef double[:] R = pyR
+
+    for i in prange(n_ts, nogil=True, num_threads=nthreads, schedule='static'):
+        R[i] = cfourier.R0_step_reg(ts[i], tau_scale, I_asymp, alpha, sigma)
+
+    if np.isscalar(tau):
+        pyR = pyR.item()
+
+    return pyR
+
 ## --- Frequency domain
 ## ------------------------------------------------------------------------
 def pyR0_reg_FT(w, double alpha, double beta, double sigma, bint parallel=True):
@@ -149,6 +166,23 @@ def pySfull_reg_FT(w, double A, double B, bint parallel=True):
 
     for i in prange(n_ws, nogil=True, num_threads=nthreads, schedule='static'):
         R[i] = cfourier.Sfull_reg_FT(ws[i], A, B)
+
+    if np.isscalar(w):
+        pyR = pyR.item()
+
+    return pyR
+
+def pyR0_step_reg_FT(w, double tau_scale, double I_asymp, double alpha=1., double sigma=3.2, bint parallel=True):
+    cdef int i
+    cdef double[:] ws = np.ascontiguousarray(w, dtype=np.double)
+    cdef int n_ws = ws.shape[0]
+    cdef int nthreads = max_num_threads if parallel else 1
+
+    pyR = np.empty(n_ws, dtype=np.cdouble)
+    cdef double complex[:] R = pyR
+
+    for i in prange(n_ws, nogil=True, num_threads=nthreads, schedule='static'):
+        R[i] = cfourier.R0_step_reg_FT(ws[i], tau_scale, I_asymp, alpha, sigma)
 
     if np.isscalar(w):
         pyR = pyR.item()
@@ -291,7 +325,9 @@ cdef RegScheme* pyInit_RegScheme(tau_grid, It_reg_grid, reg_sch, parallel=False)
 
     sch.slope = reg_sch['slope'] if reg_sch['slope'] is not None else 0.
 
-    sch.det = reg_sch['det']
+    sch.has_shear = pprec.ctrue if reg_sch['has_shear'] else pprec.cfalse
+    sch.I_shear_asymp = reg_sch['I_shear_asymp']
+    sch.tau_shear_scale = reg_sch['tau_shear_scale']
 
     for i, (amp, index) in enumerate(zip(reg_sch['amp'], reg_sch['index'])):
         sch.amp[i]   = amp   if amp   is not None else 0.
@@ -329,6 +365,8 @@ def pyUpdate_RegScheme(stage, tau_grid, It_grid, reg_sch, parallel=False):
     reg_sch['slope'] = sch.slope
     reg_sch['amp']   = [sch.amp[0], sch.amp[1]]
     reg_sch['index'] = [sch.index[0], sch.index[1]]
+
+    reg_sch['tau_shear_scale'] = sch.tau_shear_scale
 
     pyFree_RegScheme(sch)
 

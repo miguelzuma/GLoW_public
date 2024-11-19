@@ -24,9 +24,10 @@
 #include "roots_lib.h"
 
 typedef struct {
+    char has_shear;
     int stage;
     int n_ps;
-    double det;
+    double I_shear_asymp, tau_shear_scale;
     double slope;
     double amp[2];
     double index[2];
@@ -64,9 +65,10 @@ double R1_reg(double tau, double alpha, double beta, double sigma);
 double RL_reg(double tau, double alpha, double beta);
 double S_reg(double tau, double A, double B);
 double Sfull_reg(double tau, double A, double B);
+double R0_step_reg(double tau, double tau_scale, double I_asymp, double alpha, double sigma);
 double It_sing_common(double tau, int n_points, CritPoint *ps, double *Cmax, double *Cmin);
-double It_sing_asymp(double tau, int n_points, CritPoint *ps, double det, double asymp_A, double asymp_index);
-double It_sing_no_asymp(double tau, int n_points, CritPoint *ps);
+double It_sing_asymp(double tau, RegScheme *sch);
+double It_sing_no_asymp(double tau, RegScheme *sch);
 
 // ======  Frequency domain regularization
 // =================================================================
@@ -75,9 +77,10 @@ double complex R1_reg_FT(double w, double alpha, double beta, double sigma);
 double complex RL_reg_FT(double w, double alpha, double beta);
 double complex S_reg_FT(double w, double A, double B);
 double complex Sfull_reg_FT(double w, double A, double B);
+double complex R0_step_reg_FT(double w, double tau_scale, double I_asymp, double alpha, double sigma);
 double complex Fw_sing_common(double w, int n_points, CritPoint *ps, double *Cmax, double *Cmin);
-double complex Fw_sing_asymp(double w, int n_points, CritPoint *ps, double det, double asymp_A, double asymp_index);
-double complex Fw_sing_no_asymp(double w, int n_points, CritPoint *ps);
+double complex Fw_sing_asymp(double w, RegScheme *sch);
+double complex Fw_sing_no_asymp(double w, RegScheme *sch);
 
 // ======  Fitting routines
 // =================================================================
