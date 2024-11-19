@@ -90,7 +90,7 @@ class FwGeneral_C():
             actually used is the value set in ``p_prec['reg_stage']``.
         * ``p_crits`` (*dict*) -- Critical points. Content of ``It.p_crits``.
         * ``has_shear`` (*bool*) -- True if the lens contains an external shear field.
-        * ``I_shear_asymp`` (*float*) -- Asymptotic value of `I(\\tau)/2\\pi`.
+        * ``I_shear_asymp`` (*float*) -- Asymptotic value of :math:`I(\\tau)/2\\pi`.
         * ``tau_shear_scale`` (*float*) -- Scale for step regularization of the shear field.
         * ``slope`` (*float*) -- Slope at :math:`\\tau=0`.
         * ``amp`` (*list*) -- Asymptotic amplitudes :math:`A_2` and :math:`A_3`.
