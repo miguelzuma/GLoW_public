@@ -1806,6 +1806,10 @@ class CombinedLens(PsiAxisym):
 
     Attributes
     ----------
+    has_shear : bool
+        True if the composite lens contains an external shear field.
+    kappa, gamma1, gamma2 : float
+        Convergence and shear of the external field.
     asymp_index, asymp_amplitude : float
         If the attributes :attr:`asymp_index`, :attr:`asymp_amplitude` are
         defined for all the lenses, we assign to the composite lens the
@@ -1820,6 +1824,11 @@ class CombinedLens(PsiAxisym):
 
         self.lenses = self.p_phys['lenses']
 
+        self.has_shear = False
+        self.kappa = 0
+        self.gamma1 = 0
+        self.gamma2 = 0
+
         asymp_indices = []
         asymp_amplitudes = []
 
@@ -1829,6 +1838,12 @@ class CombinedLens(PsiAxisym):
 
             # the composite lens is axisym if all lenses are
             self.isAxisym = self.isAxisym and l.isAxisym
+
+            if l.p_phys['name'] == 'ext':
+                self.has_shear = True
+                self.kappa  += l.p_phys['kappa']
+                self.gamma1 += l.p_phys['gamma1']
+                self.gamma2 += l.p_phys['gamma2']
 
         asymp_indices = np.array(asymp_indices)
         asymp_amplitudes = np.array(asymp_amplitudes)

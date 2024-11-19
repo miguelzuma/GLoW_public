@@ -351,5 +351,5 @@ Prec_General pprec =
     ////////////////////////////////////////////
     .fo_updRegSch_nmax_slope = 20,
     .fo_updRegSch_nmax_tail = 20,
-    .fo_updRegSch_Itmin_tail = 1e-6
+    .fo_updRegSch_Itmin_tail = 5e-3
 };

@@ -89,7 +89,9 @@ class FwGeneral_C():
         * ``stage`` (*int*) -- Regularization stage computed. The regularization stage that will be\
             actually used is the value set in ``p_prec['reg_stage']``.
         * ``p_crits`` (*dict*) -- Critical points. Content of ``It.p_crits``.
-        * ``det`` (*float*) -- Determinant of the Hessian of the Fermat potential.
+        * ``has_shear`` (*bool*) -- True if the lens contains an external shear field.
+        * ``I_shear_asymp`` (*float*) -- Asymptotic value of `I(\\tau)/2\\pi`.
+        * ``tau_shear_scale`` (*float*) -- Scale for step regularization of the shear field.
         * ``slope`` (*float*) -- Slope at :math:`\\tau=0`.
         * ``amp`` (*list*) -- Asymptotic amplitudes :math:`A_2` and :math:`A_3`.
         * ``index`` (*list*) -- Asymptotic indices :math:`\\sigma_2` and :math:`\\sigma_3`.
@@ -262,19 +264,13 @@ class FwGeneral_C():
             reg_sch['stage'] = 2
 
         if self.lens.p_phys['name'] == 'combined lens':
-            kp = 0
-            g1 = 0
-            g2 = 0
+            if self.lens.has_shear:
+                kp = self.lens.kappa
+                g1 = self.lens.gamma1
+                g2 = self.lens.gamma2
 
-            for l in self.lens.p_phys['lenses']:
-                if l.p_phys['name'] == 'ext':
-                    kp += l.p_phys['kappa']
-                    g1 += l.p_phys['gamma1']
-                    g2 += l.p_phys['gamma2']
-
-                    reg_sch['has_shear'] = True
-
-            reg_sch['I_shear_asymp'] = 1/np.sqrt((1-kp)**2 - g1**2 - g2**2)
+                reg_sch['has_shear'] = True
+                reg_sch['I_shear_asymp'] = 1/np.sqrt((1-kp)**2 - g1**2 - g2**2)
 
         return reg_sch
 
