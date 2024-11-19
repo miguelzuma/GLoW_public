@@ -355,13 +355,14 @@ double R_of_tau_bracketing_large(double tau, pIntegral2d *p)
 {
     char is_bracketed;
     int i, max_iter;
-    double t, Dt0, Dt1;
+    double t, Dt0, Dt1, scale;
     double R, R0, R1, dR, tmp;
     double x_vec[N_dims];
 
     t = tau + p->tmin;
 
     max_iter = pprec.mc_brackRtau_large_maxiter;
+    scale = pprec.mc_brackRtau_large_scale;
 
     R0 = 0;
     x1x2_def(x_vec, R0, p->alpha_ini, p->x0_vec);
@@ -386,7 +387,7 @@ double R_of_tau_bracketing_large(double tau, pIntegral2d *p)
         R0 = R1;
         Dt0 = Dt1;
 
-        R1 *= 2.;
+        R1 *= scale;
         x1x2_def(x_vec, R1, p->alpha_ini, p->x0_vec);
         Dt1 = t - phiFermat(p->y, x_vec[i_x1], x_vec[i_x2], p->Psi);
 
@@ -752,7 +753,7 @@ void fill_saddle_Center(Center *ctr, pIntegral2d *p2d)
             p2d->alpha_ini = alphas[j];
             pc->cond_met = _FALSE_;
 
-            // avoid errors when restarting integration with contours in 
+            // avoid errors when restarting integration with contours in
             // different directions (expecting different sign for this)
             pc->cond_old = reach_2pi_contour2d(u[j], u[j], pc);
 

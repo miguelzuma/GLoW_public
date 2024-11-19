@@ -152,6 +152,7 @@ typedef struct {
            double mc_brackRtau_small_Rini;
               int mc_brackRtau_large_maxiter;
            double mc_brackRtau_large_Rini;
+           double mc_brackRtau_large_scale;
            double mc_updCondODE_tol_brack;
            double mc_updCondODE_tol_add;
         Prec_Base mc_findRbracket;

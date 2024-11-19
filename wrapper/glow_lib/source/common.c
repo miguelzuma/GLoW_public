@@ -243,6 +243,7 @@ Prec_General pprec =
 
     .mc_brackRtau_large_maxiter = 100,
     .mc_brackRtau_large_Rini    = 1e-3,
+    .mc_brackRtau_large_scale   = 2.,
 
     .mc_updCondODE_tol_brack = 1e-4,
     .mc_updCondODE_tol_add   = 1e-1,
