@@ -325,7 +325,9 @@ cdef RegScheme* pyInit_RegScheme(tau_grid, It_reg_grid, reg_sch, parallel=False)
 
     sch.slope = reg_sch['slope'] if reg_sch['slope'] is not None else 0.
 
-    sch.det = reg_sch['det']
+    sch.has_shear = pprec.ctrue if reg_sch['has_shear'] else pprec.cfalse
+    sch.I_shear_asymp = reg_sch['I_shear_asymp']
+    sch.tau_shear_scale = reg_sch['tau_shear_scale']
 
     for i, (amp, index) in enumerate(zip(reg_sch['amp'], reg_sch['index'])):
         sch.amp[i]   = amp   if amp   is not None else 0.
@@ -363,6 +365,8 @@ def pyUpdate_RegScheme(stage, tau_grid, It_grid, reg_sch, parallel=False):
     reg_sch['slope'] = sch.slope
     reg_sch['amp']   = [sch.amp[0], sch.amp[1]]
     reg_sch['index'] = [sch.index[0], sch.index[1]]
+
+    reg_sch['tau_shear_scale'] = sch.tau_shear_scale
 
     pyFree_RegScheme(sch)
 

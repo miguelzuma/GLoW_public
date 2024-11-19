@@ -244,12 +244,14 @@ class FwGeneral_C():
 
     def _fill_RegScheme(self):
         reg_sch = {}
-        reg_sch['stage']   = 1
-        reg_sch['p_crits'] = self.p_crits
-        reg_sch['slope']   = None
-        reg_sch['amp']     = [None, None]
-        reg_sch['index']   = [None, None]
-        reg_sch['det']     = 1
+        reg_sch['stage']     = 1
+        reg_sch['p_crits']   = self.p_crits
+        reg_sch['slope']     = None
+        reg_sch['amp']       = [None, None]
+        reg_sch['index']     = [None, None]
+        reg_sch['has_shear'] = False
+        reg_sch['I_shear_asymp'] = 1
+        reg_sch['tau_shear_scale'] = 1
 
         A = self.It.lens.asymp_amplitude
         index = self.It.lens.asymp_index
@@ -270,7 +272,9 @@ class FwGeneral_C():
                     g1 += l.p_phys['gamma1']
                     g2 += l.p_phys['gamma2']
 
-            reg_sch['det'] = np.sqrt((1-kp)**2 - g1**2 - g2**2)
+                    reg_sch['has_shear'] = True
+
+            reg_sch['I_shear_asymp'] = 1/np.sqrt((1-kp)**2 - g1**2 - g2**2)
 
         return reg_sch
 

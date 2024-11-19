@@ -35,9 +35,10 @@ cdef extern from "special_lib.h" nogil:
 
 cdef extern from "fourier_lib.h" nogil:
     ctypedef struct RegScheme:
+        char has_shear
         int stage
         int n_ps
-        double det
+        double I_shear_asymp, tau_shear_scale
         double slope
         double amp[2]
         double index[2]
@@ -67,15 +68,11 @@ cdef extern from "fourier_lib.h" nogil:
     double R1_reg(double tau, double alpha, double beta, double sigma)
     double Sfull_reg(double tau, double A, double B)
     double R0_step_reg(double tau, double tau_scale, double I_asymp, double alpha, double sigma)
-    double It_sing_asymp(double tau, int n_points, CritPoint *ps, double det, double asymp_A, double asymp_index)
-    double It_sing_no_asymp(double tau, int n_points, CritPoint *ps)
 
     double complex R0_reg_FT(double w, double alpha, double beta, double sigma)
     double complex R1_reg_FT(double w, double alpha, double beta, double sigma)
     double complex Sfull_reg_FT(double w, double alpha, double beta)
     double complex R0_step_reg_FT(double w, double tau_scale, double I_asymp, double alpha, double sigma)
-    double complex Fw_sing_asymp(double w, int n_points, CritPoint *ps, double det, double asymp_A, double asymp_index)
-    double complex Fw_sing_no_asymp(double w, int n_points, CritPoint *ps)
 
     int apply_window_Tukey(double *wd, int n_wd, double alpha)
     int apply_right_window_Tukey(double *wd, int n_wd, double alpha)
