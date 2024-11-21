@@ -32,7 +32,7 @@ int main(int argc, char *argv[])
     // pprec.mc_fillSaddleCenter_dR     = 5e-2;
     // pprec.mc_fillSaddleCenter_sigmaf = 1000;
 
-    // pprec.mc_intContourSaddle.epsabs = 1e-3;
+    pprec.mc_intContourSaddle.epsabs = 1e-3;
     // pprec.mc_intContourSaddle.h = 1e-2;
 
     // pprec.mc_updCondODE_tol_brack = 1e-2;
@@ -44,8 +44,10 @@ int main(int argc, char *argv[])
 
     //==== Create lens
     //=========================================
-    xc1 = 8.714285714285715;
-    xc2 = -0.1;
+    //xc1 = 2.714285714285715;
+    //xc2 = -0.1;
+    xc1 = 10.714285714285715;
+    xc2 = -10;
 
     p = create_pLens_CombinedLens(2);
     add_lens_CombinedLens(create_pLens_offcenterPointLens(1, 1e-10, xc1, xc2), p);

@@ -236,7 +236,7 @@ Prec_General pprec =
     .mc_intRtau.epsabs = 1e-5,
     .mc_intRtau.epsrel = 0,
 
-    .mc_brackRtau_small_maxiter   = 100000,
+    .mc_brackRtau_small_maxiter   = 1000,
     .mc_brackRtau_small_nbrackets = 100,
     .mc_brackRtau_small_Rmin      = 1e-8,
     .mc_brackRtau_small_Rini      = 1e-3,

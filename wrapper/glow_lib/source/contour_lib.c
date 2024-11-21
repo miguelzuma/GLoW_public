@@ -175,7 +175,7 @@ double small_R_guess(double dtau, double alpha, double x10, double x20, pIntegra
     dphiRR = d11*cth*cth + 2*d12*sth*cth + d22*sth*sth;
 
     // HVR: check that the signs are all correct
-    dR = sqrt(2*dtau/dphiRR);
+    dR = sqrt(ABS(2*dtau/dphiRR));
 
     return dR;
 }
@@ -274,10 +274,16 @@ double R_of_tau_bracketing_small(double tau, pIntegral2d *p)
     x1x2_def(x_vec, R1, p->alpha_ini, p->x0_vec);
     Dt1 = t - phiFermat(p->y, x_vec[i_x1], x_vec[i_x2], p->Psi);
 
+    // HVR_DEBUG
+    // printf("dR=%f   R0=%g   Dt0=%g\n", dR, R0, Dt0);
+
     if( SIGN(Dt0) != SIGN(Dt1) )
         is_bracketed = _TRUE_;
     else
         is_bracketed = _FALSE_;
+
+    // HVR_DEBUG
+    // printf(" - Trying small R bracket:\n");
 
     i = 0;
     while( (i<max_iter) && (is_bracketed == _FALSE_) )
@@ -289,7 +295,8 @@ double R_of_tau_bracketing_small(double tau, pIntegral2d *p)
         x1x2_def(x_vec, R1, p->alpha_ini, p->x0_vec);
         Dt1 = t - phiFermat(p->y, x_vec[i_x1], x_vec[i_x2], p->Psi);
 
-        //~ printf("iter=%d   R1=%f   Dt0=%f   Dt1=%f\n", i, R1, Dt0, Dt1);
+        // HVR_DEBUG
+        // printf("iter=%d   R1=%f   dR=%f    Dt0=%f    Dt1=%f\n", i, R1, dR, Dt0, Dt1);
 
         if( SIGN(Dt0) != SIGN(Dt1) )
             is_bracketed = _TRUE_;
@@ -381,6 +388,9 @@ double R_of_tau_bracketing_large(double tau, pIntegral2d *p)
     else
         is_bracketed = _FALSE_;
 
+    // HVR_DEBUG
+    // printf(" - Trying large R bracket:\n");
+
     i = 0;
     while( (i<max_iter) && (is_bracketed == _FALSE_) )
     {
@@ -391,7 +401,8 @@ double R_of_tau_bracketing_large(double tau, pIntegral2d *p)
         x1x2_def(x_vec, R1, p->alpha_ini, p->x0_vec);
         Dt1 = t - phiFermat(p->y, x_vec[i_x1], x_vec[i_x2], p->Psi);
 
-        //~ printf("iter=%d   R1=%f   Dt0=%f   Dt1=%f\n", i, R1, Dt0, Dt1);
+        // HVR_DEBUG
+        // printf("iter=%d   R1=%f   Dt0=%f   Dt1=%f\n", i, R1, Dt0, Dt1);
 
         if( SIGN(Dt0) != SIGN(Dt1) )
             is_bracketed = _TRUE_;
