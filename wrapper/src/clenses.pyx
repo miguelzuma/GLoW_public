@@ -150,6 +150,16 @@ cdef pNamedLens* convert_pphys_to_pLens_eSIS(Psi):
 
     return clenses.create_pLens_eSIS(psi0, q, alpha, xc1, xc2)
 
+cdef pNamedLens* convert_pphys_to_pLens_eCIS(Psi):
+    cdef double psi0  = Psi.p_phys['psi0']
+    cdef double rc    = Psi.p_phys['rc']
+    cdef double q     = Psi.p_phys['q']
+    cdef double alpha = Psi.p_phys['alpha']
+    cdef double xc1   = Psi.p_phys['xc1']
+    cdef double xc2   = Psi.p_phys['xc2']
+
+    return clenses.create_pLens_eCIS(psi0, rc, q, alpha, xc1, xc2)
+
 cdef pNamedLens* convert_pphys_to_pLens_Ext(Psi):
     cdef double kappa  = Psi.p_phys['kappa']
     cdef double gamma1 = Psi.p_phys['gamma1']
@@ -173,6 +183,7 @@ implemented_lenses = ['SIS',
                       'combined lens',
                       'grid 1d',
                       'eSIS',
+                      'eCIS',
                       'ext']
 
 def check_implemented_lens(Psi):
@@ -212,6 +223,8 @@ cdef pNamedLens* convert_pphys_to_pLens(Psi):
         return convert_pphys_to_pLens_Grid1d(Psi)
     elif name == 'eSIS':
         return convert_pphys_to_pLens_eSIS(Psi)
+    elif name == 'eCIS':
+        return convert_pphys_to_pLens_eCIS(Psi)
     elif name == 'ext':
         return convert_pphys_to_pLens_Ext(Psi)
     else:

@@ -229,6 +229,8 @@ if __name__ == '__main__':
               lenses.Psi_tSIS(),
               lenses.Psi_eSIS(),
               lenses.Psi_eSIS({'q':1.2, 'alpha':0.3, 'xc1':0.1, 'xc2':0.2}),
+              lenses.Psi_eCIS(),
+              lenses.Psi_eCIS({'rc':0.01, 'q':1.2, 'alpha':0.3, 'xc1':0.1, 'xc2':0.2}),
               lenses.Psi_Ext({'kappa':0.12, 'gamma1':0.3, 'gamma2':0.2}),
               lenses.Psi_offcenterSIS(p_phys),
               lenses.Psi_offcenterCIS(p_phys),

@@ -68,6 +68,7 @@ Lens (*init_func_lenses[N_lenses])(void *) = { init_lens_SIS,
                                                init_lens_CombinedLens,
                                                init_lens_Grid1d,
                                                init_lens_eSIS,
+                                               init_lens_eCIS,
                                                init_lens_Ext };
 
 void (*free_func_lenses[N_lenses])(pNamedLens *) = { free_pLens_SIS,
@@ -84,6 +85,7 @@ void (*free_func_lenses[N_lenses])(pNamedLens *) = { free_pLens_SIS,
                                                      free_pLens_CombinedLens,
                                                      free_pLens_Grid1d,
                                                      free_pLens_eSIS,
+                                                     free_pLens_eCIS,
                                                      free_pLens_Ext };
 
 
@@ -1903,6 +1905,161 @@ int psi_2ndDerivs_eSIS(double *psi_derivs, double x1, double x2, void *pLens)
     rotate_vector(x_vec, p->ca, p->sa);
 
     psi_2ndDerivs_a0_eSIS(psi_derivs, x_vec[i_x1], x_vec[i_x2], pLens);
+    rotate_gradient_hessian(psi_derivs, p->ca, p->sa);
+
+    return 0;
+}
+
+
+// =================================================================
+
+pNamedLens* create_pLens_eCIS(double psi0, double rc, double q, double alpha, double xc1, double xc2)
+{
+    pNamedLens *pNLens = (pNamedLens*)malloc(sizeof(pNamedLens));
+    pLens_eCIS *pLens = (pLens_eCIS*)malloc(sizeof(pLens_eCIS));
+
+    pLens->psi0 = psi0;
+    pLens->rc = rc;
+    pLens->q = q;
+    pLens->alpha = alpha;
+    pLens->ca = cos(alpha);
+    pLens->sa = sin(alpha);
+    pLens->xc1 = xc1;
+    pLens->xc2 = xc2;
+
+    pNLens->lens_type = i_eCIS;
+    pNLens->pLens = pLens;
+
+    return pNLens;
+}
+
+void free_pLens_eCIS(pNamedLens *pNLens)
+{
+    free(pNLens->pLens);
+    free(pNLens);
+}
+
+Lens init_lens_eCIS(void *pLens)
+{
+    Lens Psi;
+
+    Psi.psi = psi_eCIS;
+    Psi.psi_1stDerivs = psi_1stDerivs_eCIS;
+    Psi.psi_2ndDerivs = psi_2ndDerivs_eCIS;
+    Psi.pLens = pLens;
+
+    return Psi;
+}
+
+double psi_a0_eCIS(double x1, double x2, void *pLens)
+{
+    double x, sqr;
+    pLens_eCIS *p = (pLens_eCIS *)pLens;
+    double q2 = p->q*p->q;
+
+    x = sqrt(x1*x1 + x2*x2/q2);
+    sqr = sqrt(x*x + p->rc*p->rc);
+
+    return p->psi0*(sqr + p->rc*log(2.*p->rc/(sqr + p->rc)));
+}
+
+int psi_1stDerivs_a0_eCIS(double *psi_derivs, double x1, double x2, void *pLens)
+{
+    double x, sqr, psi, dpsi_dr, d1, d2;
+    pLens_eCIS *p = (pLens_eCIS *)pLens;
+    double q2 = p->q*p->q;
+
+    x = sqrt(x1*x1 + x2*x2/q2);
+    sqr = sqrt(x*x + p->rc*p->rc);
+
+    psi = p->psi0*(sqr + p->rc*log(2.*p->rc/(sqr + p->rc)));
+    dpsi_dr = p->psi0*x/sqr*(1. - p->rc/(sqr + p->rc));
+
+    d1 = dpsi_dr*x1/(x+EPS_SOFT);
+    d2 = dpsi_dr*x2/(x+EPS_SOFT)/q2;
+
+    psi_derivs[i_0] = psi;
+    psi_derivs[i_dx1] = d1;
+    psi_derivs[i_dx2] = d2;
+
+    return 0;
+}
+
+int psi_2ndDerivs_a0_eCIS(double *psi_derivs, double x1, double x2, void *pLens)
+{
+    double x, sqr, psi, dpsi_dr, ddpsi_drdr;
+    double d1, d2, d11, d22, d12;
+    double R1, R2, R, tmp1, tmp2;
+    pLens_eCIS *p = (pLens_eCIS *)pLens;
+    double q2 = p->q*p->q;
+
+    x = sqrt(x1*x1 + x2*x2/q2);
+    sqr = sqrt(x*x + p->rc*p->rc);
+    R = (x/sqr)*(x/sqr);
+    R1 = x1/(x+EPS_SOFT);
+    R2 = x2/(x+EPS_SOFT)/q2;
+
+    psi = p->psi0*(sqr + p->rc*log(2.*p->rc/(sqr + p->rc)));
+    dpsi_dr = p->psi0*x/sqr*(1. - p->rc/(sqr + p->rc));
+
+    tmp1 = p->psi0*R*p->rc/(sqr+p->rc)/(sqr+p->rc);
+    tmp2 = p->psi0*(1 - p->rc/(sqr+p->rc))*(1-R)/sqr;
+    ddpsi_drdr = tmp1+tmp2;
+
+    d1 = dpsi_dr*R1;
+    d2 = dpsi_dr*R2;
+
+    d11 = ddpsi_drdr*R1*R1 + dpsi_dr*(1-R1*R1)/(x+EPS_SOFT);
+    d22 = ddpsi_drdr*R2*R2 + dpsi_dr*(1./q2-R2*R2)/(x+EPS_SOFT);
+    d12 = (ddpsi_drdr - dpsi_dr/(x+EPS_SOFT))*R1*R2;
+
+    psi_derivs[i_0] = psi;
+    psi_derivs[i_dx1] = d1;
+    psi_derivs[i_dx2] = d2;
+    psi_derivs[i_dx1dx1] = d11;
+    psi_derivs[i_dx2dx2] = d22;
+    psi_derivs[i_dx1dx2] = d12;
+
+    return 0;
+}
+
+double psi_eCIS(double x1, double x2, void *pLens)
+{
+    double x_vec[N_dims];
+    pLens_eCIS *p = (pLens_eCIS *)pLens;
+
+    x_vec[i_x1] = x1 - p->xc1;
+    x_vec[i_x2] = x2 - p->xc2;
+    rotate_vector(x_vec, p->ca, p->sa);
+
+    return psi_a0_eCIS(x_vec[i_x1], x_vec[i_x2], pLens);
+}
+
+int psi_1stDerivs_eCIS(double *psi_derivs, double x1, double x2, void *pLens)
+{
+    double x_vec[N_dims];
+    pLens_eCIS *p = (pLens_eCIS *)pLens;
+
+    x_vec[i_x1] = x1 - p->xc1;
+    x_vec[i_x2] = x2 - p->xc2;
+    rotate_vector(x_vec, p->ca, p->sa);
+
+    psi_1stDerivs_a0_eCIS(psi_derivs, x_vec[i_x1], x_vec[i_x2], pLens);
+    rotate_gradient(psi_derivs, p->ca, p->sa);
+
+    return 0;
+}
+
+int psi_2ndDerivs_eCIS(double *psi_derivs, double x1, double x2, void *pLens)
+{
+    double x_vec[N_dims];
+    pLens_eCIS *p = (pLens_eCIS *)pLens;
+
+    x_vec[i_x1] = x1 - p->xc1;
+    x_vec[i_x2] = x2 - p->xc2;
+    rotate_vector(x_vec, p->ca, p->sa);
+
+    psi_2ndDerivs_a0_eCIS(psi_derivs, x_vec[i_x1], x_vec[i_x2], pLens);
     rotate_gradient_hessian(psi_derivs, p->ca, p->sa);
 
     return 0;

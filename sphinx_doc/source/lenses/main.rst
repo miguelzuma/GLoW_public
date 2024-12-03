@@ -89,6 +89,17 @@ for the current build can be consulted :ref:`here <Psi_eSIS_default>`.
 
 .. ###########################################################################################
 
+.. _Psi_eCIS_theory:
+
+Elliptical CIS (eCIS)
+---------------------
+(theory here)
+
+See :class:`~glow.lenses.Psi_eCIS` for the implementation. The default parameters
+for the current build can be consulted :ref:`here <Psi_eCIS_default>`.
+
+.. ###########################################################################################
+
 .. _Psi_Ext_theory:
 
 External field

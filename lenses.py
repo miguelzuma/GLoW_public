@@ -2292,3 +2292,305 @@ class Psi_eSIS(PsiGeneral):
             ddpsi = self.ddpsi_vec_a0(x1, x2)
             ddpsi = self.rotate_hessian(*ddpsi)
         return ddpsi
+    
+
+class Psi_eCIS(PsiGeneral):
+    """Lens object for the elliptical CIS (eCIS).
+
+    Additional information: :ref:`theory <Psi_eCIS_theory>`, :ref:`default parameters <Psi_eCIS_default>`.
+
+    Parameters
+    ----------
+    p_phys : dict
+        Physical parameters, with keys:
+
+        * ``psi0`` (*float*) -- Normalization of the lens.
+        * ``rc`` (*float*) -- Core radius.
+        * ``q`` (*float*) -- Ellipticity parameter.
+        * ``alpha`` (*float*) -- Orientation angle.
+        * ``xc1`` (*float*) -- Location in the x1 axis.
+        * ``xc2`` (*float*) -- Location in the x2 axis.
+
+    Attributes
+    ----------
+    asymp_index : float
+        0.5
+    asymp_amplitude : float
+        :math:`\\psi_0/\\sqrt{2}`
+    """
+    def __init__(self, p_phys={}, p_prec={}):
+        super().__init__(p_phys, p_prec)
+
+        self.psi0  = self.p_phys['psi0']
+        self.rc    = self.p_phys['rc']
+        self.q     = self.p_phys['q']
+        self.alpha = self.p_phys['alpha']
+
+        self.eps = 1e-14
+        self.ca = np.cos(self.alpha)
+        self.sa = np.sin(self.alpha)
+
+        self.asymp_index = 0.5
+        self.asymp_amplitude = self.psi0/np.sqrt(2)
+
+    def default_params(self):
+        """Initialize the default parameters.
+
+        Returns
+        -------
+        p_phys : dict
+            Default physical parameters.
+        p_prec : dict
+            Empty dictionary.
+        """
+        p_phys = {'name'  : 'eCIS',
+                  'psi0'  : 1.,
+                  'rc'    : 0.05,
+                  'q'     : 1.,
+                  'alpha' : 0,
+                  'xc1'   : 0.,
+                  'xc2'   : 0.}
+        p_prec = {}
+        return p_phys, p_prec
+
+    # lens potential and its derivatives
+    def _psi_x(self, x):
+        """CIS-like lensing potential."""
+        sqr = np.sqrt(x*x + self.rc*self.rc)
+        return self.psi0*(sqr + self.rc*np.log(2*self.rc/(sqr + self.rc)))
+
+    def _dpsi_dx(self, x):
+        """First derivative of the CIS-like lensing potential."""
+        sqr = np.sqrt(x*x + self.rc*self.rc)
+        return self.psi0*x/sqr*(1 - self.rc/(sqr + self.rc))
+
+    def _ddpsi_ddx(self, x):
+        """Second derivative of the CIS-like lensing potential."""
+        sqr = np.sqrt(x*x + self.rc*self.rc)
+        R = (x/sqr)**2
+        tmp1 = self.psi0*R*self.rc/(sqr + self.rc)**2
+        tmp2 = self.psi0*(1 - self.rc/(sqr + self.rc))*(1-R)/sqr
+        return tmp1+tmp2
+
+    # coordinate transformation
+    def rotate_vector(self, x1, x2):
+        r"""Rotation of a vector.
+
+        Linear transformation defined as
+
+        .. math::
+            x'_1 &= \cos\alpha\,x_1 - \sin\alpha\,x_2\\
+            x'_2 &= \sin\alpha\,x_1 + \cos\alpha\,x_2
+
+        Parameters
+        ----------
+        x1, x2 : float or array
+            Input vector.
+
+        Returns
+        -------
+        xx1 : float or array
+            :math:`x'_1`
+        xx2 : float or array
+            :math:`x'_2`
+        """
+        xx1 = x1*self.ca - x2*self.sa
+        xx2 = x1*self.sa + x2*self.ca
+        return xx1, xx2
+
+    def rotate_grad(self, f1, f2):
+        r"""Rotation of a gradient.
+
+        Linear transformation defined as
+
+        .. math::
+            f'_1 &= \cos\alpha\,f_1 + \sin\alpha\,f_2\\
+            f'_2 &= -\sin\alpha\,f_1 + \cos\alpha\,f_2
+
+        Parameters
+        ----------
+        f1, f2 : float or array
+            Input vector.
+
+        Returns
+        -------
+        ff1 : float or array
+            :math:`f'_1`
+        ff2 : float or array
+            :math:`f'_2`
+        """
+        ff1 =  f1*self.ca + f2*self.sa
+        ff2 = -f1*self.sa + f2*self.ca
+        return ff1, ff2
+
+    def rotate_hessian(self, h11, h12, h22):
+        r"""Rotation of a Hessian.
+
+        Linear transformation defined as
+
+        .. math::
+            A &\equiv 2\cos\alpha\sin\alpha\,h_{12}\\
+            B &\equiv \sin\alpha (h_{11} - h_{22})\\
+            h'_{11} &= h_{11} + A - \sin\alpha\,B\\
+            h'_{12} &= h_{12}(1-2\sin^2\alpha) - \cos\alpha\,B\\
+            h'_{22} &= h_{22} - A + \sin\alpha\,B
+
+        Parameters
+        ----------
+        h11, h12, h22 : float or array
+            Input vector.
+
+        Returns
+        -------
+        hh11 : float or array
+            :math:`h'_{11}`
+        hh12 : float or array
+            :math:`h'_{12}`
+        hh22 : float or array
+            :math:`h'_{22}`
+        """
+        A = 2*self.ca*self.sa*h12
+        B = self.sa*(h11-h22)
+
+        hh11 = h11 + A - self.sa*B
+        hh22 = h22 - A + self.sa*B
+        hh12 = h12*(1-2*self.sa**2) - self.ca*B
+
+        return hh11, hh12, hh22
+
+    # include the coordinate transformation
+    def psi_a0(self, x1, x2):
+        r"""Lensing potential (zero angle).
+
+        .. math::
+            \psi_{\alpha=0}=\sqrt{x_1^2 + x_2^2/q^2}
+
+        """
+        x = np.sqrt(x1*x1 + x2*x2/self.q**2)
+        return self._psi_x(x)
+
+    def dpsi_vec_a0(self, x1, x2):
+        r"""First derivatives of the lensing potential (zero angle).
+
+        .. math::
+            \begin{align}
+                \partial_{1}\psi_{\alpha=0} &= \psi_0 x_1/X\\
+                \partial_{2}\psi_{\alpha=0} &= \psi_0 x_2/X/q^2
+            \end{align}
+
+        with :math:`X \equiv \sqrt{x_1^2 + x^2_2/q^2}`.
+        """
+        q2 = self.q*self.q
+        x = np.sqrt(x1*x1 + x2*x2/q2)
+
+        dpsi = self._dpsi_dx(x)
+        R1 = x1/(x+self.eps)
+        R2 = x2/(x+self.eps)/q2
+
+        return dpsi*R1, dpsi*R2
+
+    def ddpsi_vec_a0(self, x1, x2):
+        r"""Second derivatives of the lensing potential (zero angle).
+
+        .. math::
+            \begin{align}
+                \partial_{11}\psi_{\alpha=0} &= \psi_0(1-r_1^2)/X\\
+                \partial_{12}\psi_{\alpha=0} &= -\psi_0r_1r_2/X\\
+                \partial_{22}\psi_{\alpha=0} &= \psi_0(1/q^2-r_2^2)/X
+            \end{align}
+
+        with :math:`X \equiv \sqrt{x_1^2 + x^2_2/q^2}`, :math:`r_{1}\equiv x_{1}/X`
+        and :math:`r_{2}\equiv x_{2}/X/q^2`.
+        """
+        q2 = self.q*self.q
+        x = np.sqrt(x1*x1 + x2*x2/q2)
+
+        dpsi  = self._dpsi_dx(x)
+        ddpsi = self._ddpsi_ddx(x)
+        R1 = x1/(x+self.eps)
+        R2 = x2/(x+self.eps)/q2
+
+        d11 = ddpsi*R1**2 + dpsi*(1 - R1**2)/(x+self.eps)
+        d12 = (ddpsi - dpsi/(x+self.eps))*R1*R2
+        d22 = ddpsi*R2**2 + dpsi*(1/q2 - R2**2)/(x+self.eps)
+
+        return d11, d12, d22
+
+    # rotate the lens with an angle alpha
+    def psi(self, x1, x2):
+        r"""Lensing potential.
+
+        Defining the transformed coordinates
+        :math:`\pmb{\tilde{x}}\equiv R(\alpha)(\pmb{x}-\pmb{x_c})`
+        where :math:`R(\alpha)` is the rotation defined in :func:`rotate_vector`,
+        we can write the lensing potential from :func:`psi_a0` as
+
+        .. math::
+            \psi(x_1, x_2) = \psi_{\alpha=0}(\tilde{x}_1, \tilde{x}_2)
+        """
+        x1 = x1 - self.p_phys['xc1']
+        x2 = x2 - self.p_phys['xc2']
+
+        if self.alpha == 0:
+            psi = self.psi_a0(x1, x2)
+        else:
+            x1, x2 = self.rotate_vector(x1, x2)
+            psi = self.psi_a0(x1, x2)
+        return psi
+
+    def dpsi_vec(self, x1, x2):
+        r"""Gradient of the lensing potential.
+
+        Defining the transformed coordinates
+        :math:`\pmb{\tilde{x}}\equiv R(\alpha)(\pmb{x}-\pmb{x_c})`
+        where :math:`R(\alpha)` is the rotation defined in :func:`rotate_vector`,
+        we can write the first derivatives of the potential from :func:`dpsi_a0` as
+
+        .. math::
+            \begin{align}
+                \pmb{g} &\equiv \pmb{\nabla}\psi(\pmb{x})\\
+                \pmb{\tilde{g}} &\equiv \pmb{\nabla}\psi_{\alpha=0}(\tilde{\pmb{x}})\\
+                \pmb{g} &= R_g(\alpha)\pmb{\tilde{g}}
+            \end{align}
+
+        where the linear transformation :math:`R_g` is defined in :func:`rotate_grad`.
+        """
+        x1 = x1 - self.p_phys['xc1']
+        x2 = x2 - self.p_phys['xc2']
+
+        if self.alpha == 0:
+            dpsi = self.dpsi_vec_a0(x1, x2)
+        else:
+            x1, x2 = self.rotate_vector(x1, x2)
+            dpsi = self.dpsi_vec_a0(x1, x2)
+            dpsi = self.rotate_grad(*dpsi)
+        return dpsi
+
+    def ddpsi_vec(self, x1, x2):
+        r"""Hessian of the lensing potential.
+
+        Defining the transformed coordinates
+        :math:`\pmb{\tilde{x}}\equiv R(\alpha)(\pmb{x}-\pmb{x_c})`
+        where :math:`R(\alpha)` is the rotation defined in :func:`rotate_vector`,
+        we can write the second derivatives of the potential from :func:`ddpsi_a0` as
+
+        .. math::
+            \begin{align}
+                \pmb{h} &\equiv (\partial_{11}\psi,\,\partial_{12}\psi,\,\partial_{22}\psi)(\pmb{x})\\
+                \pmb{\tilde{h}} &\equiv (\partial_{11}\psi_{\alpha=0},\,
+                    \partial_{12}\psi_{\alpha=0},\,\partial_{22}\psi_{\alpha=0})(\pmb{\tilde{x}})\\
+                \pmb{h} &= R_h(\alpha)\pmb{\tilde{h}}
+            \end{align}
+
+        where the linear transformation :math:`R_h` is defined in :func:`rotate_hessian`.
+        """
+        x1 = x1 - self.p_phys['xc1']
+        x2 = x2 - self.p_phys['xc2']
+
+        if self.alpha == 0:
+            ddpsi = self.ddpsi_vec_a0(x1, x2)
+        else:
+            x1, x2 = self.rotate_vector(x1, x2)
+            ddpsi = self.ddpsi_vec_a0(x1, x2)
+            ddpsi = self.rotate_hessian(*ddpsi)
+        return ddpsi

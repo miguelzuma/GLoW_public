@@ -67,6 +67,7 @@ cdef extern from "lenses_lib.h" nogil:
     int add_lens_CombinedLens(pNamedLens* new_pNLens, pNamedLens* combined_pNLens)
     pNamedLens* create_pLens_Grid1d(char *fname, int n_grid)
     pNamedLens* create_pLens_eSIS(double psi0, double q, double alpha, double xc1, double xc2)
+    pNamedLens* create_pLens_eCIS(double psi0, double rc, double q, double alpha, double xc1, double xc2)
     pNamedLens* create_pLens_Ext(double kappa, double gamma1, double gamma1)
 
 cdef pNamedLens* convert_pphys_to_pLens(Psi)

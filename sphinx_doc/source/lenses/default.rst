@@ -65,6 +65,15 @@ Below are the default parameters for most of the objects in the module.
 ..
     --------------------------------------------------------------------
 
+.. _Psi_eCIS_default:
+
+:class:`~glow.lenses.Psi_eCIS`
+
+.. include:: ../generated/glow.lenses.Psi_eCIS.txt
+
+..
+    --------------------------------------------------------------------
+
 .. _Psi_Ext_default:
 
 :class:`~glow.lenses.Psi_Ext`

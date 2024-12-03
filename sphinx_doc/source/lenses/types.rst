@@ -28,6 +28,10 @@ Lens types
     :show-inheritance:
     :members:
     :undoc-members:
+.. autoclass:: glow.lenses.Psi_eCIS
+    :show-inheritance:
+    :members:
+    :undoc-members:
 .. autoclass:: glow.lenses.Psi_Ext
     :show-inheritance:
     :members:

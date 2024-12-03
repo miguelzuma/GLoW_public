@@ -32,6 +32,7 @@ if __name__ == '__main__':
     out_params(lenses, lenses.Psi_NFW)
     out_params(lenses, lenses.Psi_tSIS)
     out_params(lenses, lenses.Psi_eSIS)
+    out_params(lenses, lenses.Psi_eCIS)
     out_params(lenses, lenses.Psi_Ext)
     out_params(lenses, lenses.Psi_offcenterSIS)
     out_params(lenses, lenses.Psi_offcenterCIS)

@@ -38,7 +38,7 @@ enum indices_derivs {i_0, i_dx1, i_dx2, i_dx1dx1, i_dx2dx2, i_dx1dx2, N_derivs};
 enum indices_lenses {i_SIS, i_CIS, i_PointLens, i_Ball, i_NFW, i_tSIS,
                      i_offcenterSIS, i_offcenterCIS, i_offcenterPointLens,
                      i_offcenterBall, i_offcenterNFW,
-                     i_CombinedLens, i_Grid1d, i_eSIS, i_Ext,
+                     i_CombinedLens, i_Grid1d, i_eSIS, i_eCIS, i_Ext,
                      N_lenses};
 
 extern char *names_lenses[];
@@ -329,6 +329,32 @@ int psi_2ndDerivs_a0_eSIS(double *psi_derivs, double x1, double x2, void *pLens)
 double psi_eSIS(double x1, double x2, void *pLens);
 int psi_1stDerivs_eSIS(double *psi_derivs, double x1, double x2, void *pLens);
 int psi_2ndDerivs_eSIS(double *psi_derivs, double x1, double x2, void *pLens);
+// =================================================================
+
+
+// =================================================================
+typedef struct
+{
+    double psi0;
+    double rc;
+    double q;
+    double alpha;
+    double ca;
+    double sa;
+    double xc1;
+    double xc2;
+} pLens_eCIS;
+
+pNamedLens* create_pLens_eCIS(double psi0, double rc, double q, double alpha, double xc1, double xc2);
+void free_pLens_eCIS(pNamedLens* pNLens);
+Lens init_lens_eCIS(void *pLens);
+double psi_a0_eCIS(double x1, double x2, void *pLens);
+int psi_1stDerivs_a0_eCIS(double *psi_derivs, double x1, double x2, void *pLens);
+int psi_2ndDerivs_a0_eCIS(double *psi_derivs, double x1, double x2, void *pLens);
+
+double psi_eCIS(double x1, double x2, void *pLens);
+int psi_1stDerivs_eCIS(double *psi_derivs, double x1, double x2, void *pLens);
+int psi_2ndDerivs_eCIS(double *psi_derivs, double x1, double x2, void *pLens);
 // =================================================================
 
 
