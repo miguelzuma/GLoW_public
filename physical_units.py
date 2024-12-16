@@ -507,6 +507,29 @@ class Units_eSIS(Units_SIS):
                   'xc2'   : self.xi_to_x(self.x2, xi0=xi0)}
         return p_phys
 
+class Units_eCIS(Units_CIS):
+    def __init__(self, zl, zs, p_lens, prescription='default', units_ext=None):
+        super().__init__(zl, zs, p_lens, prescription, units_ext)
+
+    def update_lens_parameters(self):
+        self.check_lens_keys(['Mvir_Msun', 'rc_pc', 'q', 'alpha', 'x1_kpc', 'x2_kpc'])
+
+        self.Mvir  = self.p_lens['Mvir_Msun']*u.Msun
+        self.rc    = self.p_lens['rc_pc']*u.pc
+        self.q     = self.p_lens['q']
+        self.alpha = self.p_lens['alpha']
+        self.x1    = self.p_lens['x1_kpc']*u.kpc
+        self.x2    = self.p_lens['x2_kpc']*u.kpc
+
+    def get_pphys(self, xi0):
+        p_phys = {'psi0'  : self.get_psi0(xi0),
+                  'rc'    : self.xi_to_x(self.rc, xi0=xi0),
+                  'q'     : self.q,
+                  'alpha' : self.alpha,
+                  'xc1'   : self.xi_to_x(self.x1, xi0=xi0),
+                  'xc2'   : self.xi_to_x(self.x2, xi0=xi0)}
+        return p_phys
+
 class Units_Ext(UnitsGeneral):
     def __init__(self, zl, zs, p_lens, prescription='default', units_ext=None):
         super().__init__(zl, zs, p_lens, prescription, units_ext)
@@ -559,6 +582,7 @@ inits['NFW']                   = (Units_NFW,                lenses.Psi_NFW)
 inits['off-center NFW']        = (Units_offcenterNFW,       lenses.Psi_offcenterNFW)
 inits['tSIS']                  = (Units_tSIS,               lenses.Psi_tSIS)
 inits['eSIS']                  = (Units_eSIS,               lenses.Psi_eSIS)
+inits['eCIS']                  = (Units_eCIS,               lenses.Psi_eCIS)
 inits['ext']                   = (Units_Ext,                lenses.Psi_Ext)
 
 ##==============================================================================
