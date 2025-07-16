@@ -380,22 +380,31 @@ void fit_tail(int n_tau, double *tau, double *It, int n_max, double It_min, doub
         }
     }
 
-    for(i=0;i<n_max;i++)
+    if(j == n_max-1)
     {
-        gsl_vector_set(y, i, log(It[ids[i]]));
-        gsl_matrix_set(X, i, 0, 1.);
-        gsl_matrix_set(X, i, 1, log(tau[ids[i]]));
+        for(i=0;i<n_max;i++)
+        {
+            gsl_vector_set(y, i, log(It[ids[i]]));
+            gsl_matrix_set(X, i, 0, 1.);
+            gsl_matrix_set(X, i, 1, log(tau[ids[i]]));
+        }
+
+        wk = gsl_multifit_robust_alloc(T, X->size1, X->size2);
+        gsl_multifit_robust(X, y, c, cov, wk);
+        gsl_multifit_robust_free(wk);
+
+        // HVR_DEBUG
+        //~ printf("Results linear fit: c[0]=%g   c[1]=%g\n", gsl_vector_get(c, 0), gsl_vector_get(c, 1));
+
+        *A = exp(gsl_vector_get(c, 0));
+        *index = -gsl_vector_get(c, 1);
     }
-
-    wk = gsl_multifit_robust_alloc(T, X->size1, X->size2);
-    gsl_multifit_robust(X, y, c, cov, wk);
-    gsl_multifit_robust_free(wk);
-
-    // HVR_DEBUG
-    //~ printf("Results linear fit: c[0]=%g   c[1]=%g\n", gsl_vector_get(c, 0), gsl_vector_get(c, 1));
-
-    *A = exp(gsl_vector_get(c, 0));
-    *index = -gsl_vector_get(c, 1);
+    else
+    {
+        // if not enough points for tail fit, just remove the step
+        *A = 1;
+        *index = 3;
+    }
 
     gsl_matrix_free(cov);
     gsl_vector_free(c);
