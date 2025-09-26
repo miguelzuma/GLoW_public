@@ -7,7 +7,8 @@ In addition, GLoW has also been used in the following works:
 * [Savastano+ 23](https://inspirehep.net/literature/2667175)
 * [Zumalacarregui 24](https://inspirehep.net/literature/2781293)
 * [Brando+ 24](https://inspirehep.net/literature/2804868)
-* [Singh+ 24](https://inspirehep.net/literature/2885963)
+* [Singh+ 25](https://inspirehep.net/literature/2885963)
+* [Yuan+ 25](https://inspirehep.net/literature/2966083)
 
 The online documentation can be found
 [here](https://miguelzuma.github.io/GLoW_public/index.html).
