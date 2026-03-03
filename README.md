@@ -11,6 +11,7 @@ In addition, GLoW has also been used in the following works:
 * [Abe+ 25](https://inspirehep.net/literature/2931895)
 * [Yuan+ 25](https://inspirehep.net/literature/2966083)
 * [Vujeva+ 25](https://inspirehep.net/literature/3070503)
+* [Sun+ 25](https://arxiv.org/abs/2511.09107)
 * [Caldarola+ 25](https://inspirehep.net/literature/3081783)
 * [Goyal+ 25](https://inspirehep.net/literature/3094475)
 * [Shan+ 25](https://inspirehep.net/literature/3094856)
