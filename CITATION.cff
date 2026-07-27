@@ -1,0 +1,70 @@
+cff-version: 1.2.0
+message: >-
+  If you use this code, please cite the main GLoW paper below.
+title: "GLoW: Gravitational Lensing of Waves"
+abstract: >-
+  Fast and accurate lensed gravitational wave signals given any lens
+  distribution.
+type: software
+version: "0.1"
+license: GPL-3.0-or-later
+repository-code: "https://github.com/miguelzuma/GLoW_public"
+url: "https://miguelzuma.github.io/GLoW_public"
+keywords:
+  - gravitational waves
+  - gravitational lensing
+  - wave optics
+authors:
+  - family-names: Villarrubia-Rojo
+    given-names: Hector
+    orcid: "https://orcid.org/0000-0002-0831-9521"
+  - family-names: Savastano
+    given-names: Stefano
+  - family-names: Zumalacárregui
+    given-names: Miguel
+    orcid: "https://orcid.org/0000-0002-9943-6490"
+  - family-names: Choi
+    given-names: Lyla
+    orcid: "https://orcid.org/0000-0001-5386-0133"
+  - family-names: Goyal
+    given-names: Srashti
+    orcid: "https://orcid.org/0000-0002-4225-010X"
+  - family-names: Dai
+    given-names: Liang
+    orcid: "https://orcid.org/0000-0003-2091-8946"
+  - family-names: Tambalo
+    given-names: Giovanni
+    orcid: "https://orcid.org/0000-0002-3421-7967"
+preferred-citation:
+  type: article
+  title: "Gravitational lensing of waves: Novel methods for wave-optics phenomena"
+  doi: 10.1103/PhysRevD.111.103539
+  journal: "Physical Review D"
+  volume: 111
+  issue: 10
+  start: 103539
+  year: 2025
+  authors:
+    - family-names: Villarrubia-Rojo
+      given-names: Hector
+      orcid: "https://orcid.org/0000-0002-0831-9521"
+    - family-names: Savastano
+      given-names: Stefano
+    - family-names: Zumalacárregui
+      given-names: Miguel
+      orcid: "https://orcid.org/0000-0002-9943-6490"
+    - family-names: Choi
+      given-names: Lyla
+      orcid: "https://orcid.org/0000-0001-5386-0133"
+    - family-names: Goyal
+      given-names: Srashti
+      orcid: "https://orcid.org/0000-0002-4225-010X"
+    - family-names: Dai
+      given-names: Liang
+      orcid: "https://orcid.org/0000-0003-2091-8946"
+    - family-names: Tambalo
+      given-names: Giovanni
+      orcid: "https://orcid.org/0000-0002-3421-7967"
+  identifiers:
+    - type: other
+      value: "arXiv:2409.04606"
