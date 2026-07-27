@@ -1,35 +1,38 @@
 # GLoW: Gravitational Lensing of Waves
 
-If you find this code useful in your research, please cite the main GLoW paper
-[Villarrubia-Rojo+ 24](https://inspirehep.net/literature/2826315).
+![GLoW logo](./sphinx_doc/diagrams/glow_logo.png#gh-light-mode-only)
+![GLoW logo](./sphinx_doc/diagrams/glow_logo_dark.png#gh-dark-mode-only)
 
-In addition, GLoW has also been used in the following works:
-* [Savastano+ 23](https://inspirehep.net/literature/2667175)
-* [Zumalacarregui 24](https://inspirehep.net/literature/2781293)
-* [Brando+ 24](https://inspirehep.net/literature/2804868)
-* [Singh+ 25](https://inspirehep.net/literature/2885963)
-* [Abe+ 25](https://inspirehep.net/literature/2931895)
-* [Yuan+ 25](https://inspirehep.net/literature/2966083)
-* [Vujeva+ 25](https://inspirehep.net/literature/3070503)
-* [Sun+ 25](https://arxiv.org/abs/2511.09107)
-* [Caldarola+ 25](https://inspirehep.net/literature/3081783)
-* [Goyal+ 25](https://inspirehep.net/literature/3094475)
-* [Shan+ 25](https://inspirehep.net/literature/3094856)
-* [Ando 26a](https://inspirehep.net/literature/3125747)
-* [Ephremidze+ 26](https://inspirehep.net/literature/3129087)
-* [Sun+ 26](https://arxiv.org/abs/2604.13930)
-* [Zumalacarregui & Shan 26](https://inspirehep.net/literature/3169257)
-* [Ando 26b](https://inspirehep.net/literature/3170969)
-* [Choi+ 26](https://inspirehep.net/literature/3180014)
-* [Cheung+ 26](https://inspirehep.net/literature/3183174)
+If you use this code, please cite this repository and the main GLoW paper
+[Villarrubia-Rojo+ 24](https://inspirehep.net/literature/2826315).
 
 The online documentation can be found
 [here](https://miguelzuma.github.io/GLoW_public/index.html).
 
+In addition, GLoW has also been used in the following works:
+1. [Savastano+ 23](https://inspirehep.net/literature/2667175)
+2. [Zumalacarregui 24](https://inspirehep.net/literature/2781293)
+3. [Brando+ 24](https://inspirehep.net/literature/2804868)
+4. [Singh+ 25](https://inspirehep.net/literature/2885963)
+5. [Abe+ 25](https://inspirehep.net/literature/2931895)
+6. [Yuan+ 25](https://inspirehep.net/literature/2966083)
+7. [Vujeva+ 25](https://inspirehep.net/literature/3070503)
+8. [Sun+ 25](https://arxiv.org/abs/2511.09107)
+9. [Caldarola+ 25](https://inspirehep.net/literature/3081783)
+10. [Goyal+ 25](https://inspirehep.net/literature/3094475)
+11. [Shan+ 25](https://inspirehep.net/literature/3094856)
+12. [Ando 26a](https://inspirehep.net/literature/3125747)
+13. [Ephremidze+ 26](https://inspirehep.net/literature/3129087)
+14. [Sun+ 26](https://arxiv.org/abs/2604.13930)
+15. [Zumalacarregui & Shan 26](https://inspirehep.net/literature/3169257)
+16. [Ando 26b](https://inspirehep.net/literature/3170969)
+17. [Choi+ 26](https://inspirehep.net/literature/3180014)
+18. [Cheung+ 26](https://inspirehep.net/literature/3183174)
+
 ## Installation
 
 ![GLoW-Light](./sphinx_doc/diagrams/diagram_simp.png#gh-light-mode-only)
-![GLoW-Dark](./sphinx_doc/diagrams/diagram_simp_dark.png##gh-dark-mode-only)
+![GLoW-Dark](./sphinx_doc/diagrams/diagram_simp_dark.png#gh-dark-mode-only)
 
 The pure Python version of the code should work out of the box. It only requires standard scientific
 packages like ``numpy`` and ``scipy``.
