@@ -15,9 +15,13 @@ In addition, GLoW has also been used in the following works:
 * [Caldarola+ 25](https://inspirehep.net/literature/3081783)
 * [Goyal+ 25](https://inspirehep.net/literature/3094475)
 * [Shan+ 25](https://inspirehep.net/literature/3094856)
-* [Ando 26](https://inspirehep.net/literature/3125747)
+* [Ando 26a](https://inspirehep.net/literature/3125747)
 * [Ephremidze+ 26](https://inspirehep.net/literature/3129087)
 * [Sun+ 26](https://arxiv.org/abs/2604.13930)
+* [Zumalacarregui & Shan 26](https://inspirehep.net/literature/3169257)
+* [Ando 26b](https://inspirehep.net/literature/3170969)
+* [Choi+ 26](https://inspirehep.net/literature/3180014)
+* [Cheung+ 26](https://inspirehep.net/literature/3183174)
 
 The online documentation can be found
 [here](https://miguelzuma.github.io/GLoW_public/index.html).
